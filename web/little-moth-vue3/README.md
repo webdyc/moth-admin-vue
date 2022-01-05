@@ -1,6 +1,6 @@
 ## 线上地址
 
-http://v2admin.webdyc.com/
+http://v3admin.webdyc.com/
 
 ## Build Setup
 
