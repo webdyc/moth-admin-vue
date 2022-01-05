@@ -1,0 +1,79 @@
+@import './variables.scss';
+@import './sidebar.scss';
+// 样式重置
+@import 'normalize.scss';
+// 公共样式
+@import 'free.scss';
+// 图标样式
+@import 'icon.scss';
+
+
+// color
+.color-white{
+    color: #ffffff;
+}
+// font-size
+.fs-12{
+    font-size: 12px;
+}
+
+// 公共页面设置
+.app-content{
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 5px;
+    aside {
+        background: #eef1f6;
+        padding: 8px 24px;
+        margin-bottom: 20px;
+        border-radius: 2px;
+        display: block;
+        line-height: 32px;
+        font-size: 16px;
+        font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+          Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+        color: #2c3e50;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+    // 搜索项
+    .search-form{
+        margin-bottom: 5px;
+        .ant-form-item{
+            margin-bottom: 15px;
+            .ant-select-single,input{width: 200px;}
+            .ant-btn{
+                margin-right: 8px;
+            }
+        }
+    }
+    // 表格配置
+    .table-config{
+        margin-bottom: 15px;
+    }
+    // 分页
+    .table-pagination{
+        margin-top: 15px;
+        text-align: right;
+    }
+}
+// 弹出框样式
+.table-modal{
+    // 弹出框标题增加蓝色伪类样式
+    .ant-modal-title{
+        display: flex;
+        align-items: center;
+    }
+    .ant-modal-title:before{
+        display: inline-block;
+        margin-right: 8px;
+        content: '';
+        width: 3px;
+        height: 18px;
+        background: #1890ff;
+    }
+    // 弹出框内容区域样式
+    .table-modal-content{
+
+    }
+}

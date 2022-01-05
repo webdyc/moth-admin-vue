@@ -261,7 +261,7 @@
 <script>
 import defaultSettings from "@/settings";
 import elDragDialog from "@/directive/el-drag-dialog";
-import { clientManage_list } from "@/api/client/clientManage";
+// import { clientManage_list } from "@/api/client/clientManage";
 /**
 * name:'welcome',             路由名称
 * path: '/welcome',           路由地址
@@ -487,11 +487,11 @@ export default {
       };
       Object.assign(this.searchForm, params);
       this.tableLoading = true;
-      clientManage_list(this.searchForm).then((res) => {
-        this.tableData = res.data.list;
-        this.total = res.data.total;
-        this.tableLoading = false;
-      });
+      // clientManage_list(this.searchForm).then((res) => {
+      //   this.tableData = res.data.list;
+      //   this.total = res.data.total;
+      //   this.tableLoading = false;
+      // });
     },
     // 筛选项重置
     handleReset() {},
