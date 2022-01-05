@@ -1,0 +1,185 @@
+@import './variables.scss';
+@import './mixin.scss';
+@import './transition.scss';
+@import './element-ui.scss';
+@import './sidebar.scss';
+@import './btn.scss';
+
+body {
+  height: 100%;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif;
+}
+
+label {
+  font-weight: 700;
+}
+
+html {
+  height: 100%;
+  box-sizing: border-box;
+}
+
+#app {
+  height: 100%;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+a:focus,
+a:active {
+  outline: none;
+}
+
+a,
+a:focus,
+a:hover {
+  cursor: pointer;
+  color: inherit;
+  text-decoration: none;
+}
+
+div:focus {
+  outline: none;
+}
+
+.clearfix {
+  &:after {
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: " ";
+    clear: both;
+    height: 0;
+  }
+}
+
+// 公共页面设置
+.app-main {
+  /*50 = navbar  */
+  background: #f0f2f5;
+  min-height: 100vh;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+// 搜索表格样式
+.app-content{
+  position: relative;
+  background: #ffffff;
+  padding: 20px;
+  margin: 24px 16px;
+  border-radius: 5px;
+  min-height: calc(100vh - 132px) !important;
+  aside {
+    background: #eef1f6;
+    padding: 8px 24px;
+    margin-bottom: 20px;
+    border-radius: 2px;
+    display: block;
+    line-height: 32px;
+    font-size: 16px;
+    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+    color: #2c3e50;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  // 搜索项
+  .search-form{
+    margin-bottom: 5px;
+    .ant-form-item{
+      margin-bottom: 15px;
+      .ant-select-single,input{width: 200px;}
+      .ant-btn{
+        margin-right: 8px;
+      }
+    }
+  }
+  // 表格配置
+  .table-config{
+    margin-bottom: 15px;
+  }
+  // 分页
+  .table-pagination{
+    margin-top: 15px;
+    text-align: right;
+  }
+}
+// 弹出框标题增加蓝色伪类样式
+.el-dialog__title{
+  display: flex;
+  align-items: center;
+}
+.el-dialog__title:before{
+  display: inline-block;
+  margin-right: 8px;
+  content: '';
+  width: 3px;
+  height: 18px;
+  background: #1890ff;
+}
+
+// 普通页面样式
+.app-box{
+  margin: 24px 16px;
+  // 左右结构表格样式
+  .app-box-table{
+    display: flex;
+    .box-card {
+      width: 200px;
+      margin-right: 15px;
+    }
+    .app-box-table-box{
+      background: #ffffff;
+      flex: 1;
+      padding: 20px;
+      // 搜索项
+      .search-form{
+        margin-bottom: 5px;
+        .ant-form-item{
+            margin-bottom: 15px;
+            .ant-select-single,input{width: 200px;}
+            .ant-btn{
+                margin-right: 8px;
+            }
+        }
+      }
+      // 表格配置
+      .table-config{
+        margin-bottom: 15px;
+      }
+      // 分页
+      .table-pagination{
+          margin-top: 15px;
+          text-align: right;
+      }
+    }
+  }
+}
+
+// 详情页面样式
+.app-info {
+  .app-info-top {
+    background: #ffffff;
+    padding: 15px;
+  }
+  .app-info-content {
+    margin: 24px 16px;
+    background: #ffffff;
+    padding: 20px;
+    .app-info-content-item {
+      margin-bottom: 20px;
+      .app-info-content-item-title {
+        margin-bottom: 15px;
+      }
+    }
+  }
+}
