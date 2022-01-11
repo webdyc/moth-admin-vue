@@ -34,7 +34,9 @@
           查询
         </el-button>
         <el-button :size="styleSize" @click="handleReset">重置</el-button>
-        <el-button type="success" :size="styleSize">导出</el-button>
+        <el-button type="success" :size="styleSize" @click="handleExport">
+          导出
+        </el-button>
       </el-form-item>
     </el-form>
     <!-- 表格配置 -->
@@ -165,6 +167,7 @@
 <script>
 import defaultSettings from "@/settings";
 import elDragDialog from "@/directive/el-drag-dialog";
+import { exportDownload } from "@/utils/export";
 // PersonForm的类
 class PersonForm {
   // 值
@@ -259,7 +262,7 @@ export default {
     };
   },
   methods: {
-    // 筛选项提交
+    /** 筛选项提交 */
     handleSearch() {
       const params = {
         starTime: this.timeValue[0],
@@ -275,7 +278,7 @@ export default {
       this.tableLoading = false;
       console.log("submit!");
     },
-    // 筛选项重置
+    /** 筛选项重置 */
     handleReset() {
       // 搜索项
       this.searchForm = {
@@ -288,7 +291,7 @@ export default {
       this.imeValue = [];
       this.handleSearch();
     },
-    // 打开弹框
+    /** 打开弹框 */
     handleEdit(row) {
       if (row) {
         // 编辑
@@ -297,7 +300,7 @@ export default {
       }
       this.updateFormVisible = true;
     },
-    // 关闭弹窗
+    /** 关闭弹窗 */
     updateFormVisibleClose() {
       this.updateForm = new PersonForm();
       this.updateFormRules = PersonForm.getRule();
@@ -305,16 +308,24 @@ export default {
       this.updateFormVisible = false;
       this.isUpdate = false;
     },
-    // 弹窗表单提交
+    /** 弹窗表单提交 */
     handleSubmit() {
       console.log(this.updateForm);
       // this.updateFormVisibleClose()
     },
-    // 多选
+    /** 导出 */
+    async handleExport() {
+      const params = {
+        starTime: 1,
+        endTime: 2,
+      };
+      exportDownload(params, "/manrobot/commission/estimate/export", "文件名");
+    },
+    /** 多选 */
     handleSelectionChange(val) {
       this.multipleSelection = val.map((item) => item.id);
     },
-    // 删除
+    /** 删除 */
     handleDelete(id) {
       const ids = id || this.multipleSelection.join(",");
       if (!ids) {
@@ -334,7 +345,7 @@ export default {
           this.$message.info("已取消删除");
         });
     },
-    // 分页
+    /** 分页 */
     handleSizeChange(val) {
       console.log(`每页 ${val} 条`);
     },
