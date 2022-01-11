@@ -6,7 +6,7 @@ import "nprogress/nprogress.css"; // progress bar style
 import { getToken } from "@/utils/auth"; // get token from cookie
 import getPageTitle from "@/utils/get-page-title";
 import { getAsyncRoutes } from "@/utils/asyncRouter.js";
-import { getRole } from "@/api/user";
+import { getRole } from "@/api/acount";
 // import menuListM from '@/router/menuList_Model' // 本地路由
 
 // 是否动态添加过路由

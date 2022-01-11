@@ -88,7 +88,7 @@ export default {
       this.$message("click on item " + command);
     },
     async logout() {
-      await this.$store.dispatch("user/logout");
+      await this.$store.dispatch("user/Logout");
       this.$router.push(`/login?redirect=${this.$route.fullPath}`);
       // 这个系统再切换用户时，路由不会动态更新。所以需要在登出函数中加上location.reload();刷新浏览器。
       location.reload();

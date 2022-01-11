@@ -1,4 +1,4 @@
-import { login, logout } from "@/api/user";
+import { login, logout } from "@/api/acount";
 import {
   getToken,
   setToken,
@@ -41,21 +41,14 @@ const mutations = {
 
 const actions = {
   // 登录
-  login({ commit }, userInfo) {
-    const { username, password } = userInfo;
+  Login ({ commit }, userInfo) {
     return new Promise((resolve, reject) => {
-      login({
-        username: username.trim(),
-        password: password,
-      })
-        .then((response) => {
-          const { data } = response;
-          commit("SET_TOKEN", data.token);
-          commit("SET_USERINFO", data.info);
-          // Cookies存储token
-          setToken(data.token);
-          // localStorage存储 用户信息
-          setLocalStorage("userInfo", data.info);
+      login(userInfo)
+        .then((res) => {
+          const { token } = res;
+          // 储存token
+          commit("SET_TOKEN", token);
+          setToken(token);
           resolve();
         })
         .catch((error) => {
@@ -65,7 +58,7 @@ const actions = {
   },
 
   // 登出
-  logout({ commit, state }) {
+  Logout ({ commit, state }) {
     return new Promise((resolve, reject) => {
       removeToken(); // 必须先删除token
       removeLocalStorage("userInfo"); // 必须先删除userInfo
@@ -85,15 +78,28 @@ const actions = {
       //   });
     });
   },
+  // 退出系统
+  LogOut ({ commit, state }) {
+    return new Promise((resolve, reject) => {
+      logout(state.token).then(() => {
+        removeToken() // 必须先删除token
+        commit('RESET_STATE', '')
+        resolve()
+      }).catch(error => {
+        reject(error)
+      })
+    })
+  },
 
-  // 删除 token
-  resetToken({ commit }) {
+  // 前端 登出
+  FedLogOut ({ commit }) {
     return new Promise((resolve) => {
       removeToken(); // 必须先删除token
       commit("RESET_STATE");
       resolve();
     });
   },
+
 };
 
 export default {

@@ -15,4 +15,13 @@
     <!-- built files will be auto injected -->
   </body>
   <script src="https://cdn.bootcdn.net/ajax/libs/lamejs/1.2.0/lame.all.js"></script>
+
+  <!-- JSAPI key搭配静态安全密钥以明文设置（不安全，建议开发环境用）：
+  引入 JSAPI 使用 Loader 之前增加代理服务器设置脚本标签，并将您的安全密钥「您申请的安全密钥」替换为您的安全密钥；（注意：您这 个设置必须是在加载loader.js的脚本之前进行设置，否则设置无效。） -->
+  <script type="text/javascript">
+    window._AMapSecurityConfig = {
+        securityJsCode:'e2570c7b695cf8df549ca757b4d45b57',
+    }
+  </script>
+  <script src="https://webapi.amap.com/loader.js"></script>
 </html>

@@ -1,6 +1,6 @@
-import request from '@/utils/request'
+import request from '@/api/http'
 
-export function getList(params) {
+export function getList (params) {
   return request({
     url: '/table/list',
     method: 'get',

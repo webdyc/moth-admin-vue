@@ -1,32 +1,23 @@
 <template>
   <div class="login-container">
     <el-form
-      ref="loginForm"
-      :model="loginForm"
-      :rules="loginRules"
+      ref="dataFrom"
+      :model="dataFrom"
+      :rules="dataFromRules"
       class="login-form"
-      auto-complete="on"
       label-position="left"
     >
       <div class="title-container">
         <h3 class="title">{{ title }}</h3>
       </div>
-
+      <!-- 用户名 -->
       <el-form-item prop="username">
         <span class="svg-container">
           <svg-icon icon-class="user" />
         </span>
-        <el-input
-          ref="username"
-          v-model="loginForm.username"
-          placeholder="Username"
-          name="username"
-          type="text"
-          tabindex="1"
-          auto-complete="on"
-        />
+        <el-input v-model.trim="dataFrom.username" type="text" trim />
       </el-form-item>
-
+      <!-- 密码 -->
       <el-form-item prop="password">
         <span class="svg-container">
           <svg-icon icon-class="password" />
@@ -34,12 +25,10 @@
         <el-input
           :key="passwordType"
           ref="password"
-          v-model="loginForm.password"
+          v-model="dataFrom.password"
           :type="passwordType"
-          placeholder="Password"
+          placeholder=""
           name="password"
-          tabindex="2"
-          auto-complete="on"
           @keyup.enter.native="handleLogin"
         />
         <span class="show-pwd" @click="showPwd">
@@ -48,7 +37,19 @@
           />
         </span>
       </el-form-item>
-
+      <!-- 验证码 -->
+      <el-form-item>
+        <el-row :gutter="15">
+          <el-col :span="14">
+            <el-input v-model="dataFrom.code" type="text" />
+          </el-col>
+          <el-col :span="10">
+            <div class="veriCodeImg" @click="getCode">
+              <img :src="codeUrl" />
+            </div>
+          </el-col>
+        </el-row>
+      </el-form-item>
       <el-button
         :loading="loading"
         type="primary"
@@ -59,46 +60,35 @@
       </el-button>
       <div class="tips">
         <span style="margin-right: 20px">username: admin</span>
-        <span> password: any</span>
+        <span> password: admin123</span>
       </div>
     </el-form>
   </div>
 </template>
 
 <script>
-import { validUsername } from "@/utils/validate";
 import defaultSettings from "@/settings";
+import { sendCode } from "@/api/acount";
 export default {
   name: "Login",
   data() {
-    const validateUsername = (rule, value, callback) => {
-      if (!validUsername(value)) {
-        callback(new Error("Please enter the correct user name"));
-      } else {
-        callback();
-      }
-    };
-    const validatePassword = (rule, value, callback) => {
-      if (value.length < 6) {
-        callback(new Error("The password can not be less than 6 digits"));
-      } else {
-        callback();
-      }
-    };
     return {
       title: defaultSettings.title,
-      loginForm: {
+      dataFrom: {
         username: "admin",
-        password: "111111",
+        password: "admin123",
+        code: "8",
+        uuid: "",
       },
-      loginRules: {
+      // 表单验证
+      dataFromRules: {
         username: [
-          { required: true, trigger: "blur", validator: validateUsername },
+          { required: true, message: "请输入用户名称", trigger: "blur" },
         ],
-        password: [
-          { required: true, trigger: "blur", validator: validatePassword },
-        ],
+        password: [{ required: true, message: "请输入密码", trigger: "blur" }],
       },
+      // 验证码
+      codeUrl: "",
       loading: false,
       passwordType: "password",
       redirect: undefined,
@@ -112,6 +102,9 @@ export default {
       immediate: true,
     },
   },
+  mounted() {
+    this.getCode();
+  },
   methods: {
     showPwd() {
       if (this.passwordType === "password") {
@@ -123,12 +116,18 @@ export default {
         this.$refs.password.focus();
       });
     },
+    // 获取验证码
+    async getCode() {
+      let { img, uuid } = await sendCode();
+      this.codeUrl = "data:image/png;base64," + img;
+      this.dataFrom.uuid = uuid;
+    },
     handleLogin() {
-      this.$refs.loginForm.validate((valid) => {
+      this.$refs.dataFrom.validate((valid) => {
         if (valid) {
           this.loading = true;
           this.$store
-            .dispatch("user/login", this.loginForm)
+            .dispatch("user/Login", this.dataFrom)
             .then(() => {
               this.$router.push({ path: this.redirect || "/" });
               this.loading = false;
@@ -149,24 +148,20 @@ export default {
 <style lang="scss">
 /* 修复input 背景不协调 和光标变色 */
 /* Detail see https://github.com/PanJiaChen/vue-element-admin/pull/927 */
-
 $bg: #283443;
 $light_gray: #fff;
 $cursor: #fff;
-
 @supports (-webkit-mask: none) and (not (cater-color: $cursor)) {
   .login-container .el-input input {
     color: $cursor;
   }
 }
-
 /* reset element-ui css */
 .login-container {
   .el-input {
     display: inline-block;
     height: 47px;
     width: 85%;
-
     input {
       background: transparent;
       border: 0px;
@@ -176,14 +171,12 @@ $cursor: #fff;
       color: $light_gray;
       height: 47px;
       caret-color: $cursor;
-
       &:-webkit-autofill {
         box-shadow: 0 0 0px 1000px $bg inset !important;
         -webkit-text-fill-color: $cursor !important;
       }
     }
   }
-
   .el-form-item {
     border: 1px solid rgba(255, 255, 255, 0.1);
     background: rgba(0, 0, 0, 0.1);
@@ -197,13 +190,11 @@ $cursor: #fff;
 $bg: #2d3a4b;
 $dark_gray: #889aa4;
 $light_gray: #eee;
-
 .login-container {
   min-height: 100%;
   width: 100%;
   background-color: $bg;
   overflow: hidden;
-
   .login-form {
     position: relative;
     width: 520px;
@@ -212,19 +203,16 @@ $light_gray: #eee;
     margin: 0 auto;
     overflow: hidden;
   }
-
   .tips {
     font-size: 14px;
     color: #fff;
     margin-bottom: 10px;
-
     span {
       &:first-of-type {
         margin-right: 16px;
       }
     }
   }
-
   .svg-container {
     padding: 6px 5px 6px 15px;
     color: $dark_gray;
@@ -232,10 +220,8 @@ $light_gray: #eee;
     width: 30px;
     display: inline-block;
   }
-
   .title-container {
     position: relative;
-
     .title {
       font-size: 26px;
       color: $light_gray;
@@ -244,7 +230,6 @@ $light_gray: #eee;
       font-weight: bold;
     }
   }
-
   .show-pwd {
     position: absolute;
     right: 10px;
@@ -253,6 +238,14 @@ $light_gray: #eee;
     color: $dark_gray;
     cursor: pointer;
     user-select: none;
+  }
+  .veriCodeImg {
+    width: 100%;
+    height: 47px;
+    img {
+      width: 100%;
+      height: 100%;
+    }
   }
 }
 </style>

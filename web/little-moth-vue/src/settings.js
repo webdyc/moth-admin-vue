@@ -9,13 +9,13 @@ module.exports = {
    * @type {String}
    * @description 系统名称
    */
-  title: "webdyc",
+  title: "小飞蛾后台管理系统",
 
   /**
    * @type {String}
    * @description 系统变量名称
    */
-  systemTitle: "webdyc",
+  systemTitle: "little-moth-vue",
 
   /**
    * @type {String}

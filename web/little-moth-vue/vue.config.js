@@ -2,22 +2,27 @@
 const path = require("path");
 const defaultSettings = require("./src/settings.js");
 
-function resolve(dir) {
+function resolve (dir) {
   return path.join(__dirname, dir);
 }
 
-const name = defaultSettings.title || "vue Admin Template"; // page title
+const name = defaultSettings.title || "小飞蛾后台管理系统"; // 网页标题
 
 // 端口配置
 const port = process.env.port || process.env.npm_config_port || 9528;
 
-// All configuration item explanations can be find in https://cli.vuejs.org/config/
+// vue.config.js 配置说明
+//官方vue.config.js 参考文档 https://cli.vuejs.org/zh/config/#css-loaderoptions
 module.exports = {
   // 基本路径
-  publicPath: "/",
+  publicPath: process.env.NODE_ENV === "production" ? "/" : "/",
   // 输出文件目录
   outputDir: "dist",
+  // 用于放置生成的静态资源 (js、css、img、fonts) 的；（项目打包之后，静态资源会放在这个文件夹下）
   assetsDir: "static",
+  // 是否开启eslint保存检测，有效值：ture | false | 'error'
+  lintOnSave: process.env.NODE_ENV === 'development',
+  // 如果你不需要生产环境的 source map，可以将其设置为 false 以加速生产环境构建。
   productionSourceMap: false,
   // 开发环境配置
   devServer: {
@@ -44,10 +49,8 @@ module.exports = {
         target: "http://old.web-jshtml.cn/vue_admin_api/",
       },
     },
-    before: require("./mock/mock-server.js"),
+    // before: require("./mock/mock-server.js"),
   },
-  // 关闭语法的自动检测
-  lintOnSave: false,
   configureWebpack: {
     // provide the app's title in webpack's name field, so that
     // it can be accessed in index.html to inject the correct title.
@@ -59,7 +62,7 @@ module.exports = {
     },
   },
   // svg
-  chainWebpack(config) {
+  chainWebpack (config) {
     // it can improve the speed of the first screen, it is recommended to turn on preload
     config.plugin("preload").tap(() => [
       {
