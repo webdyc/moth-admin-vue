@@ -69,28 +69,46 @@
 <script>
 import defaultSettings from "@/settings";
 import { sendCode } from "@/api/acount";
+// PersonForm的类
+class PersonForm {
+  // 值
+  constructor() {
+    // 客户姓名
+    this.username = "admin";
+    // 客户号码
+    this.password = "admin123";
+    // 备用号码
+    this.code = "";
+    // 客户来源
+    this.uuid = "";
+  }
+  // 验证方法
+  static getRule() {
+    return {
+      username: [
+        { required: true, message: "请输入用户名称", trigger: "blur" },
+      ],
+      password: [{ required: true, message: "请输入密码", trigger: "blur" }],
+    };
+  }
+}
 export default {
   name: "Login",
   data() {
     return {
+      // 系统名称
       title: defaultSettings.title,
-      dataFrom: {
-        username: "admin",
-        password: "admin123",
-        code: "8",
-        uuid: "",
-      },
+      // 登录表单
+      dataFrom: new PersonForm(),
       // 表单验证
-      dataFromRules: {
-        username: [
-          { required: true, message: "请输入用户名称", trigger: "blur" },
-        ],
-        password: [{ required: true, message: "请输入密码", trigger: "blur" }],
-      },
+      dataFromRules: PersonForm.getRule(),
       // 验证码
       codeUrl: "",
+      // 登录按钮状态
       loading: false,
+      // 密码框状态
       passwordType: "password",
+      // 登录页之前路由
       redirect: undefined,
     };
   },
@@ -106,6 +124,7 @@ export default {
     this.getCode();
   },
   methods: {
+    // 显示、隐藏密码
     showPwd() {
       if (this.passwordType === "password") {
         this.passwordType = "";
@@ -122,6 +141,7 @@ export default {
       this.codeUrl = "data:image/png;base64," + img;
       this.dataFrom.uuid = uuid;
     },
+    // 登录
     handleLogin() {
       this.$refs.dataFrom.validate((valid) => {
         if (valid) {
@@ -147,7 +167,6 @@ export default {
 
 <style lang="scss">
 /* 修复input 背景不协调 和光标变色 */
-/* Detail see https://github.com/PanJiaChen/vue-element-admin/pull/927 */
 $bg: #283443;
 $light_gray: #fff;
 $cursor: #fff;

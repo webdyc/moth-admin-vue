@@ -16,15 +16,57 @@ export default [
   {
     path: "/",
     component: "Layout",
-    redirect: "welcome",
+    redirect: "dashboard/welcome",
+    meta: {
+      title: "仪表盘",
+      icon: "table",
+    },
     children: [
       {
-        path: "welcome",
+        path: "dashboard/welcome",
         name: "Welcome",
-        component: "/welcome/index",
+        component: "/dashboard/welcome/index",
         meta: {
           title: "欢迎首页",
-          role: ["admin", "addbtn1"],
+        },
+      },
+      {
+        path: "dashboard/analysis",
+        name: "analysis",
+        component: "/dashboard/analysis/index",
+        meta: {
+          title: "分析页",
+        },
+      },
+    ],
+  },
+  {
+    path: "/personalManage",
+    component: "Layout",
+    redirect: "personalManage",
+    children: [
+      {
+        path: "personalManage",
+        name: "personalManage",
+        component: "/personalManage/index",
+        meta: {
+          title: "个人中心",
+          icon: "example",
+        },
+      },
+    ],
+  },
+  {
+    path: "/mapManage",
+    component: "Layout",
+    redirect: "mapManage/aMap",
+    children: [
+      {
+        path: "mapManage/aMap",
+        name: "mapManage/aMap",
+        component: "/mapManage/aMap/index",
+        meta: {
+          title: "地图管理",
           icon: "example",
         },
       },
@@ -61,33 +103,6 @@ export default [
         component: "/tabel/tabelInfo",
         meta: {
           title: "详情模板",
-        },
-      },
-    ],
-  },
-  {
-    path: "/charts",
-    component: "Layout",
-    redirect: "/charts/index",
-    meta: {
-      title: "图表管理",
-      icon: "table",
-    },
-    children: [
-      {
-        path: "/charts/index",
-        name: "chartsline",
-        component: "/charts/line/index",
-        meta: {
-          title: "折线图",
-        },
-      },
-      {
-        path: "/charts/mixChart",
-        name: "chartsmixChart",
-        component: "/charts/mixChart/index",
-        meta: {
-          title: "混合图表",
         },
       },
     ],

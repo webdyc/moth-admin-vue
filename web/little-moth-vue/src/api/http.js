@@ -53,8 +53,8 @@ service.interceptors.response.use(
   // 业务逻辑错误
   (response) => {
     const res = response.data;
-    // 如果code返回不为200，即为错误
-    if (res.code !== 200) {
+    // 接口如果code返回不为200，即为错误。mock返回为20000，如有需要请自行调整。
+    if (res.code !== 20000 && res.code !== 200) {
       Message({
         message: res.msg || "Error",
         type: "error",

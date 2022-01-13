@@ -7,7 +7,7 @@ import { getToken } from "@/utils/auth"; // get token from cookie
 import getPageTitle from "@/utils/get-page-title";
 import { getAsyncRoutes } from "@/utils/asyncRouter.js";
 import { getRole } from "@/api/acount";
-// import menuListM from '@/router/menuList_Model' // 本地路由
+import menuListM from '@/router/menuList_Model' // 本地路由
 
 // 是否动态添加过路由
 let asyncRouterFlag = 0;
@@ -34,11 +34,10 @@ router.beforeEach(async (to, from, next) => {
         asyncRouterFlag++;
         try {
           // 通过用户角色，获取到角色路由表
-          const { code, data } = await getRole();
-          console.log("路由表", code, data);
+          // const { code, data } = await getRole();
+          // const dataList = data;
           // 本地数据
-          // const dataList = menuListM
-          const dataList = data;
+          const dataList = menuListM
           //   格式化路由结构
           const accessRoutes = getAsyncRoutes(await dataList);
           //   存到vuex中，菜单栏需要
