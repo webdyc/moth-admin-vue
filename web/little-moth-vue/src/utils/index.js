@@ -2,15 +2,15 @@
  * 检测是否为纯粹的对象
  * @param {*} value 手机号
  */
-export const isPlainObject = function isPlainObject (obj) {
-  let proto, Ctor
-  if (!obj || Object.prototype.toString.call(obj) !== '[object Object]')
-    return false
-  proto = Object.getPrototypeOf(obj)
-  if (!proto) return true
-  Ctor = proto.hasOwnProperty('constructor') && proto.constructor
-  return typeof Ctor === 'function' && Ctor === Object
-}
+export const isPlainObject = function isPlainObject(obj) {
+  let proto, Ctor;
+  if (!obj || Object.prototype.toString.call(obj) !== "[object Object]")
+    return false;
+  proto = Object.getPrototypeOf(obj);
+  if (!proto) return true;
+  Ctor = proto.hasOwnProperty("constructor") && proto.constructor;
+  return typeof Ctor === "function" && Ctor === Object;
+};
 
 /**
  * 将时间解析为字符串
@@ -18,7 +18,7 @@ export const isPlainObject = function isPlainObject (obj) {
  * @param {string} cFormat
  * @returns {string | null}
  */
-export function parseTime (time, cFormat) {
+export function parseTime(time, cFormat) {
   if (arguments.length === 0 || !time) {
     return null;
   }
@@ -68,89 +68,86 @@ export function parseTime (time, cFormat) {
  * @param {*} value 数组
  * @author webdyc
  */
-export const equalsArray = function equalsArray (array1, array2) {
-  if (!array1 && !array2)
-    return false;
+export const equalsArray = function equalsArray(array1, array2) {
+  if (!array1 && !array2) return false;
 
-  if (array1.length != array2.length)
-    return false;
+  if (array1.length != array2.length) return false;
 
   for (var i = 0, l = array1.length; i < l; i++) {
     if (array1[i] instanceof Array && array2[i] instanceof Array) {
-      if (!array1[i].equals(array2[i]))
-        return false;
-    }
-    else if (array1[i] != array2[i]) {
+      if (!array1[i].equals(array2[i])) return false;
+    } else if (array1[i] != array2[i]) {
       return false;
     }
   }
   return true;
-}
+};
 
 /**
  * 检测两个对象是否相同
  * @param {*} value 数组
- * @author webdyc
+ * @author xiliankum
  */
-export const equalsObject = function equalsObject (object1, object2) {
+export const equalsObject = function equalsObject(object1, object2) {
   //For the first loop, we only check for types
-  for (propName in this) {
+  for (let propName in object1) {
     //Check for inherited methods and properties - like .equals itself
     //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/hasOwnProperty
     //Return false if the return value is different
-    if (this.hasOwnProperty(propName) != object2.hasOwnProperty(propName)) {
+    if (object1.hasOwnProperty(propName) != object2.hasOwnProperty(propName)) {
       return false;
     }
     //Check instance type
-    else if (typeof this[propName] != typeof object2[propName]) {
+    else if (typeof object1[propName] != typeof object2[propName]) {
       //Different types => not equal
       return false;
     }
   }
   //Now a deeper check using other objects property names
-  for (propName in object2) {
+  for (let propName in object2) {
     //We must check instances anyway, there may be a property that only exists in object2
-    //I wonder, if remembering the checked values from the first loop would be faster or not 
-    if (this.hasOwnProperty(propName) != object2.hasOwnProperty(propName)) {
+    //I wonder, if remembering the checked values from the first loop would be faster or not
+    if (object1.hasOwnProperty(propName) != object2.hasOwnProperty(propName)) {
       return false;
-    }
-    else if (typeof this[propName] != typeof object2[propName]) {
+    } else if (typeof object1[propName] != typeof object2[propName]) {
       return false;
     }
     //If the property is inherited, do not check any more (it must be equa if both objects inherit it)
-    if (!this.hasOwnProperty(propName))
-      continue;
+    if (!object1.hasOwnProperty(propName)) continue;
 
     //Now the detail check and recursion
 
     //This returns the script back to the array comparing
     /**REQUIRES Array.equals**/
-    if (this[propName] instanceof Array && object2[propName] instanceof Array) {
+    if (
+      object1[propName] instanceof Array &&
+      object2[propName] instanceof Array
+    ) {
       // recurse into the nested arrays
-      if (!this[propName].equals(object2[propName]))
-        return false;
-    }
-    else if (this[propName] instanceof Object && object2[propName] instanceof Object) {
+      if (!object1[propName].equals(object2[propName])) return false;
+    } else if (
+      object1[propName] instanceof Object &&
+      object2[propName] instanceof Object
+    ) {
       // recurse into another objects
       //console.log("Recursing to compare ", this[propName],"with",object2[propName], " both named \""+propName+"\"");
-      if (!this[propName].equals(object2[propName]))
-        return false;
+      if (!object1[propName].equals(object2[propName])) return false;
     }
     //Normal value comparison for strings and numbers
-    else if (this[propName] != object2[propName]) {
+    else if (object1[propName] != object2[propName]) {
       return false;
     }
   }
   //If everything passed, let's say YES
   return true;
-}
+};
 
 /**
  * @param {number} time
  * @param {string} option
  * @returns {string}
  */
-export function formatTime (time, option) {
+export function formatTime(time, option) {
   if (("" + time).length === 10) {
     time = parseInt(time) * 1000;
   } else {
@@ -192,7 +189,7 @@ export function formatTime (time, option) {
  * @param {string} url
  * @returns {Object}
  */
-export function getQueryObject (url) {
+export function getQueryObject(url) {
   url = url == null ? window.location.href : url;
   const search = url.substring(url.lastIndexOf("?") + 1);
   const obj = {};
@@ -211,7 +208,7 @@ export function getQueryObject (url) {
  * @param {string} input value
  * @returns {number} output value
  */
-export function byteLength (str) {
+export function byteLength(str) {
   // returns the byte length of an utf8 string
   let s = str.length;
   for (var i = str.length - 1; i >= 0; i--) {
@@ -227,7 +224,7 @@ export function byteLength (str) {
  * @param {Array} actual
  * @returns {Array}
  */
-export function cleanArray (actual) {
+export function cleanArray(actual) {
   const newArray = [];
   for (let i = 0; i < actual.length; i++) {
     if (actual[i]) {
@@ -241,7 +238,7 @@ export function cleanArray (actual) {
  * @param {Object} json
  * @returns {Array}
  */
-export function param (json) {
+export function param(json) {
   if (!json) return "";
   return cleanArray(
     Object.keys(json).map((key) => {
@@ -255,7 +252,7 @@ export function param (json) {
  * @param {string} url
  * @returns {Object}
  */
-export function param2Obj (url) {
+export function param2Obj(url) {
   const search = decodeURIComponent(url.split("?")[1]).replace(/\+/g, " ");
   if (!search) {
     return {};
@@ -277,7 +274,7 @@ export function param2Obj (url) {
  * @param {string} val
  * @returns {string}
  */
-export function html2Text (val) {
+export function html2Text(val) {
   const div = document.createElement("div");
   div.innerHTML = val;
   return div.textContent || div.innerText;
@@ -289,7 +286,7 @@ export function html2Text (val) {
  * @param {(Object|Array)} source
  * @returns {Object}
  */
-export function objectMerge (target, source) {
+export function objectMerge(target, source) {
   if (typeof target !== "object") {
     target = {};
   }
@@ -311,7 +308,7 @@ export function objectMerge (target, source) {
  * @param {HTMLElement} element
  * @param {string} className
  */
-export function toggleClass (element, className) {
+export function toggleClass(element, className) {
   if (!element || !className) {
     return;
   }
@@ -331,7 +328,7 @@ export function toggleClass (element, className) {
  * @param {string} type
  * @returns {Date}
  */
-export function getTime (type) {
+export function getTime(type) {
   if (type === "start") {
     return new Date().getTime() - 3600 * 1000 * 24 * 90;
   } else {
@@ -346,7 +343,7 @@ export function getTime (type) {
  * @param {boolean} immediate
  * @return {*}
  */
-export function debounce (func, wait, immediate) {
+export function debounce(func, wait, immediate) {
   let timeout, args, context, timestamp, result;
 
   const later = function () {
@@ -388,7 +385,7 @@ export function debounce (func, wait, immediate) {
  * @param {Object} source
  * @returns {Object}
  */
-export function deepClone (source) {
+export function deepClone(source) {
   if (!source && typeof source !== "object") {
     throw new Error("error arguments", "deepClone");
   }
@@ -407,14 +404,14 @@ export function deepClone (source) {
  * @param {Array} arr
  * @returns {Array}
  */
-export function uniqueArr (arr) {
+export function uniqueArr(arr) {
   return Array.from(new Set(arr));
 }
 
 /**
  * @returns {string}
  */
-export function createUniqueString () {
+export function createUniqueString() {
   const timestamp = +new Date() + "";
   const randomNum = parseInt((1 + Math.random()) * 65536) + "";
   return (+(randomNum + timestamp)).toString(32);
@@ -426,7 +423,7 @@ export function createUniqueString () {
  * @param {string} cls
  * @returns {boolean}
  */
-export function hasClass (ele, cls) {
+export function hasClass(ele, cls) {
   return !!ele.className.match(new RegExp("(\\s|^)" + cls + "(\\s|$)"));
 }
 
@@ -435,7 +432,7 @@ export function hasClass (ele, cls) {
  * @param {HTMLElement} elm
  * @param {string} cls
  */
-export function addClass (ele, cls) {
+export function addClass(ele, cls) {
   if (!hasClass(ele, cls)) ele.className += " " + cls;
 }
 
@@ -444,7 +441,7 @@ export function addClass (ele, cls) {
  * @param {HTMLElement} elm
  * @param {string} cls
  */
-export function removeClass (ele, cls) {
+export function removeClass(ele, cls) {
   if (hasClass(ele, cls)) {
     const reg = new RegExp("(\\s|^)" + cls + "(\\s|$)");
     ele.className = ele.className.replace(reg, " ");

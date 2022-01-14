@@ -12,7 +12,6 @@
 import { Graph, Addon, FunctionExt, Shape } from "@antv/x6";
 import DragNode from "./components/DragNode.vue";
 import EditNode from "./components/EditNode.vue";
-
 const { Dnd } = Addon;
 export default {
   components: { DragNode, EditNode },
