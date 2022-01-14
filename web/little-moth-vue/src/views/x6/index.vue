@@ -12,7 +12,6 @@
 import { Graph, Addon, FunctionExt, Shape } from "@antv/x6";
 import DragNode from "./components/DragNode.vue";
 import EditNode from "./components/EditNode.vue";
-import { center } from "_@antv_x6@1.29.1@@antv/x6/lib/registry/node-anchor/bbox";
 
 const { Dnd } = Addon;
 export default {
