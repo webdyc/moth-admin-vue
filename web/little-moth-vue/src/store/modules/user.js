@@ -73,6 +73,7 @@ const actions = {
     if (result.code === 200) {
       removeToken() // 必须先删除token
       commit('RESET_STATE', '')
+      console.log(1312312312);
       return true
     } else {
       return Promise.reject(new Error(result.msg))
@@ -86,11 +87,10 @@ const actions = {
     //   commit("RESET_STATE");
     //   resolve();
     // });
-    return await (() => {
-      removeToken(); // 必须先删除token
-      commit("RESET_STATE");
-      return true
-    })
+    removeToken() // 必须先删除token
+    commit('RESET_STATE', '')
+    console.log(1312312312);
+    return true
   },
 
 };

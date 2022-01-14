@@ -41,7 +41,11 @@
       <el-form-item>
         <el-row :gutter="15">
           <el-col :span="14">
-            <el-input v-model="dataFrom.code" type="text" />
+            <el-input
+              v-model="dataFrom.code"
+              type="text"
+              @keyup.enter.native="handleLogin"
+            />
           </el-col>
           <el-col :span="10">
             <div class="veriCodeImg" @click="getCode">

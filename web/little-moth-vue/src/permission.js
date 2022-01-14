@@ -21,7 +21,7 @@ router.beforeEach(async (to, from, next) => {
   document.title = getPageTitle(to.meta.title);
   // 获取token
   const hasToken = getToken();
-
+  console.log('hasToken', hasToken);
   /* 路由跳转判断*/
   if (whiteList.indexOf(to.path) !== -1) {
     // 需要跳转的路由是否是whiteList中的路由，若是，则直接跳转
