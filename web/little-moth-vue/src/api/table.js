@@ -1,4 +1,4 @@
-import request from '@/api/http'
+import request from '@/api/request'
 
 export function getList (params) {
   return request({

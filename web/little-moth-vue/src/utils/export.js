@@ -1,4 +1,4 @@
-import request from "@/api/http";
+import request from "@/api/request";
 import { Message } from "element-ui";
 /**
  * 导出功能
