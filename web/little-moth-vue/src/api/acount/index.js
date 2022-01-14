@@ -8,28 +8,28 @@ import CryptoJS from "crypto-js";
  * @author webdyc
  */
 
-export function login (options = {}) {
-    // const nameArray = CryptoJS.enc.Utf8.parse(options.username);
-    // options.username = CryptoJS.enc.Base64.stringify(nameArray);
-    // const wordArray = CryptoJS.enc.Utf8.parse(options.password);
-    // options.password = CryptoJS.enc.Base64.stringify(wordArray);
-    options = Object.assign(
-        {
-            // 用户名
-            username: "",
-            // 密码。sha1加密码
-            password: "",
-            // 验证码
-            code: "",
-            uuid: ''
-        },
-        options
-    );
-    return request({
-        url: process.env.VUE_APP_BASE_API + '/login',
-        method: 'post',
-        data: options
-    })
+export function login(options = {}) {
+  // const nameArray = CryptoJS.enc.Utf8.parse(options.username);
+  // options.username = CryptoJS.enc.Base64.stringify(nameArray);
+  // const wordArray = CryptoJS.enc.Utf8.parse(options.password);
+  // options.password = CryptoJS.enc.Base64.stringify(wordArray);
+  options = Object.assign(
+    {
+      // 用户名
+      username: "",
+      // 密码。sha1加密码
+      password: "",
+      // 验证码
+      code: "",
+      uuid: "",
+    },
+    options
+  );
+  return request({
+    url: process.env.VUE_APP_BASE_API + "/login",
+    method: "post",
+    data: options,
+  });
 }
 
 /**
@@ -38,13 +38,13 @@ export function login (options = {}) {
  * @returns {*}
  * @author webdyc
  */
-export function sendCode () {
-    return request({
-        url: process.env.VUE_APP_BASE_API + "/captchaImage",
-        method: "post",
-        // 如果后端直接返回图片流的话，放开下面的注释
-        // responseType: "blob",
-    });
+export function sendCode() {
+  return request({
+    url: process.env.VUE_APP_BASE_API + "/captchaImage",
+    method: "get",
+    // 如果后端直接返回图片流的话，放开下面的注释
+    // responseType: "blob",
+  });
 }
 
 /**
@@ -53,13 +53,13 @@ export function sendCode () {
  * @returns {*}
  * @author webdyc
  */
-export function getRole (options = {}) {
-    return request({
-        headerType: 1,
-        url: process.env.VUE_APP_BASE_API + "/auth/permission",
-        method: "post",
-        data: options,
-    });
+export function getRole(options = {}) {
+  return request({
+    headerType: 1,
+    url: process.env.VUE_APP_BASE_API + "/auth/permission",
+    method: "post",
+    data: options,
+  });
 }
 
 /**
@@ -69,9 +69,9 @@ export function getRole (options = {}) {
  * @author webdyc
  */
 
-export function logout () {
-    return request({
-        url: '/logout',
-        method: 'post'
-    })
+export function logout() {
+  return request({
+    url: "/logout",
+    method: "post",
+  });
 }

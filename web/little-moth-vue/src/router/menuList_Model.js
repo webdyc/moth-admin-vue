@@ -190,4 +190,29 @@ export default [
       },
     ],
   },
+  {
+    path: "/flowDiagram",
+    component: "Layout",
+    redirect: "/flowDiagram/x6Flow",
+    meta: {
+      title: "流程图",
+      icon: "table",
+    },
+    children: [
+      {
+        path: "/flowDiagram/x6Flow",
+        component: "/flowDiagram/x6Flow/index",
+        meta: {
+          title: "x6流程图",
+        },
+      },
+      {
+        path: "/flowDiagram/logicFlow",
+        component: "/flowDiagram/logicFlow/index",
+        meta: {
+          title: "logicFlow流程图",
+        },
+      },
+    ],
+  },
 ];
