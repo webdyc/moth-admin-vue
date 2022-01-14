@@ -22,7 +22,7 @@ export default {
     },
     canvasId: {
       type: String,
-      default: "chart",
+      default: "PieMaker",
     },
     width: {
       type: String,
@@ -102,6 +102,17 @@ export default {
           },
         ],
       });
+      // 绑定事件
+      // this.myCharts.on("mouseover", (params) => {
+      //   // 获取鼠标移入元素的数据
+      //   const { name, value } = params.data;
+      //   this.myCharts.setOption({
+      //     title: {
+      //       text: name,
+      //       subtext: value,
+      //     },
+      //   });
+      // });
     },
   },
 };

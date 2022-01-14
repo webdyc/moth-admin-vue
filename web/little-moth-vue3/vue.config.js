@@ -2,7 +2,7 @@
 const path = require('path')
 const defaultSettings = require('./src/settings.js')
 
-function resolve(dir) {
+function resolve (dir) {
   return path.join(__dirname, dir)
 }
 
@@ -45,7 +45,9 @@ module.exports = {
         // 不重写请求地址
         pathRewrite: { [`^${process.env.VUE_APP_USER_API}`]: '' }
       }
-    }
+    },
+    // 开启mock数据数据
+    // before: require("./mock/mock-server.js"),
   },
   // 关闭语法的自动检测
   lintOnSave: false,
