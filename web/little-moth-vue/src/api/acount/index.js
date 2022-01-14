@@ -1,4 +1,4 @@
-import request from "@/api/http";
+import request from "@/api/request";
 import CryptoJS from "crypto-js";
 
 /**
@@ -41,7 +41,7 @@ export function login (options = {}) {
 export function sendCode () {
     return request({
         url: process.env.VUE_APP_BASE_API + "/captchaImage",
-        method: "get",
+        method: "post",
         // 如果后端直接返回图片流的话，放开下面的注释
         // responseType: "blob",
     });

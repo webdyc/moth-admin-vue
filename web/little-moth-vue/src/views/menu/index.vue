@@ -1,137 +1,479 @@
 <template>
-  <div class="app-content flex">
-    <!-- 左侧选择框 -->
-    <el-card class="box-card" shadow="never">
-      <div slot="header" class="clearfix">
-        <span>按钮权限</span>
-        <el-button style="float: right; padding: 3px 0" type="text">
-          操作按钮
-        </el-button>
-      </div>
-      <div>
-        <el-tree
-          :data="data"
-          :props="defaultProps"
-          @node-click="handleNodeClick"
+  <div class="app-content">
+    <!-- 搜索项 -->
+    <el-form :inline="true" :model="searchForm" class="demo-form-inline">
+      <el-form-item label="客户姓名">
+        <el-input v-model="searchForm.name" :size="styleSize" />
+      </el-form-item>
+      <el-form-item label="客户号码">
+        <el-input v-model="searchForm.phone" :size="styleSize" />
+      </el-form-item>
+      <el-form-item label="客户来源">
+        <el-select v-model="searchForm.source" :size="styleSize">
+          <el-option
+            v-for="item in sourceArr"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          />
+        </el-select>
+      </el-form-item>
+      <el-form-item label="日期">
+        <el-date-picker
+          v-model="timeValue"
+          type="daterange"
+          range-separator="至"
+          start-placeholder="开始日期"
+          end-placeholder="结束日期"
+          value-format="yyyy-MM-DD"
+          :size="styleSize"
         />
-      </div>
-    </el-card>
+      </el-form-item>
+
+      <el-form-item>
+        <el-button type="primary" :size="styleSize" @click="handleSearch">
+          查询
+        </el-button>
+        <el-button :size="styleSize" @click="handleReset">重置</el-button>
+        <el-button type="success" :size="styleSize">导出</el-button>
+      </el-form-item>
+    </el-form>
+    <!-- 表格配置 -->
+    <div class="table-config">
+      <el-button type="primary" :size="styleSize" @click="handleEdit()">
+        新增一级菜单
+      </el-button>
+      <el-button type="danger" :size="styleSize" @click="handleDelete()">
+        批量删除
+      </el-button>
+    </div>
     <!-- 表格 -->
     <el-table
+      v-loading="tableLoading"
+      style="width: 100%"
       :data="tableData"
-      style="width: 100%; margin-bottom: 20px"
       row-key="id"
       border
-      default-expand-all
       :tree-props="{ children: 'children', hasChildren: 'hasChildren' }"
     >
-      <el-table-column prop="date" label="日期" sortable width="180" />
-      <el-table-column prop="name" label="姓名" sortable width="180" />
-      <el-table-column prop="address" label="地址" />
-    </el-table>
+      <el-table-column prop="path" label="路由地址" width="180" />
+      <el-table-column label="标题">
+        <template v-if="scope.row.meta" slot-scope="scope">
+          {{ scope.row.meta.title }}
+        </template>
+      </el-table-column>
 
-    <!-- 编辑弹出框 -->
+      <el-table-column prop="路由名称" label="name" />
+      <el-table-column prop="component" label="文件路径" />
+      <el-table-column prop="redirect" label="路由重定向" />
+      <el-table-column label="图标" width="80" align="center">
+        <template
+          v-if="scope.row.meta && scope.row.meta.icon"
+          slot-scope="scope"
+        >
+          <svg-icon :icon-class="scope.row.meta.icon" />
+        </template>
+      </el-table-column>
+      <el-table-column label="是否缓存" align="center" width="100">
+        <template v-if="scope.row.meta" slot-scope="scope">
+          {{ scope.row.meta.keepAlive ? "是" : "否" }}
+        </template>
+      </el-table-column>
+      <el-table-column label="隐藏路由" align="center">
+        <template slot-scope="scope">
+          {{ scope.row.hidden ? "是" : "否" }}
+        </template>
+      </el-table-column>
+      <el-table-column label="页面权限" align="center">
+        <template v-if="scope.row.meta" slot-scope="scope">
+          {{ scope.row.meta.role }}
+        </template>
+      </el-table-column>
+      <el-table-column fixed="right" label="操作" align="center">
+        <template slot-scope="scope">
+          <el-link
+            class="mr-1"
+            type="info"
+            :underline="false"
+            @click="handleEdit(scope.row)"
+          >
+            新增
+          </el-link>
+          <el-link
+            class="mr-1"
+            type="primary"
+            :underline="false"
+            @click="handleEdit(scope.row)"
+          >
+            编辑
+          </el-link>
+          <el-link
+            type="danger"
+            :underline="false"
+            @click="handleDelete(scope.row.id)"
+          >
+            删除
+          </el-link>
+        </template>
+      </el-table-column>
+    </el-table>
+    <!-- 分页 -->
+    <el-pagination
+      class="table-pagination"
+      :current-page="searchForm.page"
+      :page-sizes="[10, 20, 30, 40]"
+      :page-size="searchForm.pageSize"
+      layout="total, sizes, prev, pager, next, jumper"
+      :total="total"
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"
+    />
+    <!-- 新增/编辑弹出框 -->
     <el-dialog
-      :title="isAdd ? '添加菜单' : '编辑菜单'"
-      :visible.sync="editVisible"
-      width="50%"
-      :close-on-click-modal="false"
-      :before-close="handleClose"
+      v-el-drag-dialog
+      :visible.sync="updateFormVisible"
+      :title="isUpdate ? '编辑菜单' : '添加菜单'"
+      @close="updateFormVisibleClose"
     >
-      <el-form
-        ref="updateForm"
-        :inline="true"
-        :model="updateForm"
-        label-width="100px"
-        :rules="personFormRules"
-      >
-        <el-form-item label="名称">
-          <el-input
-            v-model="updateForm.name"
-            autocomplete="off"
-            :size="styleSize"
-          />
-        </el-form-item>
-        <el-form-item label="地址" prop="path">
-          <el-input
-            v-model="updateForm.path"
-            autocomplete="off"
-            :size="styleSize"
-          />
-        </el-form-item>
-        <el-form-item label="文件路径" prop="component">
-          <el-input
-            v-model="updateForm.component"
-            autocomplete="off"
-            :size="styleSize"
-          />
-        </el-form-item>
-        <el-form-item label="重定向">
-          <el-input
-            v-model="updateForm.redirect"
-            autocomplete="off"
-            :size="styleSize"
-          />
-        </el-form-item>
-        <el-form-item label="标题" prop="title">
+      <el-form :model="updateForm" :label-width="formLabelWidth" :inline="true">
+        <el-row>
+          <el-form-item label="上级菜单：">
+            <el-select
+              v-model="updateForm.parentId"
+              :size="styleSize"
+              style="width: 500px"
+            >
+              <el-option
+                v-for="item in sourceArr"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              />
+            </el-select>
+          </el-form-item>
+        </el-row>
+        <el-row>
+          <el-form-item label="菜单类型：">
+            <el-radio-group v-model="updateForm.menuType">
+              <el-radio label="M">目录</el-radio>
+              <el-radio label="C">菜单</el-radio>
+              <el-radio label="F">按钮</el-radio>
+            </el-radio-group>
+          </el-form-item>
+        </el-row>
+        <el-form-item label="菜单名称：">
           <el-input
             v-model="updateForm.title"
             autocomplete="off"
+            placeholder="title"
             :size="styleSize"
           />
         </el-form-item>
-        <el-form-item label="图标">
+        <template
+          v-if="updateForm.menuType === 'M' || updateForm.menuType === 'C'"
+        >
+          <el-form-item label="路由名称：">
+            <el-input
+              v-model="updateForm.name"
+              autocomplete="off"
+              placeholder="name"
+              :size="styleSize"
+            />
+          </el-form-item>
+          <el-form-item label="路由地址：">
+            <el-input
+              v-model="updateForm.path"
+              autocomplete="off"
+              placeholder="path"
+              :size="styleSize"
+            />
+          </el-form-item>
+          <el-form-item label="文件路径：">
+            <el-input
+              v-model="updateForm.component"
+              autocomplete="off"
+              placeholder="component"
+              :size="styleSize"
+            />
+          </el-form-item>
+          <el-form-item label="路由重定向：">
+            <el-input
+              v-model="updateForm.redirect"
+              placeholder="redirect"
+              autocomplete="off"
+              :size="styleSize"
+            />
+          </el-form-item>
+          <el-form-item label="图标：">
+            <el-input
+              v-model="updateForm.icon"
+              placeholder="icon"
+              autocomplete="off"
+              :size="styleSize"
+            />
+          </el-form-item>
+          <el-form-item label="面包屑显示：" v-if="updateForm.menuType === 'C'">
+            <el-switch
+              v-model="updateForm.breadcrumb"
+              active-color="#13ce66"
+              inactive-color="#ff4949"
+            />
+          </el-form-item>
+          <el-form-item label="是否缓存：" v-if="updateForm.menuType === 'C'">
+            <el-switch
+              v-model="updateForm.keepAlive"
+              active-color="#13ce66"
+              inactive-color="#ff4949"
+            />
+          </el-form-item>
+          <el-form-item label="隐藏路由：">
+            <el-switch
+              v-model="updateForm.hidden"
+              active-color="#13ce66"
+              inactive-color="#ff4949"
+            />
+          </el-form-item>
+        </template>
+        <el-form-item label="按钮权限：" v-if="updateForm.menuType === 'F'">
           <el-input
-            v-model="updateForm.icon"
+            v-model="updateForm.role"
             autocomplete="off"
+            placeholder="role"
             :size="styleSize"
           />
         </el-form-item>
-        <el-form-item label="缓存">
-          <el-switch v-model="updateForm.keepAlive" />
-        </el-form-item>
-        <el-form-item label="隐藏">
-          <el-switch v-model="updateForm.hidden" />
+        <el-form-item label="排序：">
+          <el-input-number
+            v-model="updateForm.sort"
+            :min="1"
+            :size="styleSize"
+          ></el-input-number>
         </el-form-item>
       </el-form>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="formClose('updateForm')">取 消</el-button>
-        <el-button
-          type="primary"
-          :loading="formLoading"
-          @click="formEdit('updateForm')"
-          >确 定</el-button
-        >
-      </span>
+      <div slot="footer" class="dialog-footer">
+        <el-button :size="styleSize" @click="updateFormVisibleClose">
+          取 消
+        </el-button>
+        <el-button type="primary" :size="styleSize" @click="handleSubmit">
+          确 定
+        </el-button>
+      </div>
     </el-dialog>
   </div>
 </template>
 
 <script>
 import defaultSettings from "@/settings";
+import elDragDialog from "@/directive/el-drag-dialog";
+// 路由表
+const menuListM = [
+  {
+    id: 1,
+    path: "/",
+    component: "Layout",
+    redirect: "welcome",
+    children: [
+      {
+        id: 11,
+        path: "welcome",
+        name: "Welcome",
+        component: "/welcome/index",
+        meta: {
+          title: "欢迎首页",
+          role: ["admin", "addbtn1"],
+          icon: "example",
+        },
+      },
+    ],
+  },
+  {
+    id: 2,
+    path: "/user",
+    component: "Layout",
+    redirect: "/user/index",
+    children: [
+      {
+        id: 21,
+        path: "/user/index",
+        name: "user",
+        component: "/user/index",
+        meta: {
+          title: "用户管理",
+          icon: "table",
+        },
+      },
+    ],
+  },
+  {
+    id: 3,
+    path: "/charts",
+    component: "Layout",
+    redirect: "/charts/index",
+    meta: {
+      title: "图表管理",
+      icon: "table",
+    },
+    children: [
+      {
+        id: 31,
+        path: "/charts/index",
+        name: "chartsline",
+        component: "/charts/line/index",
+        meta: {
+          title: "折线图",
+        },
+      },
+      {
+        id: 32,
+        path: "/charts/mixChart",
+        name: "chartsmixChart",
+        component: "/charts/mixChart/index",
+        meta: {
+          title: "混合图表",
+        },
+      },
+    ],
+  },
+  {
+    id: 4,
+    path: "/components",
+    component: "Layout",
+    redirect: "/tinymce/index",
+    meta: {
+      title: "组件",
+      icon: "table",
+    },
+    children: [
+      {
+        id: 41,
+        path: "/recorder/index",
+        name: "recorder",
+        component: "/components/recorder/index",
+        meta: {
+          title: "录音",
+        },
+      },
+      {
+        id: 42,
+        path: "/tinymce/index",
+        name: "tinymce",
+        component: "/components/tinymce/index",
+        meta: {
+          title: "富文本编译器",
+        },
+      },
+      {
+        id: 43,
+        path: "/componentsDemo/index",
+        name: "componentsDemo",
+        component: "/components/componentsDemo/index",
+        meta: {
+          title: "小组件",
+        },
+      },
+      {
+        id: 44,
+        path: "/dragDalog/index",
+        name: "dragDalog",
+        component: "/components/dragDalog/index",
+        meta: {
+          title: "可拖拽弹窗",
+        },
+      },
+      {
+        id: 45,
+        path: "/dragKanban/index",
+        name: "dragKanban",
+        component: "/components/dragKanban/index",
+        meta: {
+          title: "可拖拽看板",
+        },
+      },
+    ],
+  },
+  {
+    id: 5,
+    path: "/permission",
+    component: "Layout",
+    redirect: "/permission/index",
+    children: [
+      {
+        id: 51,
+        path: "/permission/index",
+        name: "permission",
+        component: "/permission/index",
+        meta: {
+          title: "指令权限",
+          icon: "table",
+        },
+      },
+    ],
+  },
+  {
+    id: 6,
+    path: "/menu",
+    component: "Layout",
+    redirect: "/menu/index",
+    children: [
+      {
+        id: 61,
+        path: "/menu/index",
+        name: "menu",
+        component: "/menu/index",
+        meta: {
+          title: "菜单管理",
+          icon: "table",
+        },
+      },
+    ],
+  },
+];
 /**
-* name:'welcome',             路由名称
+* parentId: null              上级菜单
+* menuType: M,                菜单类型
+* sort: 1,                    排序
+* hidden: true,               是否隐藏路由
 * path: '/welcome',           路由地址
 * component:'Layout',         vue文件路径
 * redirect: noredirect,       路由重定向
-* meta : {
-  role: ['admin','editor'],    页面权限
+* name:'welcome',             路由名称父级可不填
+* 单层级路由父级可不填
+  role: 'admin',               页面权限
   title: 'title'               页面标题
   icon: 'svg-name'             页面图标
+  breadcrumb: false,           如果设置为false，则不会在breadcrumb面包屑中显示(默认 true)
   keepAlive: false,            页面是否缓存
-}
-* hidden: true,               是否隐藏
 **/
 // PersonForm的类
 class PersonForm {
   // 值
   constructor() {
-    this.redirect = "";
-    this.path = "";
-    this.name = "";
-    this.title = "";
-    this.icon = "";
+    // 上级菜单
+    this.parentId = null;
+    // 菜单类型
+    this.menuType = "M";
+    // 排序
+    this.sort = 1;
+    // 是否隐藏路由
     this.hidden = false;
+    // 路由地址
+    this.path = "";
+    // vue文件路径
+    this.component = "";
+    // 路由重定向
+    this.redirect = "";
+    // 路由名称父级可不填
+    this.name = "";
+    // 单层级路由父级可不填
+    // 页面权限
+    this.role = "";
+    // 页面标题
+    this.title = "";
+    //  页面图标
+    this.icon = "";
+    //  如果设置为false，则不会在breadcrumb面包屑中显示(默认 true)
+    this.breadcrumb = true;
+    //  页面是否缓存
     this.keepAlive = false;
   }
   // 验证方法
@@ -143,303 +485,157 @@ class PersonForm {
   }
 }
 export default {
-  name: "SecondHouse",
+  name: "Menu",
+  directives: { elDragDialog },
   data() {
     return {
       styleSize: defaultSettings.styleSize,
-      listLoading: false,
-      // 编辑弹出框
-      editVisible: false,
-      formLoading: false,
-      isAdd: true,
-      menuList: [],
-      updateForm: new PersonForm(),
-      personFormRules: PersonForm.getRule(),
-      data: [
-        {
-          label: "一级 1",
-          children: [
-            {
-              label: "二级 1-1",
-              children: [
-                {
-                  label: "三级 1-1-1",
-                },
-              ],
-            },
-          ],
-        },
-        {
-          label: "一级 2",
-          children: [
-            {
-              label: "二级 2-1",
-              children: [
-                {
-                  label: "三级 2-1-1",
-                },
-              ],
-            },
-            {
-              label: "二级 2-2",
-              children: [
-                {
-                  label: "三级 2-2-1",
-                },
-              ],
-            },
-          ],
-        },
-        {
-          label: "一级 3",
-          children: [
-            {
-              label: "二级 3-1",
-              children: [
-                {
-                  label: "三级 3-1-1",
-                },
-              ],
-            },
-            {
-              label: "二级 3-2",
-              children: [
-                {
-                  label: "三级 3-2-1",
-                },
-              ],
-            },
-          ],
-        },
-      ],
-      defaultProps: {
-        children: "children",
-        label: "label",
+      // 搜索项
+      searchForm: {
+        // 客户姓名
+        name: "",
+        // 客户号码
+        phone: "",
+        // 备用号码
+        secondPhone: "",
+        // 客户来源
+        source: "",
+        // 导入开始时间
+        createTimeBegin: "",
+        createTimeEnd: "",
+        // 每页条数
+        pageSize: 1,
+        // 当前页码
+        pageNumber: 10,
       },
-      tableData: [
+      //   时间段日期
+      timeValue: [],
+      // 客户来源数组
+      sourceArr: [
         {
-          id: 1,
-          date: "2016-05-02",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄",
+          value: "1",
+          label: "全部",
         },
         {
-          id: 2,
-          date: "2016-05-04",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1517 弄",
+          value: "2",
+          label: "手动添加",
         },
         {
-          id: 3,
-          date: "2016-05-01",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1519 弄",
-          children: [
-            {
-              id: 31,
-              date: "2016-05-01",
-              name: "王小虎",
-              address: "上海市普陀区金沙江路 1519 弄",
-            },
-            {
-              id: 32,
-              date: "2016-05-01",
-              name: "王小虎",
-              address: "上海市普陀区金沙江路 1519 弄",
-            },
-          ],
-        },
-        {
-          id: 4,
-          date: "2016-05-03",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1516 弄",
+          value: "3",
+          label: "自动导入",
         },
       ],
-      tableData1: [
-        {
-          id: 1,
-          date: "2016-05-02",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄",
-        },
-        {
-          id: 2,
-          date: "2016-05-04",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1517 弄",
-        },
-        {
-          id: 3,
-          date: "2016-05-01",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1519 弄",
-          hasChildren: true,
-        },
-        {
-          id: 4,
-          date: "2016-05-03",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1516 弄",
-        },
-      ],
+      // 表格数据
+      formLabelWidth: "140px",
+      tableLoading: false,
+      tableData: menuListM,
+      // 多选数组
+      multipleSelection: [],
+      // 总条数
+      total: 0,
+      // 表单弹出框
+      isUpdate: false,
+      updateFormVisible: false,
+      updateFormLoading: false,
+      // 是否显示新增标签输入框
+      inputVisible: false,
+      inputValue: "",
+      updateForm: new PersonForm(),
+      updateFormRules: PersonForm.getRule(),
     };
   },
   created() {},
-  mounted() {
-    // this.getListData()
-  },
+  mounted() {},
   methods: {
-    handleNodeClick(data) {
-      console.log(data);
+    // 筛选项提交
+    handleSearch() {
+      const params = {
+        starTime: this.timeValue[0],
+        endTime: this.timeValue[1],
+      };
+      Object.assign(this.searchForm, params);
+      this.tableLoading = true;
+
+      // clientManage_list(this.searchForm).then((res) => {
+      //   this.tableData = res.data.list;
+      //   this.total = res.data.total;
+      //   this.tableLoading = false;
+      // });
     },
-    getListData() {
-      this.listLoading = true;
-      //   getMenuList().then(res => {
-      //     if (res.errcode === 0) {
-      //       this.menuList = res.data.map(item => {
-      //         return {
-      //           id: item.id,
-      //           title_e: item.title_e,
-      //           label: item.title,
-      //           children: item.list.map(child => {
-      //             return {
-      //               id: child.id,
-      //               title_e: child.title_e,
-      //               label: child.title,
-      //               type: 'child',
-      //               pid: item.id
-      //             }
-      //           })
-      //         }
-      //       })
-      //       this.listLoading = false
-      //     } else {
-      //       this.listLoading = false
-      //       this.$message.error(res.errmsg)
-      //     }
-      //   })
-    },
-    // 编辑人员
-    handleEdit(row, isAdd) {
+    // 筛选项重置
+    handleReset() {},
+    // 打开弹框
+    handleEdit(row) {
       if (row) {
         // 编辑
-        if (isAdd) {
-          // 添加表单
-          this.updateForm = {
-            title: "",
-            title_e: "",
-            p_id: row.id,
-            id: "",
-          };
-        } else {
-          // 添加表单
-          this.updateForm = {
-            title: row.label,
-            title_e: row.title_e,
-            p_id: row.pid ? row.pid : 0,
-            id: row.id,
-          };
-        }
-        this.isAdd = false;
-        this.editVisible = true;
-      } else {
-        // 新增
-        this.updateForm = new PersonForm();
-        this.isAdd = true;
-        this.editVisible = true;
+        this.isUpdate = true;
+        this.updateForm = JSON.parse(JSON.stringify(row));
       }
+      this.updateFormVisible = true;
     },
-    renderContent(h, { node, data, store }) {
-      return (
-        <span class="custom-tree-node">
-          <span>
-            {data.label} <span style="margin-left: 20px">{data.title_e}</span>
-          </span>
-          <span>
-            {data.type === "child" ? (
-              ""
-            ) : (
-              <el-button
-                size="mini"
-                type="text"
-                on-click={() => this.handleEdit(data, true)}
-              >
-                添加子节点
-              </el-button>
-            )}
-            <el-button
-              size="mini"
-              type="text"
-              on-click={() => this.handleEdit(data, false)}
-            >
-              修改节点
-            </el-button>
-            <el-button
-              size="mini"
-              type="text"
-              class="color-danger"
-              on-click={() => this.handleDelete(node, data)}
-            >
-              删除
-            </el-button>
-          </span>
-        </span>
-      );
+    // 关闭弹窗
+    updateFormVisibleClose() {
+      this.updateForm = new PersonForm();
+      this.updateFormRules = PersonForm.getRule();
+      this.updateFormLoading = false;
+      this.updateFormVisible = false;
+      this.isUpdate = false;
+    },
+    // 弹窗表单提交
+    handleSubmit() {
+      console.log(this.updateForm);
+      // this.updateFormVisibleClose()
+    },
+    // 多选
+    handleSelectionChange(val) {
+      this.multipleSelection = val.map((item) => item.id);
     },
     // 删除
-    handleDelete(node, data) {
-      // 二次确认删除
-      this.$confirm("确定要删除吗？", "提示", {
+    handleDelete(id) {
+      const ids = id || this.multipleSelection.join(",");
+      if (!ids) {
+        this.$message.warning("删除信息不能为空！");
+        return;
+      }
+      this.$confirm("此操作将永久删除该文件, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
         type: "warning",
       })
         .then(() => {
-          //   deleteMenu({ id: data.id }).then(
-          //     res => {
-          //       if (res.errcode == 0) {
-          //         this.$message.success('删除成功')
-          //         this.getListData()
-          //       } else {
-          //         this.$message.error(res.errmsg)
-          //       }
-          //     }
-          //   )
+          console.log(ids);
+          this.$message.success("删除成功");
         })
-        .catch(() => {});
+        .catch(() => {
+          this.$message.info("已取消删除");
+        });
     },
-    // 表单提交
-    formEdit(updateForm) {
-      this.$refs[updateForm].validate((valid) => {
-        if (this.formLoading) {
-          return;
-        }
-        if (valid) {
-          this.formLoading = true;
-          //   const pream = JSON.parse(JSON.stringify(this.updateForm))
-          //   updateMenu(pream).then(
-          //     res => {
-          //       if (res.errcode == 0) {
-          //         this.formClose(updateForm)
-          //         this.$message.success('保存成功')
-          //         this.getListData()
-          //       } else {
-          //         this.formLoading = false
-          //         this.$message.error(res.errmsg)
-          //       }
-          //     }
-          //   )
-        }
+    // 分页
+    handleSizeChange(val) {
+      console.log(`每页 ${val} 条`);
+    },
+    handleCurrentChange(val) {
+      console.log(`当前页: ${val}`);
+    },
+    handleClose(tag) {
+      this.updateForm.meta.role.splice(
+        this.updateForm.meta.role.indexOf(tag),
+        1
+      );
+    },
+    showInput() {
+      this.inputVisible = true;
+      this.$nextTick((_) => {
+        this.$refs.saveTagInput.$refs.input.focus();
       });
     },
-    formClose(updateForm) {
-      this.$refs[updateForm].resetFields();
-      this.formLoading = false;
-      this.editVisible = false;
-    },
-    handleClose(done) {
-      // 清除表单验证
-      this.$refs["updateForm"].resetFields();
-      done();
+    handleInputConfirm() {
+      const inputValue = this.inputValue;
+      if (inputValue) {
+        this.updateForm.meta.role.push(inputValue);
+      }
+      this.inputVisible = false;
+      this.inputValue = "";
     },
   },
 };
@@ -449,5 +645,8 @@ export default {
 .box-card {
   width: 200px;
   margin-right: 15px;
+}
+.input-new-tag {
+  width: 100px;
 }
 </style>
