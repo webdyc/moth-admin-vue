@@ -75,4 +75,11 @@ public class UserConstants
      */
     public static final int PASSWORD_MIN_LENGTH = 5;
     public static final int PASSWORD_MAX_LENGTH = 20;
+
+
+    /**
+     * 路由信息
+     */
+    public static final Integer OFF = 0;
+    public static final Integer ON = 1;
 }

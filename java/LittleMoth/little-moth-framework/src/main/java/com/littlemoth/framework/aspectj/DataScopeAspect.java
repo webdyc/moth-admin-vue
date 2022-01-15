@@ -1,5 +1,6 @@
 package com.littlemoth.framework.aspectj;
 
+import com.littlemoth.common.core.domain.model.TbSysUser;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
@@ -64,7 +65,7 @@ public class DataScopeAspect
         LoginUser loginUser = SecurityUtils.getLoginUser();
         if (StringUtils.isNotNull(loginUser))
         {
-            SysUser currentUser = loginUser.getUser();
+            TbSysUser currentUser = loginUser.getUser();
             // 如果是超级管理员，则不过滤数据
             if (StringUtils.isNotNull(currentUser) && !currentUser.isAdmin())
             {
@@ -81,57 +82,57 @@ public class DataScopeAspect
      * @param user 用户
      * @param userAlias 别名
      */
-    public static void dataScopeFilter(JoinPoint joinPoint, SysUser user, String deptAlias, String userAlias)
+    public static void dataScopeFilter(JoinPoint joinPoint, TbSysUser user, String deptAlias, String userAlias)
     {
         StringBuilder sqlString = new StringBuilder();
 
-        for (SysRole role : user.getRoles())
-        {
-            String dataScope = role.getDataScope();
-            if (DATA_SCOPE_ALL.equals(dataScope))
-            {
-                sqlString = new StringBuilder();
-                break;
-            }
-            else if (DATA_SCOPE_CUSTOM.equals(dataScope))
-            {
-                sqlString.append(StringUtils.format(
-                        " OR {}.dept_id IN ( SELECT dept_id FROM sys_role_dept WHERE role_id = {} ) ", deptAlias,
-                        role.getRoleId()));
-            }
-            else if (DATA_SCOPE_DEPT.equals(dataScope))
-            {
-                sqlString.append(StringUtils.format(" OR {}.dept_id = {} ", deptAlias, user.getDeptId()));
-            }
-            else if (DATA_SCOPE_DEPT_AND_CHILD.equals(dataScope))
-            {
-                sqlString.append(StringUtils.format(
-                        " OR {}.dept_id IN ( SELECT dept_id FROM sys_dept WHERE dept_id = {} or find_in_set( {} , ancestors ) )",
-                        deptAlias, user.getDeptId(), user.getDeptId()));
-            }
-            else if (DATA_SCOPE_SELF.equals(dataScope))
-            {
-                if (StringUtils.isNotBlank(userAlias))
-                {
-                    sqlString.append(StringUtils.format(" OR {}.user_id = {} ", userAlias, user.getUserId()));
-                }
-                else
-                {
-                    // 数据权限为仅本人且没有userAlias别名不查询任何数据
-                    sqlString.append(" OR 1=0 ");
-                }
-            }
-        }
-
-        if (StringUtils.isNotBlank(sqlString.toString()))
-        {
-            Object params = joinPoint.getArgs()[0];
-            if (StringUtils.isNotNull(params) && params instanceof BaseEntity)
-            {
-                BaseEntity baseEntity = (BaseEntity) params;
-                baseEntity.getParams().put(DATA_SCOPE, " AND (" + sqlString.substring(4) + ")");
-            }
-        }
+//        for (SysRole role : user.getRoles())
+//        {
+//            String dataScope = role.getDataScope();
+//            if (DATA_SCOPE_ALL.equals(dataScope))
+//            {
+//                sqlString = new StringBuilder();
+//                break;
+//            }
+//            else if (DATA_SCOPE_CUSTOM.equals(dataScope))
+//            {
+//                sqlString.append(StringUtils.format(
+//                        " OR {}.dept_id IN ( SELECT dept_id FROM sys_role_dept WHERE role_id = {} ) ", deptAlias,
+//                        role.getRoleId()));
+//            }
+//            else if (DATA_SCOPE_DEPT.equals(dataScope))
+//            {
+//                sqlString.append(StringUtils.format(" OR {}.dept_id = {} ", deptAlias, user.getDeptId()));
+//            }
+//            else if (DATA_SCOPE_DEPT_AND_CHILD.equals(dataScope))
+//            {
+//                sqlString.append(StringUtils.format(
+//                        " OR {}.dept_id IN ( SELECT dept_id FROM sys_dept WHERE dept_id = {} or find_in_set( {} , ancestors ) )",
+//                        deptAlias, user.getDeptId(), user.getDeptId()));
+//            }
+//            else if (DATA_SCOPE_SELF.equals(dataScope))
+//            {
+//                if (StringUtils.isNotBlank(userAlias))
+//                {
+//                    sqlString.append(StringUtils.format(" OR {}.user_id = {} ", userAlias, user.getUserId()));
+//                }
+//                else
+//                {
+//                    // 数据权限为仅本人且没有userAlias别名不查询任何数据
+//                    sqlString.append(" OR 1=0 ");
+//                }
+//            }
+//        }
+//
+//        if (StringUtils.isNotBlank(sqlString.toString()))
+//        {
+//            Object params = joinPoint.getArgs()[0];
+//            if (StringUtils.isNotNull(params) && params instanceof BaseEntity)
+//            {
+//                BaseEntity baseEntity = (BaseEntity) params;
+//                baseEntity.getParams().put(DATA_SCOPE, " AND (" + sqlString.substring(4) + ")");
+//            }
+//        }
     }
 
     /**

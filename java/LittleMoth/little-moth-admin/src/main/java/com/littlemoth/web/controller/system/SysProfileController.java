@@ -7,6 +7,7 @@ import com.littlemoth.common.core.controller.BaseController;
 import com.littlemoth.common.core.domain.AjaxResult;
 import com.littlemoth.common.core.domain.entity.SysUser;
 import com.littlemoth.common.core.domain.model.LoginUser;
+import com.littlemoth.common.core.domain.model.TbSysUser;
 import com.littlemoth.common.enums.BusinessType;
 import com.littlemoth.common.utils.SecurityUtils;
 import com.littlemoth.common.utils.StringUtils;
@@ -41,7 +42,7 @@ public class SysProfileController extends BaseController
     public AjaxResult profile()
     {
         LoginUser loginUser = getLoginUser();
-        SysUser user = loginUser.getUser();
+        TbSysUser user = loginUser.getUser();
         AjaxResult ajax = AjaxResult.success(user);
         ajax.put("roleGroup", userService.selectUserRoleGroup(loginUser.getUsername()));
         ajax.put("postGroup", userService.selectUserPostGroup(loginUser.getUsername()));
@@ -56,7 +57,7 @@ public class SysProfileController extends BaseController
     public AjaxResult updateProfile(@RequestBody SysUser user)
     {
         LoginUser loginUser = getLoginUser();
-        SysUser sysUser = loginUser.getUser();
+        TbSysUser sysUser = loginUser.getUser();
         user.setUserName(sysUser.getUserName());
         if (StringUtils.isNotEmpty(user.getPhonenumber())
                 && UserConstants.NOT_UNIQUE.equals(userService.checkPhoneUnique(user)))
@@ -68,15 +69,15 @@ public class SysProfileController extends BaseController
         {
             return AjaxResult.error("修改用户'" + user.getUserName() + "'失败，邮箱账号已存在");
         }
-        user.setUserId(sysUser.getUserId());
+        user.setUserId(sysUser.getId());
         user.setPassword(null);
         if (userService.updateUserProfile(user) > 0)
         {
             // 更新缓存用户信息
             sysUser.setNickName(user.getNickName());
-            sysUser.setPhonenumber(user.getPhonenumber());
+            sysUser.setPhone(user.getPhonenumber());
             sysUser.setEmail(user.getEmail());
-            sysUser.setSex(user.getSex());
+//            sysUser.sets(user.getSex());
             tokenService.setLoginUser(loginUser);
             return AjaxResult.success();
         }
@@ -127,7 +128,7 @@ public class SysProfileController extends BaseController
                 AjaxResult ajax = AjaxResult.success();
                 ajax.put("imgUrl", avatar);
                 // 更新缓存用户头像
-                loginUser.getUser().setAvatar(avatar);
+//                loginUser.getUser().setAvatar(avatar);
                 tokenService.setLoginUser(loginUser);
                 return ajax;
             }

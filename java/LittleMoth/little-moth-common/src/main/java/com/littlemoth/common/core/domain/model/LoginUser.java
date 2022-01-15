@@ -1,16 +1,15 @@
 package com.littlemoth.common.core.domain.model;
 
+import com.alibaba.fastjson.annotation.JSONField;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import java.util.Collection;
 import java.util.Set;
 
-import com.littlemoth.common.core.domain.entity.SysUser;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-import com.alibaba.fastjson.annotation.JSONField;
-
 /**
  * 登录用户身份权限
- * 
+ *
  * @author xiusan
  */
 public class LoginUser implements UserDetails
@@ -70,7 +69,7 @@ public class LoginUser implements UserDetails
     /**
      * 用户信息
      */
-    private SysUser user;
+    private TbSysUser user;
 
     public Long getUserId()
     {
@@ -106,13 +105,13 @@ public class LoginUser implements UserDetails
     {
     }
 
-    public LoginUser(SysUser user, Set<String> permissions)
+    public LoginUser(TbSysUser user, Set<String> permissions)
     {
         this.user = user;
         this.permissions = permissions;
     }
 
-    public LoginUser(Long userId, Long deptId, SysUser user, Set<String> permissions)
+    public LoginUser(Long userId,String companyId, TbSysUser user, Set<String> permissions)
     {
         this.userId = userId;
         this.deptId = deptId;
@@ -145,7 +144,7 @@ public class LoginUser implements UserDetails
 
     /**
      * 指定用户是否解锁,锁定的用户无法进行身份验证
-     * 
+     *
      * @return
      */
     @JSONField(serialize = false)
@@ -157,7 +156,7 @@ public class LoginUser implements UserDetails
 
     /**
      * 指示是否已过期的用户的凭据(密码),过期的凭据防止认证
-     * 
+     *
      * @return
      */
     @JSONField(serialize = false)
@@ -169,7 +168,7 @@ public class LoginUser implements UserDetails
 
     /**
      * 是否可用 ,禁用的用户不能身份验证
-     * 
+     *
      * @return
      */
     @JSONField(serialize = false)
@@ -249,12 +248,12 @@ public class LoginUser implements UserDetails
         this.permissions = permissions;
     }
 
-    public SysUser getUser()
+    public TbSysUser getUser()
     {
         return user;
     }
 
-    public void setUser(SysUser user)
+    public void setUser(TbSysUser user)
     {
         this.user = user;
     }

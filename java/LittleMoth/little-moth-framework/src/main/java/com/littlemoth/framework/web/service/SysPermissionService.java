@@ -2,6 +2,8 @@ package com.littlemoth.framework.web.service;
 
 import java.util.HashSet;
 import java.util.Set;
+
+import com.littlemoth.common.core.domain.model.TbSysUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import com.littlemoth.common.core.domain.entity.SysUser;
@@ -28,7 +30,7 @@ public class SysPermissionService
      * @param user 用户信息
      * @return 角色权限信息
      */
-    public Set<String> getRolePermission(SysUser user)
+    public Set<String> getRolePermission(TbSysUser user)
     {
         Set<String> roles = new HashSet<String>();
         // 管理员拥有所有权限
@@ -38,7 +40,7 @@ public class SysPermissionService
         }
         else
         {
-            roles.addAll(roleService.selectRolePermissionByUserId(user.getUserId()));
+            roles.addAll(roleService.selectRolePermissionByUserId(user.getId()));
         }
         return roles;
     }
@@ -49,7 +51,7 @@ public class SysPermissionService
      * @param user 用户信息
      * @return 菜单权限信息
      */
-    public Set<String> getMenuPermission(SysUser user)
+    public Set<String> getMenuPermission(TbSysUser user)
     {
         Set<String> perms = new HashSet<String>();
         // 管理员拥有所有权限
@@ -59,7 +61,7 @@ public class SysPermissionService
         }
         else
         {
-            perms.addAll(menuService.selectMenuPermsByUserId(user.getUserId()));
+            perms.addAll(menuService.selectMenuPermsByUserId(user.getId()));
         }
         return perms;
     }

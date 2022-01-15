@@ -3,7 +3,7 @@ package com.littlemoth.web.controller.common;
 import com.google.code.kaptcha.Producer;
 import com.littlemoth.common.config.LittleMothConfig;
 import com.littlemoth.common.constant.Constants;
-import com.littlemoth.common.core.domain.AjaxResult;
+import com.littlemoth.common.core.domain.ResultData;
 import com.littlemoth.common.core.redis.RedisCache;
 import com.littlemoth.common.utils.sign.Base64;
 import com.littlemoth.common.utils.uuid.IdUtils;
@@ -18,6 +18,7 @@ import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -43,14 +44,16 @@ public class CaptchaController
      * 生成验证码
      */
     @GetMapping("/captchaImage")
-    public AjaxResult getCode(HttpServletResponse response) throws IOException
+    public ResultData getCode(HttpServletResponse response) throws IOException
     {
-        AjaxResult ajax = AjaxResult.success();
+        ResultData resultData = ResultData.success();
+        HashMap<String, Object> ajax = new HashMap<>();
         boolean captchaOnOff = configService.selectCaptchaOnOff();
         ajax.put("captchaOnOff", captchaOnOff);
         if (!captchaOnOff)
         {
-            return ajax;
+            resultData.setData(ajax);
+            return resultData;
         }
 
         // 保存验证码信息
@@ -84,11 +87,12 @@ public class CaptchaController
         }
         catch (IOException e)
         {
-            return AjaxResult.error(e.getMessage());
+            return ResultData.error(e.getMessage());
         }
 
         ajax.put("uuid", uuid);
         ajax.put("img", Base64.encode(os.toByteArray()));
-        return ajax;
+        resultData.setData(ajax);
+        return resultData;
     }
 }

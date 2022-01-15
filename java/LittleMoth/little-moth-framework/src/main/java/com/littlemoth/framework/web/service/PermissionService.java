@@ -93,23 +93,23 @@ public class PermissionService
      */
     public boolean hasRole(String role)
     {
-        if (StringUtils.isEmpty(role))
-        {
-            return false;
-        }
-        LoginUser loginUser = SecurityUtils.getLoginUser();
-        if (StringUtils.isNull(loginUser) || CollectionUtils.isEmpty(loginUser.getUser().getRoles()))
-        {
-            return false;
-        }
-        for (SysRole sysRole : loginUser.getUser().getRoles())
-        {
-            String roleKey = sysRole.getRoleKey();
-            if (SUPER_ADMIN.equals(roleKey) || roleKey.equals(StringUtils.trim(role)))
-            {
-                return true;
-            }
-        }
+//        if (StringUtils.isEmpty(role))
+//        {
+//            return false;
+//        }
+//        LoginUser loginUser = SecurityUtils.getLoginUser();
+//        if (StringUtils.isNull(loginUser) || CollectionUtils.isEmpty(loginUser.getUser().getRoles()))
+//        {
+//            return false;
+//        }
+//        for (SysRole sysRole : loginUser.getUser().getRoles())
+//        {
+//            String roleKey = sysRole.getRoleKey();
+//            if (SUPER_ADMIN.equals(roleKey) || roleKey.equals(StringUtils.trim(role)))
+//            {
+//                return true;
+//            }
+//        }
         return false;
     }
 
@@ -132,22 +132,22 @@ public class PermissionService
      */
     public boolean hasAnyRoles(String roles)
     {
-        if (StringUtils.isEmpty(roles))
-        {
-            return false;
-        }
-        LoginUser loginUser = SecurityUtils.getLoginUser();
-        if (StringUtils.isNull(loginUser) || CollectionUtils.isEmpty(loginUser.getUser().getRoles()))
-        {
-            return false;
-        }
-        for (String role : roles.split(ROLE_DELIMETER))
-        {
-            if (hasRole(role))
-            {
-                return true;
-            }
-        }
+//        if (StringUtils.isEmpty(roles))
+//        {
+//            return false;
+//        }
+//        LoginUser loginUser = SecurityUtils.getLoginUser();
+//        if (StringUtils.isNull(loginUser) || CollectionUtils.isEmpty(loginUser.getUser().getRoles()))
+//        {
+//            return false;
+//        }
+//        for (String role : roles.split(ROLE_DELIMETER))
+//        {
+//            if (hasRole(role))
+//            {
+//                return true;
+//            }
+//        }
         return false;
     }
 

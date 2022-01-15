@@ -2,19 +2,20 @@ package com.littlemoth.web.controller.system;
 
 import com.littlemoth.common.constant.Constants;
 import com.littlemoth.common.core.domain.AjaxResult;
+import com.littlemoth.common.core.domain.ResultData;
 import com.littlemoth.common.core.domain.entity.SysMenu;
 import com.littlemoth.common.core.domain.entity.SysUser;
 import com.littlemoth.common.core.domain.model.LoginBody;
+import com.littlemoth.common.core.domain.model.TbSysUser;
 import com.littlemoth.common.utils.SecurityUtils;
 import com.littlemoth.framework.web.service.SysLoginService;
 import com.littlemoth.framework.web.service.SysPermissionService;
 import com.littlemoth.system.service.ISysMenuService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import springfox.documentation.schema.Maps;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
@@ -42,14 +43,14 @@ public class SysLoginController
      * @return 结果
      */
     @PostMapping("/login")
-    public AjaxResult login(@RequestBody LoginBody loginBody)
+    public ResultData login(@RequestBody LoginBody loginBody)
     {
-        AjaxResult ajax = AjaxResult.success();
+        HashMap<String, Object> objectObjectHashMap = new HashMap<>();
         // 生成令牌
         String token = loginService.login(loginBody.getUsername(), loginBody.getPassword(), loginBody.getCode(),
                 loginBody.getUuid());
-        ajax.put(Constants.TOKEN, token);
-        return ajax;
+        objectObjectHashMap.put(Constants.TOKEN, token);
+        return ResultData.success(objectObjectHashMap);
     }
 
     /**
@@ -60,7 +61,7 @@ public class SysLoginController
     @GetMapping("getInfo")
     public AjaxResult getInfo()
     {
-        SysUser user = SecurityUtils.getLoginUser().getUser();
+        TbSysUser user = SecurityUtils.getLoginUser().getUser();
         // 角色集合
         Set<String> roles = permissionService.getRolePermission(user);
         // 权限集合

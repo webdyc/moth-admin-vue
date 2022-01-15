@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.littlemoth.system.mapper.TbSysUserMapper">
+    
+    <resultMap type="com.littlemoth.common.core.domain.model.TbSysUser" id="TbSysUserResult">
+        <result property="id"    column="id"    />
+        <result property="companyId"    column="company_id"    />
+        <result property="officeId"    column="office_id"    />
+        <result property="password"    column="password"    />
+        <result property="no"    column="no"    />
+        <result property="userName"    column="user_name"    />
+        <result property="nickName"    column="nick_name"    />
+        <result property="email"    column="email"    />
+        <result property="phone"    column="phone"    />
+        <result property="mobile"    column="mobile"    />
+        <result property="userType"    column="user_type"    />
+        <result property="photo"    column="photo"    />
+        <result property="loginIp"    column="login_ip"    />
+        <result property="loginDate"    column="login_date"    />
+        <result property="loginFlag"    column="login_flag"    />
+        <result property="fsFlag"    column="fs_flag"    />
+        <result property="creator"    column="creator"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateUser"    column="update_user"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="expirationTime"    column="expiration_time"    />
+        <result property="remarks"    column="remarks"    />
+        <result property="isDel"    column="is_del"    />
+    </resultMap>
+
+    <sql id="selectTbSysUserVo">
+        select id, company_id, office_id, password, no, user_name, nick_name, email, phone, mobile, user_type, photo, login_ip, login_date, login_flag, fs_flag, creator, create_time, update_user, update_time, expiration_time, remarks, is_del from tb_sys_user
+    </sql>
+
+    <select id="selectTbSysUserList" parameterType="com.littlemoth.common.core.domain.model.TbSysUser" resultMap="TbSysUserResult">
+        <include refid="selectTbSysUserVo"/>
+        <where>  
+            <if test="companyId != null  and companyId != ''"> and company_id = #{companyId}</if>
+            <if test="officeId != null  and officeId != ''"> and office_id = #{officeId}</if>
+            <if test="password != null  and password != ''"> and password = #{password}</if>
+            <if test="no != null  and no != ''"> and no = #{no}</if>
+            <if test="userName != null  and userName != ''"> and user_name like concat('%', #{userName}, '%')</if>
+            <if test="nickName != null  and nickName != ''"> and nick_name like concat('%', #{nickName}, '%')</if>
+            <if test="email != null  and email != ''"> and email = #{email}</if>
+            <if test="phone != null  and phone != ''"> and phone = #{phone}</if>
+            <if test="mobile != null  and mobile != ''"> and mobile = #{mobile}</if>
+            <if test="userType != null  and userType != ''"> and user_type = #{userType}</if>
+            <if test="photo != null  and photo != ''"> and photo = #{photo}</if>
+            <if test="loginIp != null  and loginIp != ''"> and login_ip = #{loginIp}</if>
+            <if test="loginDate != null "> and login_date = #{loginDate}</if>
+            <if test="loginFlag != null  and loginFlag != ''"> and login_flag = #{loginFlag}</if>
+            <if test="fsFlag != null  and fsFlag != ''"> and fs_flag = #{fsFlag}</if>
+            <if test="creator != null "> and creator = #{creator}</if>
+            <if test="updateUser != null "> and update_user = #{updateUser}</if>
+            <if test="expirationTime != null "> and expiration_time = #{expirationTime}</if>
+            <if test="remarks != null  and remarks != ''"> and remarks = #{remarks}</if>
+            <if test="isDel != null "> and is_del = #{isDel}</if>
+        </where>
+    </select>
+    
+    <select id="selectTbSysUserById" parameterType="Long" resultMap="TbSysUserResult">
+        <include refid="selectTbSysUserVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertTbSysUser" parameterType="com.littlemoth.common.core.domain.model.TbSysUser">
+        insert into tb_sys_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="companyId != null">company_id,</if>
+            <if test="officeId != null">office_id,</if>
+            <if test="password != null">password,</if>
+            <if test="no != null">no,</if>
+            <if test="userName != null">user_name,</if>
+            <if test="nickName != null">nick_name,</if>
+            <if test="email != null">email,</if>
+            <if test="phone != null">phone,</if>
+            <if test="mobile != null">mobile,</if>
+            <if test="userType != null">user_type,</if>
+            <if test="photo != null">photo,</if>
+            <if test="loginIp != null">login_ip,</if>
+            <if test="loginDate != null">login_date,</if>
+            <if test="loginFlag != null">login_flag,</if>
+            <if test="fsFlag != null">fs_flag,</if>
+            <if test="creator != null">creator,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateUser != null">update_user,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="expirationTime != null">expiration_time,</if>
+            <if test="remarks != null">remarks,</if>
+            <if test="isDel != null">is_del,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="companyId != null">#{companyId},</if>
+            <if test="officeId != null">#{officeId},</if>
+            <if test="password != null">#{password},</if>
+            <if test="no != null">#{no},</if>
+            <if test="userName != null">#{userName},</if>
+            <if test="nickName != null">#{nickName},</if>
+            <if test="email != null">#{email},</if>
+            <if test="phone != null">#{phone},</if>
+            <if test="mobile != null">#{mobile},</if>
+            <if test="userType != null">#{userType},</if>
+            <if test="photo != null">#{photo},</if>
+            <if test="loginIp != null">#{loginIp},</if>
+            <if test="loginDate != null">#{loginDate},</if>
+            <if test="loginFlag != null">#{loginFlag},</if>
+            <if test="fsFlag != null">#{fsFlag},</if>
+            <if test="creator != null">#{creator},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateUser != null">#{updateUser},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="expirationTime != null">#{expirationTime},</if>
+            <if test="remarks != null">#{remarks},</if>
+            <if test="isDel != null">#{isDel},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTbSysUser" parameterType="com.littlemoth.common.core.domain.model.TbSysUser">
+        update tb_sys_user
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="companyId != null">company_id = #{companyId},</if>
+            <if test="officeId != null">office_id = #{officeId},</if>
+            <if test="password != null">password = #{password},</if>
+            <if test="no != null">no = #{no},</if>
+            <if test="userName != null">user_name = #{userName},</if>
+            <if test="nickName != null">nick_name = #{nickName},</if>
+            <if test="email != null">email = #{email},</if>
+            <if test="phone != null">phone = #{phone},</if>
+            <if test="mobile != null">mobile = #{mobile},</if>
+            <if test="userType != null">user_type = #{userType},</if>
+            <if test="photo != null">photo = #{photo},</if>
+            <if test="loginIp != null">login_ip = #{loginIp},</if>
+            <if test="loginDate != null">login_date = #{loginDate},</if>
+            <if test="loginFlag != null">login_flag = #{loginFlag},</if>
+            <if test="fsFlag != null">fs_flag = #{fsFlag},</if>
+            <if test="creator != null">creator = #{creator},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateUser != null">update_user = #{updateUser},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="expirationTime != null">expiration_time = #{expirationTime},</if>
+            <if test="remarks != null">remarks = #{remarks},</if>
+            <if test="isDel != null">is_del = #{isDel},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTbSysUserById" parameterType="Long">
+        delete from tb_sys_user where id = #{id}
+    </delete>
+
+    <delete id="deleteTbSysUserByIds" parameterType="String">
+        delete from tb_sys_user where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="getUserList" resultMap="TbSysUserResult">
+        <include refid="selectTbSysUserVo"/>
+        where 1=1
+        <if test="officeIds != null">
+            and office_id in
+            <foreach collection="officeIds" open='(' close=')' separator=',' index='index' item='id'>
+                #{id}
+            </foreach>
+        </if>
+        <if test=" lastTime != null and lastTime != ''">
+            and update_time &gt; #{lastTime}
+        </if>
+    </select>
+</mapper>

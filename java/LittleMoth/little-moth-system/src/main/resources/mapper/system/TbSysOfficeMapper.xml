@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.littlemoth.system.mapper.TbSysOfficeMapper">
+    
+    <resultMap type="com.littlemoth.system.domain.TbSysOffice" id="TbSysOfficeResult">
+        <result property="id"    column="id"    />
+        <result property="parentId"    column="parent_id"    />
+        <result property="parentIds"    column="parent_ids"    />
+        <result property="name"    column="name"    />
+        <result property="sort"    column="sort"    />
+        <result property="areaId"    column="area_id"    />
+        <result property="code"    column="code"    />
+        <result property="type"    column="type"    />
+        <result property="grade"    column="grade"    />
+        <result property="address"    column="address"    />
+        <result property="zipCode"    column="zip_code"    />
+        <result property="master"    column="master"    />
+        <result property="phone"    column="phone"    />
+        <result property="fax"    column="fax"    />
+        <result property="email"    column="email"    />
+        <result property="useable"    column="USEABLE"    />
+        <result property="primaryPerson"    column="PRIMARY_PERSON"    />
+        <result property="deputyPerson"    column="DEPUTY_PERSON"    />
+        <result property="creator"    column="creator"    />
+        <result property="createtime"    column="createtime"    />
+        <result property="updateUser"    column="update_user"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remarks"    column="remarks"    />
+        <result property="isDel"    column="is_del"    />
+    </resultMap>
+
+    <sql id="selectTbSysOfficeVo">
+        select id, parent_id, parent_ids, name, sort, area_id, code, type, grade, address, zip_code, master, phone, fax, email, USEABLE, PRIMARY_PERSON, DEPUTY_PERSON, creator, create_time, update_user, update_time, remarks, is_del from tb_sys_office
+    </sql>
+
+    <select id="selectTbSysOfficeList" parameterType="com.littlemoth.system.domain.TbSysOffice" resultMap="TbSysOfficeResult">
+        <include refid="selectTbSysOfficeVo"/>
+        <where>  
+            <if test="parentId != null  and parentId != ''"> and parent_id = #{parentId}</if>
+            <if test="parentIds != null  and parentIds != ''"> and parent_ids = #{parentIds}</if>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="sort != null "> and sort = #{sort}</if>
+            <if test="areaId != null  and areaId != ''"> and area_id = #{areaId}</if>
+            <if test="code != null  and code != ''"> and code = #{code}</if>
+            <if test="type != null  and type != ''"> and type = #{type}</if>
+            <if test="grade != null  and grade != ''"> and grade = #{grade}</if>
+            <if test="address != null  and address != ''"> and address = #{address}</if>
+            <if test="zipCode != null  and zipCode != ''"> and zip_code = #{zipCode}</if>
+            <if test="master != null  and master != ''"> and master = #{master}</if>
+            <if test="phone != null  and phone != ''"> and phone = #{phone}</if>
+            <if test="fax != null  and fax != ''"> and fax = #{fax}</if>
+            <if test="email != null  and email != ''"> and email = #{email}</if>
+            <if test="useable != null  and useable != ''"> and USEABLE = #{useable}</if>
+            <if test="primaryPerson != null  and primaryPerson != ''"> and PRIMARY_PERSON = #{primaryPerson}</if>
+            <if test="deputyPerson != null  and deputyPerson != ''"> and DEPUTY_PERSON = #{deputyPerson}</if>
+            <if test="creator != null "> and creator = #{creator}</if>
+            <if test="createtime != null "> and createtime = #{createtime}</if>
+            <if test="updateUser != null "> and update_user = #{updateUser}</if>
+            <if test="remarks != null  and remarks != ''"> and remarks = #{remarks}</if>
+            <if test="isDel != null "> and is_del = #{isDel}</if>
+        </where>
+    </select>
+    
+    <select id="selectTbSysOfficeById" parameterType="Long" resultMap="TbSysOfficeResult">
+        <include refid="selectTbSysOfficeVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertTbSysOffice" parameterType="com.littlemoth.system.domain.TbSysOffice" useGeneratedKeys="true" keyProperty="id">
+        insert into tb_sys_office
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="parentId != null and parentId != ''">parent_id,</if>
+            <if test="parentIds != null and parentIds != ''">parent_ids,</if>
+            <if test="name != null and name != ''">name,</if>
+            <if test="sort != null">sort,</if>
+            <if test="areaId != null and areaId != ''">area_id,</if>
+            <if test="code != null">code,</if>
+            <if test="type != null and type != ''">type,</if>
+            <if test="grade != null and grade != ''">grade,</if>
+            <if test="address != null">address,</if>
+            <if test="zipCode != null">zip_code,</if>
+            <if test="master != null">master,</if>
+            <if test="phone != null">phone,</if>
+            <if test="fax != null">fax,</if>
+            <if test="email != null">email,</if>
+            <if test="useable != null">USEABLE,</if>
+            <if test="primaryPerson != null">PRIMARY_PERSON,</if>
+            <if test="deputyPerson != null">DEPUTY_PERSON,</if>
+            <if test="creator != null">creator,</if>
+            <if test="createtime != null">createtime,</if>
+            <if test="updateUser != null">update_user,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remarks != null">remarks,</if>
+            <if test="isDel != null">is_del,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="parentId != null and parentId != ''">#{parentId},</if>
+            <if test="parentIds != null and parentIds != ''">#{parentIds},</if>
+            <if test="name != null and name != ''">#{name},</if>
+            <if test="sort != null">#{sort},</if>
+            <if test="areaId != null and areaId != ''">#{areaId},</if>
+            <if test="code != null">#{code},</if>
+            <if test="type != null and type != ''">#{type},</if>
+            <if test="grade != null and grade != ''">#{grade},</if>
+            <if test="address != null">#{address},</if>
+            <if test="zipCode != null">#{zipCode},</if>
+            <if test="master != null">#{master},</if>
+            <if test="phone != null">#{phone},</if>
+            <if test="fax != null">#{fax},</if>
+            <if test="email != null">#{email},</if>
+            <if test="useable != null">#{useable},</if>
+            <if test="primaryPerson != null">#{primaryPerson},</if>
+            <if test="deputyPerson != null">#{deputyPerson},</if>
+            <if test="creator != null">#{creator},</if>
+            <if test="createtime != null">#{createtime},</if>
+            <if test="updateUser != null">#{updateUser},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remarks != null">#{remarks},</if>
+            <if test="isDel != null">#{isDel},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTbSysOffice" parameterType="com.littlemoth.system.domain.TbSysOffice">
+        update tb_sys_office
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="parentId != null and parentId != ''">parent_id = #{parentId},</if>
+            <if test="parentIds != null and parentIds != ''">parent_ids = #{parentIds},</if>
+            <if test="name != null and name != ''">name = #{name},</if>
+            <if test="sort != null">sort = #{sort},</if>
+            <if test="areaId != null and areaId != ''">area_id = #{areaId},</if>
+            <if test="code != null">code = #{code},</if>
+            <if test="type != null and type != ''">type = #{type},</if>
+            <if test="grade != null and grade != ''">grade = #{grade},</if>
+            <if test="address != null">address = #{address},</if>
+            <if test="zipCode != null">zip_code = #{zipCode},</if>
+            <if test="master != null">master = #{master},</if>
+            <if test="phone != null">phone = #{phone},</if>
+            <if test="fax != null">fax = #{fax},</if>
+            <if test="email != null">email = #{email},</if>
+            <if test="useable != null">USEABLE = #{useable},</if>
+            <if test="primaryPerson != null">PRIMARY_PERSON = #{primaryPerson},</if>
+            <if test="deputyPerson != null">DEPUTY_PERSON = #{deputyPerson},</if>
+            <if test="creator != null">creator = #{creator},</if>
+            <if test="createtime != null">createtime = #{createtime},</if>
+            <if test="updateUser != null">update_user = #{updateUser},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remarks != null">remarks = #{remarks},</if>
+            <if test="isDel != null">is_del = #{isDel},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTbSysOfficeById" parameterType="Long">
+        delete from tb_sys_office where id = #{id}
+    </delete>
+
+    <delete id="deleteTbSysOfficeByIds" parameterType="String">
+        delete from tb_sys_office where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="getOfficeList" resultMap="TbSysOfficeResult">
+        <include refid="selectTbSysOfficeVo"/>
+        where update_time &gt; #{lastTime}
+    </select>
+</mapper>
