@@ -6,8 +6,8 @@ import "nprogress/nprogress.css"; // progress bar style
 import { getToken } from "@/utils/auth"; // get token from cookie
 import getPageTitle from "@/utils/get-page-title";
 import { getAsyncRoutes } from "@/utils/asyncRouter.js";
-import { getRole } from "@/api/user";
-// import menuListM from '@/router/menuList_Model' // 本地路由
+import { getRole } from "@/api/acount";
+import menuListM from '@/router/menuList_Model' // 本地路由
 
 // 是否动态添加过路由
 let asyncRouterFlag = 0;
@@ -21,7 +21,7 @@ router.beforeEach(async (to, from, next) => {
   document.title = getPageTitle(to.meta.title);
   // 获取token
   const hasToken = getToken();
-
+  console.log('hasToken', hasToken);
   /* 路由跳转判断*/
   if (whiteList.indexOf(to.path) !== -1) {
     // 需要跳转的路由是否是whiteList中的路由，若是，则直接跳转
@@ -34,11 +34,10 @@ router.beforeEach(async (to, from, next) => {
         asyncRouterFlag++;
         try {
           // 通过用户角色，获取到角色路由表
-          const { code, data } = await getRole();
-          console.log("路由表", code, data);
+          // const { code, data } = await getRole();
+          // const dataList = data;
           // 本地数据
-          // const dataList = menuListM
-          const dataList = data;
+          const dataList = menuListM
           //   格式化路由结构
           const accessRoutes = getAsyncRoutes(await dataList);
           //   存到vuex中，菜单栏需要

@@ -8,6 +8,14 @@ import resize from "./mixins/resize";
 export default {
   mixins: [resize],
   props: {
+    title: {
+      type: String,
+      default: "折线图",
+    },
+    color: {
+      type: String,
+      default: "yellowgreen",
+    },
     className: {
       type: String,
       default: "chart",
@@ -27,273 +35,111 @@ export default {
   },
   data() {
     return {
-      chart: null,
+      myCharts: null,
     };
   },
   mounted() {
     this.initChart();
   },
   beforeDestroy() {
-    if (!this.chart) {
+    if (!this.myCharts) {
       return;
     }
-    this.chart.dispose();
-    this.chart = null;
+    this.myCharts.dispose();
+    this.myCharts = null;
   },
   methods: {
     initChart() {
-      this.chart = echarts.init(document.getElementById(this.id));
-      this.chart.setOption({
-        backgroundColor: "#394056",
+      this.myCharts = echarts.init(document.getElementById(this.id));
+      this.myCharts.setOption({
         title: {
-          top: 20,
-          text: "Requests",
-          textStyle: {
-            fontWeight: "normal",
-            fontSize: 16,
-            color: "#F1F1F3",
-          },
-          left: "1%",
+          text: this.title,
         },
         tooltip: {
           trigger: "axis",
-          axisPointer: {
-            lineStyle: {
-              color: "#57617B",
-            },
+        },
+        toolbox: {
+          feature: {
+            saveAsImage: {},
           },
         },
         legend: {
-          top: 20,
-          icon: "rect",
-          itemWidth: 14,
-          itemHeight: 5,
-          itemGap: 13,
-          data: ["CMCC", "CTCC", "CUCC"],
-          right: "4%",
-          textStyle: {
-            fontSize: 12,
-            color: "#F1F1F3",
-          },
+          show: true,
         },
-        dataZoom: [
-          {
-            show: true,
-            height: 30,
-            xAxisIndex: [0],
-            bottom: 30,
-            start: 10,
-            end: 80,
-            handleIcon:
-              "path://M306.1,413c0,2.2-1.8,4-4,4h-59.8c-2.2,0-4-1.8-4-4V200.8c0-2.2,1.8-4,4-4h59.8c2.2,0,4,1.8,4,4V413z",
-            handleSize: "100%",
-            handleStyle: {
-              color: "#d3dee5",
-            },
-            textStyle: {
-              color: "#fff",
-            },
-            borderColor: "#90979c",
-          },
-          {
-            type: "inside",
-            show: true,
-            height: 15,
-            start: 1,
-            end: 35,
-          },
-        ],
-        grid: {
-          top: 100,
-          left: "2%",
-          right: "2%",
-          bottom: "2%",
-          containLabel: true,
+        dataZoom: {},
+        // 配置数据
+        xAxis: {
+          // 均分
+          type: "category",
+          boundaryGap: false,
+          data: [
+            "04:00",
+            "05:00",
+            "06:00",
+            "07:00",
+            "08:00",
+            "09:00",
+            "10:00",
+            "12:00",
+            "13:00",
+            "14:00",
+            "15:00",
+            "16:00",
+            "17:00",
+            "18:00",
+            "19:00",
+            "20:00",
+            "21:00",
+          ],
         },
-        xAxis: [
-          {
-            type: "category",
-            boundaryGap: false,
-            axisLine: {
-              lineStyle: {
-                color: "#57617B",
-              },
-            },
-            data: [
-              "13:00",
-              "13:05",
-              "13:10",
-              "13:15",
-              "13:20",
-              "13:25",
-              "13:30",
-              "13:35",
-              "13:40",
-              "13:45",
-              "13:50",
-              "13:55",
-            ],
-          },
-        ],
-        yAxis: [
-          {
-            type: "value",
-            name: "(%)",
-            axisTick: {
-              show: false,
-            },
-            axisLine: {
-              lineStyle: {
-                color: "#57617B",
-              },
-            },
-            axisLabel: {
-              margin: 10,
-              textStyle: {
-                fontSize: 14,
-              },
-            },
-            splitLine: {
-              lineStyle: {
-                color: "#57617B",
-              },
-            },
-          },
-        ],
+        yAxis: {
+          // 均分
+          type: "category",
+          type: "value",
+        },
         series: [
           {
-            name: "CMCC",
+            name: "客流量",
             type: "line",
-            smooth: true,
-            symbol: "circle",
-            symbolSize: 5,
-            showSymbol: false,
-            lineStyle: {
-              normal: {
-                width: 1,
-              },
-            },
-            areaStyle: {
-              normal: {
-                color: new echarts.graphic.LinearGradient(
-                  0,
-                  0,
-                  0,
-                  1,
-                  [
-                    {
-                      offset: 0,
-                      color: "rgba(137, 189, 27, 0.3)",
-                    },
-                    {
-                      offset: 0.8,
-                      color: "rgba(137, 189, 27, 0)",
-                    },
-                  ],
-                  false
-                ),
-                shadowColor: "rgba(0, 0, 0, 0.1)",
-                shadowBlur: 10,
-              },
-            },
+            data: [
+              75, 109, 48, 47, 93, 71, 86, 37, 21, 86, 18, 85, 25, 88, 103, 12,
+              42,
+            ],
+            // 拐点的样式设置
             itemStyle: {
-              normal: {
-                color: "rgb(137,189,27)",
-                borderColor: "rgba(137,189,2,0.27)",
-                borderWidth: 12,
-              },
+              opacity: 1,
+              color: "#34cccc",
             },
-            data: [220, 182, 191, 134, 150, 120, 110, 125, 145, 122, 165, 122],
+            // 线条样式
+            lineStyle: {
+              color: "#34cccc",
+            },
           },
           {
-            name: "CTCC",
+            name: "支付笔数",
             type: "line",
-            smooth: true,
-            symbol: "circle",
-            symbolSize: 5,
-            showSymbol: false,
-            lineStyle: {
-              normal: {
-                width: 1,
-              },
-            },
-            areaStyle: {
-              normal: {
-                color: new echarts.graphic.LinearGradient(
-                  0,
-                  0,
-                  0,
-                  1,
-                  [
-                    {
-                      offset: 0,
-                      color: "rgba(0, 136, 212, 0.3)",
-                    },
-                    {
-                      offset: 0.8,
-                      color: "rgba(0, 136, 212, 0)",
-                    },
-                  ],
-                  false
-                ),
-                shadowColor: "rgba(0, 0, 0, 0.1)",
-                shadowBlur: 10,
-              },
-            },
+            data: [
+              85, 56, 29, 43, 22, 108, 74, 90, 68, 109, 40, 72, 61, 74, 94, 61,
+              36,
+            ],
+            // 拐点的样式设置
             itemStyle: {
-              normal: {
-                color: "rgb(0,136,212)",
-                borderColor: "rgba(0,136,212,0.2)",
-                borderWidth: 12,
-              },
+              opacity: 1,
+              color: "#5dafff",
             },
-            data: [120, 110, 125, 145, 122, 165, 122, 220, 182, 191, 134, 150],
-          },
-          {
-            name: "CUCC",
-            type: "line",
-            smooth: true,
-            symbol: "circle",
-            symbolSize: 5,
-            showSymbol: false,
+            // 线条样式
             lineStyle: {
-              normal: {
-                width: 1,
-              },
+              color: "#5dafff",
             },
-            areaStyle: {
-              normal: {
-                color: new echarts.graphic.LinearGradient(
-                  0,
-                  0,
-                  0,
-                  1,
-                  [
-                    {
-                      offset: 0,
-                      color: "rgba(219, 50, 51, 0.3)",
-                    },
-                    {
-                      offset: 0.8,
-                      color: "rgba(219, 50, 51, 0)",
-                    },
-                  ],
-                  false
-                ),
-                shadowColor: "rgba(0, 0, 0, 0.1)",
-                shadowBlur: 10,
-              },
-            },
-            itemStyle: {
-              normal: {
-                color: "rgb(219,50,51)",
-                borderColor: "rgba(219,50,51,0.2)",
-                borderWidth: 12,
-              },
-            },
-            data: [220, 182, 125, 145, 122, 191, 134, 150, 120, 110, 165, 122],
           },
         ],
+        // 布局调试
+        grid: {
+          left: "3%",
+          right: "4%",
+          bottom: "3%",
+          containLabel: true,
+        },
       });
     },
   },

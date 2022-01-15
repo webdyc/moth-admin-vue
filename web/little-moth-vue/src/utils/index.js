@@ -1,4 +1,18 @@
 /**
+ * 检测是否为纯粹的对象
+ * @param {*} value 手机号
+ */
+export const isPlainObject = function isPlainObject(obj) {
+  let proto, Ctor;
+  if (!obj || Object.prototype.toString.call(obj) !== "[object Object]")
+    return false;
+  proto = Object.getPrototypeOf(obj);
+  if (!proto) return true;
+  Ctor = proto.hasOwnProperty("constructor") && proto.constructor;
+  return typeof Ctor === "function" && Ctor === Object;
+};
+
+/**
  * 将时间解析为字符串
  * @param {(Object|string|number)} time
  * @param {string} cFormat
@@ -48,6 +62,85 @@ export function parseTime(time, cFormat) {
   });
   return time_str;
 }
+
+/**
+ * 检测两个数组是否相同
+ * @param {*} value 数组
+ * @author webdyc
+ */
+export const equalsArray = function equalsArray(array1, array2) {
+  if (!array1 && !array2) return false;
+
+  if (array1.length != array2.length) return false;
+
+  for (var i = 0, l = array1.length; i < l; i++) {
+    if (array1[i] instanceof Array && array2[i] instanceof Array) {
+      if (!array1[i].equals(array2[i])) return false;
+    } else if (array1[i] != array2[i]) {
+      return false;
+    }
+  }
+  return true;
+};
+
+/**
+ * 检测两个对象是否相同
+ * @param {*} value 数组
+ * @author xiliankum
+ */
+export const equalsObject = function equalsObject(object1, object2) {
+  //For the first loop, we only check for types
+  for (let propName in object1) {
+    //Check for inherited methods and properties - like .equals itself
+    //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/hasOwnProperty
+    //Return false if the return value is different
+    if (object1.hasOwnProperty(propName) != object2.hasOwnProperty(propName)) {
+      return false;
+    }
+    //Check instance type
+    else if (typeof object1[propName] != typeof object2[propName]) {
+      //Different types => not equal
+      return false;
+    }
+  }
+  //Now a deeper check using other objects property names
+  for (let propName in object2) {
+    //We must check instances anyway, there may be a property that only exists in object2
+    //I wonder, if remembering the checked values from the first loop would be faster or not
+    if (object1.hasOwnProperty(propName) != object2.hasOwnProperty(propName)) {
+      return false;
+    } else if (typeof object1[propName] != typeof object2[propName]) {
+      return false;
+    }
+    //If the property is inherited, do not check any more (it must be equa if both objects inherit it)
+    if (!object1.hasOwnProperty(propName)) continue;
+
+    //Now the detail check and recursion
+
+    //This returns the script back to the array comparing
+    /**REQUIRES Array.equals**/
+    if (
+      object1[propName] instanceof Array &&
+      object2[propName] instanceof Array
+    ) {
+      // recurse into the nested arrays
+      if (!object1[propName].equals(object2[propName])) return false;
+    } else if (
+      object1[propName] instanceof Object &&
+      object2[propName] instanceof Object
+    ) {
+      // recurse into another objects
+      //console.log("Recursing to compare ", this[propName],"with",object2[propName], " both named \""+propName+"\"");
+      if (!object1[propName].equals(object2[propName])) return false;
+    }
+    //Normal value comparison for strings and numbers
+    else if (object1[propName] != object2[propName]) {
+      return false;
+    }
+  }
+  //If everything passed, let's say YES
+  return true;
+};
 
 /**
  * @param {number} time

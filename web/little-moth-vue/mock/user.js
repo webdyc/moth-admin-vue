@@ -105,6 +105,25 @@ const menuListM = [
     ],
   },
   {
+    path: "/mapManage",
+    component: "Layout",
+    redirect: "/aMap/index",
+    meta: {
+      title: "地图管理",
+      icon: "table",
+    },
+    children: [
+      {
+        path: "/aMap/index",
+        name: "aMap",
+        component: "/mapManage/aMap/index",
+        meta: {
+          title: "高德地图",
+        },
+      }
+    ],
+  },
+  {
     path: "/components",
     component: "Layout",
     redirect: "/tinymce/index",
