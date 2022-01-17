@@ -17,7 +17,7 @@ import com.littlemoth.common.utils.StringUtils;
  *
  * @author xusan
  */
-@Configuration
+//@Configuration
 public class FilterConfig
 {
     @Value("${xss.excludes}")

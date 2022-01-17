@@ -1,6 +1,7 @@
 package com.littlemoth.framework.web.service;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 import com.littlemoth.common.core.domain.model.TbSysUser;
@@ -55,7 +56,10 @@ public class SysPermissionService
     {
         Set<String> perms = new HashSet<String>();
         // 管理员拥有所有权限
-        if (user.isAdmin())
+        if (!Objects.nonNull(user)){
+            return perms;
+        }
+        else if (user.isAdmin())
         {
             perms.add("*:*:*");
         }
