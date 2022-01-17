@@ -16,14 +16,14 @@ export default [
   {
     path: "/",
     component: "Layout",
-    redirect: "/workplace",
+    redirect: "workplace",
     meta: {
       title: "工作台",
       icon: "table",
     },
     children: [
       {
-        path: "/workplace",
+        path: "workplace",
         name: "workplace",
         component: "/workplace/index",
         meta: {
@@ -194,17 +194,28 @@ export default [
     ],
   },
   {
-    path: "/menu",
+    path: "/systemManage",
     component: "Layout",
-    redirect: "/menu/index",
+    redirect: "role",
+    meta: {
+      title: "系统管理",
+      icon: "table",
+    },
     children: [
       {
-        path: "/menu/index",
+        path: "role",
+        name: "role",
+        component: "/systemManage/role/index",
+        meta: {
+          title: "角色管理",
+        },
+      },
+      {
+        path: "menu",
         name: "menu",
-        component: "/menu/index",
+        component: "/systemManage/menu/index",
         meta: {
           title: "菜单管理",
-          icon: "table",
         },
       },
     ],
