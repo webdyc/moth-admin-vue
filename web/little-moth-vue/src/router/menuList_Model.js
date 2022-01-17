@@ -16,6 +16,25 @@ export default [
   {
     path: "/",
     component: "Layout",
+    redirect: "/workplace",
+    meta: {
+      title: "工作台",
+      icon: "table",
+    },
+    children: [
+      {
+        path: "/workplace",
+        name: "workplace",
+        component: "/workplace/index",
+        meta: {
+          title: "工作台",
+        },
+      }
+    ],
+  },
+  {
+    path: "/dashboard",
+    component: "Layout",
     redirect: "dashboard/welcome",
     meta: {
       title: "仪表盘",
@@ -23,7 +42,7 @@ export default [
     },
     children: [
       {
-        path: "dashboard/welcome",
+        path: "welcome",
         name: "Welcome",
         component: "/dashboard/welcome/index",
         meta: {
@@ -31,7 +50,7 @@ export default [
         },
       },
       {
-        path: "dashboard/analysis",
+        path: "analysis",
         name: "analysis",
         component: "/dashboard/analysis/index",
         meta: {

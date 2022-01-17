@@ -10,11 +10,7 @@
  -->
 <template>
   <!-- 容器 -->
-  <div
-    :id="canvasId"
-    :class="className"
-    :style="{ height: height, width: width }"
-  />
+  <div :id="canvasId" :style="{ height: height, width: width }" />
 </template>
 
 <script>
@@ -31,10 +27,6 @@ export default {
     color: {
       type: String,
       default: "#67C23A",
-    },
-    className: {
-      type: String,
-      default: "ProgressCharts",
     },
     canvasId: {
       type: String,
