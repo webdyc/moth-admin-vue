@@ -5,12 +5,15 @@ import com.littlemoth.common.core.domain.AjaxResult;
 import com.littlemoth.common.core.domain.ResultData;
 import com.littlemoth.common.core.domain.entity.SysMenu;
 import com.littlemoth.common.core.domain.entity.SysUser;
+import com.littlemoth.common.core.domain.entity.TbSysMenu;
 import com.littlemoth.common.core.domain.model.LoginBody;
+import com.littlemoth.common.core.domain.model.LoginUser;
 import com.littlemoth.common.core.domain.model.TbSysUser;
 import com.littlemoth.common.utils.SecurityUtils;
 import com.littlemoth.framework.web.service.SysLoginService;
 import com.littlemoth.framework.web.service.SysPermissionService;
 import com.littlemoth.system.service.ISysMenuService;
+import com.littlemoth.system.service.ITbSysMenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.schema.Maps;
@@ -31,7 +34,8 @@ public class SysLoginController
     private SysLoginService loginService;
 
     @Autowired
-    private ISysMenuService menuService;
+    private ITbSysMenuService iTbSysMenuService;
+
 
     @Autowired
     private SysPermissionService permissionService;
@@ -79,10 +83,12 @@ public class SysLoginController
      * @return 路由信息
      */
     @GetMapping("getRouters")
-    public AjaxResult getRouters()
+    public ResultData getRouters()
     {
-        Long userId = SecurityUtils.getUserId();
-        List<SysMenu> menus = menuService.selectMenuTreeByUserId(userId);
-        return AjaxResult.success(menuService.buildMenus(menus));
+        //获取用户
+        LoginUser loginUser = SecurityUtils.getLoginUser();
+        List<TbSysMenu> menuList = iTbSysMenuService.selectMenuTreeByUserId(loginUser);
+        return ResultData.success(iTbSysMenuService.buildMenus(menuList,null));
+
     }
 }

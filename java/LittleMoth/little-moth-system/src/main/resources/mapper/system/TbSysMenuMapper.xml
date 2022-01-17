@@ -4,7 +4,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.littlemoth.system.mapper.TbSysMenuMapper">
     
-    <resultMap type="com.littlemoth.system.domain.TbSysMenu" id="TbSysMenuResult">
+    <resultMap type="com.littlemoth.common.core.domain.entity.TbSysMenu" id="TbSysMenuResult">
         <result property="id"    column="id"    />
         <result property="name"    column="name"    />
         <result property="parentId"    column="parent_id"    />
@@ -33,7 +33,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select id, name, parent_id, parent_ids, path, component, redirect, breadcrumb, keep_alive,  sort, menu_type, href, target, icon, is_show, permis, creator, create_time, update_user, update_time, remarks, is_del from tb_sys_menu
     </sql>
 
-    <select id="selectTbSysMenuList" parameterType="com.littlemoth.system.domain.TbSysMenu" resultMap="TbSysMenuResult">
+    <select id="selectTbSysMenuList" parameterType="com.littlemoth.common.core.domain.entity.TbSysMenu" resultMap="TbSysMenuResult">
         <include refid="selectTbSysMenuVo"/>
         <where>  
             <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
@@ -58,13 +58,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="isDel != null "> and is_del = #{isDel}</if>
         </where>
     </select>
-    
+    <select id="selectTbSysMenuListByMenuType" parameterType="com.littlemoth.common.core.domain.entity.TbSysMenu" resultMap="TbSysMenuResult">
+        <include refid="selectTbSysMenuVo"/>
+        where menu_type IN ( 'M', 'C' )
+    </select>
     <select id="selectTbSysMenuById" parameterType="Long" resultMap="TbSysMenuResult">
         <include refid="selectTbSysMenuVo"/>
         where id = #{id}
     </select>
         
-    <insert id="insertTbSysMenu" parameterType="com.littlemoth.system.domain.TbSysMenu">
+    <insert id="insertTbSysMenu" parameterType="com.littlemoth.common.core.domain.entity.TbSysMenu">
         insert into tb_sys_menu
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">id,</if>
@@ -116,7 +119,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          </trim>
     </insert>
 
-    <update id="updateTbSysMenu" parameterType="com.littlemoth.system.domain.TbSysMenu">
+    <update id="updateTbSysMenu" parameterType="com.littlemoth.common.core.domain.entity.TbSysMenu">
         update tb_sys_menu
         <trim prefix="SET" suffixOverrides=",">
             <if test="name != null">name = #{name},</if>
@@ -155,7 +158,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </foreach>
     </delete>
 
-    <select id="checkMenuNameUnique" parameterType="com.littlemoth.system.domain.TbSysMenu" resultMap="TbSysMenuResult">
+    <select id="checkMenuNameUnique" parameterType="com.littlemoth.common.core.domain.entity.TbSysMenu" resultMap="TbSysMenuResult">
         <include refid="selectTbSysMenuVo"/>
         where name=#{menuName} and parent_id = #{parentId} limit 1
     </select>

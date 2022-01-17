@@ -1,6 +1,6 @@
 package com.littlemoth.system.mapper;
 
-import com.littlemoth.system.domain.TbSysMenu;
+import com.littlemoth.common.core.domain.entity.TbSysMenu;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -32,6 +32,14 @@ public interface TbSysMenuMapper
      * @return 菜单集合
      */
     public List<TbSysMenu> selectTbSysMenuList(TbSysMenu tbSysMenu);
+
+    /**
+     * 查询菜单列表 根据MenuType
+     *
+     * @param tbSysMenu 菜单
+     * @return 菜单集合
+     */
+    public List<TbSysMenu> selectTbSysMenuListByMenuType(TbSysMenu tbSysMenu);
 
     /**
      * 新增菜单
@@ -89,6 +97,5 @@ public interface TbSysMenuMapper
      * @return 菜单列表
      */
     public List<TbSysMenu> selectMenuTreeByUserId(Long userId);
-
 
 }

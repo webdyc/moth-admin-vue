@@ -4,7 +4,10 @@ import java.util.List;
 import java.util.Set;
 import com.littlemoth.common.core.domain.TreeSelect;
 import com.littlemoth.common.core.domain.entity.SysMenu;
+import com.littlemoth.common.core.domain.entity.TbSysMenu;
+import com.littlemoth.common.core.domain.model.LoginUser;
 import com.littlemoth.system.domain.vo.RouterVo;
+import com.littlemoth.system.domain.vo.TbRouterVo;
 
 /**
  * 菜单 业务层
@@ -38,13 +41,14 @@ public interface ISysMenuService
      */
     public Set<String> selectMenuPermsByUserId(Long userId);
 
+
     /**
      * 根据用户ID查询菜单树信息
-     * 
-     * @param userId 用户ID
+     *
+     * @param loginUser 用户ID
      * @return 菜单列表
      */
-    public List<SysMenu> selectMenuTreeByUserId(Long userId);
+    public List<TbSysMenu> selectMenuTreeByUserId(LoginUser loginUser);
 
     /**
      * 根据角色ID查询菜单树信息
@@ -56,19 +60,20 @@ public interface ISysMenuService
 
     /**
      * 构建前端路由所需要的菜单
-     * 
+     *
      * @param menus 菜单列表
      * @return 路由列表
      */
-    public List<RouterVo> buildMenus(List<SysMenu> menus);
+    public List<TbRouterVo> buildMenus(List<TbSysMenu> menus,String[] target);
+
 
     /**
      * 构建前端所需要树结构
-     * 
+     *
      * @param menus 菜单列表
      * @return 树结构列表
      */
-    public List<SysMenu> buildMenuTree(List<SysMenu> menus);
+    public List<TbSysMenu> buildMenuTree(List<TbSysMenu> menus);
 
     /**
      * 构建前端所需要下拉树结构
@@ -76,7 +81,7 @@ public interface ISysMenuService
      * @param menus 菜单列表
      * @return 下拉树结构列表
      */
-    public List<TreeSelect> buildMenuTreeSelect(List<SysMenu> menus);
+    public List<TreeSelect> buildMenuTreeSelect(List<TbSysMenu> menus);
 
     /**
      * 根据菜单ID查询信息

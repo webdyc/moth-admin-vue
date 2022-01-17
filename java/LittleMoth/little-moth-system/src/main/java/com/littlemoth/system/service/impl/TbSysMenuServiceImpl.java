@@ -1,12 +1,13 @@
 package com.littlemoth.system.service.impl;
 
 import com.littlemoth.common.constant.UserConstants;
+import com.littlemoth.common.core.domain.TreeSelect;
 import com.littlemoth.common.core.domain.entity.SysMenu;
+import com.littlemoth.common.core.domain.entity.TbSysMenu;
 import com.littlemoth.common.core.domain.model.LoginUser;
 import com.littlemoth.common.core.domain.model.TbSysUser;
 import com.littlemoth.common.utils.DateUtils;
 import com.littlemoth.common.utils.SecurityUtils;
-import com.littlemoth.system.domain.TbSysMenu;
 import com.littlemoth.system.domain.vo.TbMetaVo;
 import com.littlemoth.system.domain.vo.TbRouterVo;
 import com.littlemoth.system.mapper.TbSysMenuMapper;
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 菜单Service业务层处理
@@ -54,6 +56,29 @@ public class TbSysMenuServiceImpl implements ITbSysMenuService {
     }
 
     /**
+     * 查询系统菜单列表
+     *
+     * @param menu 菜单信息
+     * @return 菜单列表
+     */
+    @Override
+    public List<TbSysMenu> selectTbSysMenuList(TbSysMenu menu, Long userId)
+    {
+        List<TbSysMenu> menuList = null;
+        // 管理员显示所有菜单信息
+        if (TbSysUser.isAdmin(userId))
+        {
+            menuList = tbSysMenuMapper.selectTbSysMenuListByMenuType(menu);
+        }
+        else
+        {
+//            menu.getParams().put("userId", userId); 后期扩展
+            menuList = tbSysMenuMapper.selectMenuTreeByUserId(userId);
+        }
+        return menuList;
+    }
+
+    /**
      * 新增菜单
      *
      * @param tbSysMenu 菜单
@@ -75,6 +100,53 @@ public class TbSysMenuServiceImpl implements ITbSysMenuService {
     public int updateTbSysMenu(TbSysMenu tbSysMenu) {
         tbSysMenu.setUpdateTime(DateUtils.getNowDate());
         return tbSysMenuMapper.updateTbSysMenu(tbSysMenu);
+    }
+
+
+    /**
+     * 构建前端所需要树结构
+     *
+     * @param menus 菜单列表
+     * @return 树结构列表
+     */
+    @Override
+    public List<TbSysMenu> buildMenuTree(List<TbSysMenu> menus)
+    {
+        List<TbSysMenu> returnList = new ArrayList<TbSysMenu>();
+        List<Long> tempList = new ArrayList<Long>();
+        for (TbSysMenu dept : menus)
+        {
+            tempList.add(dept.getId());
+        }
+        for (Iterator<TbSysMenu> iterator = menus.iterator(); iterator.hasNext();)
+        {
+            TbSysMenu menu = (TbSysMenu) iterator.next();
+            // 如果是顶级节点, 遍历该父节点的所有子节点
+            if (!tempList.contains(Long.parseLong(menu.getParentId())))
+            {
+                recursionFn(menus, menu);
+                returnList.add(menu);
+            }
+        }
+        if (returnList.isEmpty())
+        {
+            returnList = menus;
+        }
+        return returnList;
+    }
+
+
+    /**
+     * 构建前端所需要下拉树结构
+     *
+     * @param menus 菜单列表
+     * @return 下拉树结构列表
+     */
+    @Override
+    public List<TreeSelect> buildMenuTreeSelect(List<TbSysMenu> menus)
+    {
+        List<TbSysMenu> menuTrees = buildMenuTree(menus);
+        return menuTrees.stream().map(TreeSelect::new).collect(Collectors.toList());
     }
 
     /**

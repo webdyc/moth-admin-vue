@@ -1,4 +1,4 @@
-package com.littlemoth.system.domain;
+package com.littlemoth.common.core.domain.entity;
 
 import com.littlemoth.common.core.domain.BaseEntity;
 import org.apache.commons.lang3.builder.ToStringBuilder;

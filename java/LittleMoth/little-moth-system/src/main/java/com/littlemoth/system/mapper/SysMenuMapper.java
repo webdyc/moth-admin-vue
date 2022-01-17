@@ -1,6 +1,8 @@
 package com.littlemoth.system.mapper;
 
 import java.util.List;
+
+import com.littlemoth.common.core.domain.entity.TbSysMenu;
 import org.apache.ibatis.annotations.Param;
 import com.littlemoth.common.core.domain.entity.SysMenu;
 
@@ -47,7 +49,7 @@ public interface SysMenuMapper
      *
      * @return 菜单列表
      */
-    public List<SysMenu> selectMenuTreeAll();
+    public List<TbSysMenu> selectMenuTreeAll();
 
     /**
      * 根据用户ID查询菜单
@@ -55,7 +57,7 @@ public interface SysMenuMapper
      * @param userId 用户ID
      * @return 菜单列表
      */
-    public List<SysMenu> selectMenuTreeByUserId(Long userId);
+    public List<TbSysMenu> selectMenuTreeByUserId(Long userId);
 
     /**
      * 根据角色ID查询菜单树信息

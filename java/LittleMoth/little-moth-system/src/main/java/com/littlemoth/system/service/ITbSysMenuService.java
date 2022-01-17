@@ -1,7 +1,8 @@
 package com.littlemoth.system.service;
 
+import com.littlemoth.common.core.domain.TreeSelect;
+import com.littlemoth.common.core.domain.entity.TbSysMenu;
 import com.littlemoth.common.core.domain.model.LoginUser;
-import com.littlemoth.system.domain.TbSysMenu;
 import com.littlemoth.system.domain.vo.TbRouterVo;
 
 import java.util.List;
@@ -31,6 +32,15 @@ public interface ITbSysMenuService
     public List<TbSysMenu> selectTbSysMenuList(TbSysMenu tbSysMenu);
 
     /**
+     * 根据用户查询系统菜单列表
+     *
+     * @param menu 菜单信息
+     * @param userId 用户ID
+     * @return 菜单列表
+     */
+    public List<TbSysMenu> selectTbSysMenuList(TbSysMenu menu, Long userId);
+
+    /**
      * 新增菜单
      * 
      * @param tbSysMenu 菜单
@@ -45,6 +55,25 @@ public interface ITbSysMenuService
      * @return 结果
      */
     public int updateTbSysMenu(TbSysMenu tbSysMenu);
+
+    /**
+     * 构建前端所需要树结构
+     *
+     * @param menus 菜单列表
+     * @return 树结构列表
+     */
+    public List<TbSysMenu> buildMenuTree(List<TbSysMenu> menus);
+
+
+
+
+    /**
+     * 构建前端所需要下拉树结构
+     *
+     * @param menus 菜单列表
+     * @return 下拉树结构列表
+     */
+    public List<TreeSelect> buildMenuTreeSelect(List<TbSysMenu> menus);
 
     /**
      * 批量删除菜单

@@ -55,7 +55,8 @@ public class SysMenuController extends BaseController
     public AjaxResult treeselect(SysMenu menu)
     {
         List<SysMenu> menus = menuService.selectMenuList(menu, getUserId());
-        return AjaxResult.success(menuService.buildMenuTreeSelect(menus));
+//        return AjaxResult.success(menuService.buildMenuTreeSelect(menus));
+        return null;
     }
 
     /**
@@ -67,7 +68,7 @@ public class SysMenuController extends BaseController
         List<SysMenu> menus = menuService.selectMenuList(getUserId());
         AjaxResult ajax = AjaxResult.success();
         ajax.put("checkedKeys", menuService.selectMenuListByRoleId(roleId));
-        ajax.put("menus", menuService.buildMenuTreeSelect(menus));
+//        ajax.put("menus", menuService.buildMenuTreeSelect(menus));
         return ajax;
     }
 

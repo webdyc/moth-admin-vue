@@ -3,8 +3,8 @@ package com.littlemoth.web.controller.system;
 import com.littlemoth.common.constant.UserConstants;
 import com.littlemoth.common.core.controller.BaseController;
 import com.littlemoth.common.core.domain.ResultData;
+import com.littlemoth.common.core.domain.entity.TbSysMenu;
 import com.littlemoth.common.core.page.TableDataInfo;
-import com.littlemoth.system.domain.TbSysMenu;
 import com.littlemoth.system.service.ITbSysMenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -50,6 +50,15 @@ public class TbSysMenuController extends BaseController
         return getDataTable(list);
     }
 
+    /**
+     * 获取菜单下拉树列表
+     */
+    @GetMapping("/treeselect")
+    public ResultData treeselect(TbSysMenu menu)
+    {
+        List<TbSysMenu> menus = tbSysMenuService.selectTbSysMenuList(menu, getUserId());
+        return ResultData.success(tbSysMenuService.buildMenuTreeSelect(menus));
+    }
 
     /**
      * 获取菜单详细信息
