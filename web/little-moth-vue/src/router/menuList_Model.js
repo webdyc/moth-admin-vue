@@ -178,6 +178,21 @@ export default [
     ],
   },
   {
+    path: "/questionnaire",
+    component: "Layout",
+    children: [
+      {
+        path: "questionnaire",
+        name: "questionnaire",
+        component: "/questionnaire/index",
+        meta: {
+          title: "问卷管理",
+          icon: "example",
+        },
+      },
+    ],
+  },
+  {
     path: "/flowDiagram",
     component: "Layout",
     redirect: "/flowDiagram/x6Flow",
