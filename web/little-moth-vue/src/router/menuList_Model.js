@@ -60,38 +60,6 @@ export default [
     ],
   },
   {
-    path: "/personalManage",
-    component: "Layout",
-    redirect: "personalManage",
-    children: [
-      {
-        path: "personalManage",
-        name: "personalManage",
-        component: "/personalManage/index",
-        meta: {
-          title: "个人中心",
-          icon: "example",
-        },
-      },
-    ],
-  },
-  {
-    path: "/mapManage",
-    component: "Layout",
-    redirect: "mapManage/aMap",
-    children: [
-      {
-        path: "mapManage/aMap",
-        name: "mapManage/aMap",
-        component: "/mapManage/aMap/index",
-        meta: {
-          title: "地图管理",
-          icon: "example",
-        },
-      },
-    ],
-  },
-  {
     path: "/tabel",
     component: "Layout",
     redirect: "/tabel/index",
@@ -194,28 +162,17 @@ export default [
     ],
   },
   {
-    path: "/systemManage",
+    path: "/mapManage",
     component: "Layout",
-    redirect: "role",
-    meta: {
-      title: "系统管理",
-      icon: "table",
-    },
+    redirect: "mapManage/aMap",
     children: [
       {
-        path: "role",
-        name: "role",
-        component: "/systemManage/role/index",
+        path: "mapManage/aMap",
+        name: "mapManage/aMap",
+        component: "/mapManage/aMap/index",
         meta: {
-          title: "角色管理",
-        },
-      },
-      {
-        path: "menu",
-        name: "menu",
-        component: "/systemManage/menu/index",
-        meta: {
-          title: "菜单管理",
+          title: "地图管理",
+          icon: "example",
         },
       },
     ],
@@ -241,6 +198,85 @@ export default [
         component: "/flowDiagram/logicFlow/index",
         meta: {
           title: "logicFlow流程图",
+        },
+      },
+    ],
+  },
+  {
+    path: "/personalManage",
+    component: "Layout",
+    redirect: "personal",
+    meta: {
+      title: "个人信息",
+      icon: "example",
+    },
+    children: [
+      {
+        path: "personal",
+        name: "personal",
+        component: "/personalManage/personal/index",
+        meta: {
+          title: "个人中心",
+        },
+      },
+      {
+        path: "personalSetting",
+        name: "personalSetting",
+        component: "/personalManage/personalSetting/index",
+        redirect: "personalSetting/base",
+        meta: {
+          title: "个人设置",
+        },
+        children: [
+          {
+            hidden: true,
+            path: "base",
+            name: "personalSettingBase",
+            component: "/personalManage/personalSetting/base/index",
+            meta: {
+              title: "基础设置",
+              breadcrumb: false,
+              keepAlive: true,
+            },
+          },
+          {
+            hidden: true,
+            path: "security",
+            name: "personalSettingSecurity",
+            component: "/personalManage/personalSetting/security/index",
+            meta: {
+              title: "安全设置",
+              breadcrumb: false,
+              keepAlive: true,
+            },
+          },
+        ],
+      },
+    ],
+  },
+  {
+    path: "/systemManage",
+    component: "Layout",
+    redirect: "role",
+    meta: {
+      title: "系统管理",
+      icon: "table",
+    },
+    children: [
+      {
+        path: "role",
+        name: "role",
+        component: "/systemManage/role/index",
+        meta: {
+          title: "角色管理",
+        },
+      },
+      {
+        path: "menu",
+        name: "menu",
+        component: "/systemManage/menu/index",
+        meta: {
+          title: "菜单管理",
         },
       },
     ],

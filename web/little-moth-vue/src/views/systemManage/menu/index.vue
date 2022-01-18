@@ -548,7 +548,7 @@ export default {
   created() {},
   mounted() {
     let a = menu_treeselect().then((res) => res);
-    console.log();
+    console.log(a);
   },
   methods: {
     // 筛选项提交
