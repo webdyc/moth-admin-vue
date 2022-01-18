@@ -206,6 +206,7 @@ export default {
         // this.initMap();
       });
     },
+    // 行车路线
     getDriving() {
       let _this = this;
       let { lng, lat } = this.userLocation;
