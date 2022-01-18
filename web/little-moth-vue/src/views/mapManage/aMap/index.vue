@@ -132,7 +132,7 @@ export default {
       });
       // 将创建的点标记添加到已有的地图实例：
       this.map.add(locationList);
-      this.initMap(pois[0].location);
+      this.map.setCenter([pois[0].location.lng, pois[0].location.lat]);
     },
     // 获取用户地理位置信息
     getUserLocation() {
