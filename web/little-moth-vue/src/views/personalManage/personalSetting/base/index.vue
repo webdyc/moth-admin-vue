@@ -2,22 +2,27 @@
   <div>
     <div class="title">基础设置</div>
     <div class="content">
-      <el-form class="content-form" ref="form" :model="form" label-width="80px">
+      <el-form
+        class="content-form"
+        ref="updateForm"
+        :model="updateForm"
+        label-width="80px"
+      >
         <el-form-item label="email">
-          <el-input v-model="form.name" :size="styleSize"></el-input>
+          <el-input v-model="updateForm.email" :size="styleSize"></el-input>
         </el-form-item>
         <el-form-item label="用户名">
-          <el-input v-model="form.name" :size="styleSize"></el-input>
+          <el-input v-model="updateForm.name" :size="styleSize"></el-input>
         </el-form-item>
         <el-form-item label="性别">
-          <el-radio-group v-model="form.resource" :size="styleSize">
+          <el-radio-group v-model="updateForm.sex" :size="styleSize">
             <el-radio label="男"></el-radio>
             <el-radio label="女"></el-radio>
           </el-radio-group>
         </el-form-item>
         <el-form-item label="国家/地区">
           <el-select
-            v-model="form.region"
+            v-model="updateForm.country"
             placeholder="请选择"
             :size="styleSize"
           >
@@ -26,7 +31,7 @@
         </el-form-item>
         <el-form-item label="省或市">
           <el-select
-            v-model="form.region"
+            v-model="updateForm.city"
             placeholder="请选择省或市"
             :size="styleSize"
           >
@@ -35,12 +40,12 @@
           </el-select>
         </el-form-item>
         <el-form-item label="街道地址">
-          <el-input v-model="form.name" :size="styleSize"></el-input>
+          <el-input v-model="updateForm.district" :size="styleSize"></el-input>
         </el-form-item>
         <el-form-item label="个人简介">
           <el-input
             type="textarea"
-            v-model="form.desc"
+            v-model="updateForm.desc"
             placeholder="自我介绍"
           ></el-input>
         </el-form-item>
@@ -59,20 +64,20 @@ import defaultSettings from "@/settings";
 class PersonForm {
   // 值
   constructor() {
-    // 身份证
-    this.care_id = "";
+    // email
+    this.email = "";
     // 用户名
-    this.username = "";
-    // 真实姓名
-    this.truename = "";
-    // 手机号
-    this.phone = "";
-    // 密码（加密）
-    this.password = "";
-    // 角色类型
-    this.role = "";
-    // 禁启用（true：启用，false：禁用）
-    this.status = false;
+    this.name = "";
+    // 性别
+    this.sex = "";
+    // 国家/地区
+    this.country = "";
+    // 省或市
+    this.city = "";
+    // 街道地址
+    this.district = "";
+    // 个人简介
+    this.desc = "";
   }
   // 验证方法
   static getRule() {
@@ -90,16 +95,6 @@ export default {
       updateFormLoading: false,
       updateForm: new PersonForm(),
       updateFormRules: PersonForm.getRule(),
-      form: {
-        name: "",
-        region: "",
-        date1: "",
-        date2: "",
-        delivery: false,
-        type: [],
-        resource: "",
-        desc: "",
-      },
     };
   },
   methods: {
@@ -120,5 +115,8 @@ export default {
 .content {
   display: flex;
   padding-top: 12px;
+  .content-form {
+    width: 314px;
+  }
 }
 </style>
