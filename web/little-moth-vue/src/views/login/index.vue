@@ -78,7 +78,7 @@ class PersonForm {
   // 值
   constructor() {
     // 客户姓名
-    this.username = "admin";
+    this.username = "webdyc";
     // 客户号码
     this.password = "admin123";
     // 备用号码
@@ -141,9 +141,11 @@ export default {
     },
     // 获取验证码
     async getCode() {
-      let { img, uuid } = await sendCode();
-      this.codeUrl = "data:image/png;base64," + img;
-      this.dataFrom.uuid = uuid;
+      let { code, data } = await sendCode();
+      if (code === 200) {
+        this.codeUrl = "data:image/png;base64," + data.img;
+        this.dataFrom.uuid = data.uuid;
+      }
     },
     // 登录
     handleLogin() {
@@ -157,6 +159,7 @@ export default {
               this.loading = false;
             })
             .catch(() => {
+              this.getCode();
               this.loading = false;
             });
         } else {

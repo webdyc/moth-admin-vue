@@ -265,6 +265,7 @@
 <script>
 import defaultSettings from "@/settings";
 import elDragDialog from "@/directive/el-drag-dialog";
+import { menu_treeselect } from "@/api/systemManage/menu";
 // 路由表
 const menuListM = [
   {
@@ -545,7 +546,10 @@ export default {
     };
   },
   created() {},
-  mounted() {},
+  mounted() {
+    let a = menu_treeselect().then((res) => res);
+    console.log(a);
+  },
   methods: {
     // 筛选项提交
     handleSearch() {

@@ -7,11 +7,7 @@
  */
  -->
 <template>
-  <div
-    :id="canvasId"
-    :class="className"
-    :style="{ height: height, width: width }"
-  />
+  <div :id="canvasId" :style="{ height: height, width: width }" />
 </template>
 
 <script>
@@ -22,11 +18,11 @@ export default {
   props: {
     title: {
       type: String,
-      default: "饼状图",
+      default: "",
     },
     canvasId: {
       type: String,
-      default: "chart",
+      default: "RadarMarker",
     },
     width: {
       type: String,
@@ -69,42 +65,49 @@ export default {
       this.myCharts.setOption({
         title: {
           text: this.title,
-          left: "left",
-        },
-        tooltip: {
-          trigger: "item",
         },
         legend: {
-          right: "right",
+          data: [],
+        },
+        radar: {
+          //   shape: "circle",
+          indicator: [
+            { name: "引用", max: 6500 },
+            { name: "口碑", max: 16000 },
+            { name: "产量", max: 30000 },
+            { name: "贡献", max: 38000 },
+            { name: "热度", max: 52000 },
+          ],
         },
         series: [
           {
-            name: this.title,
-            type: "pie",
-            radius: ["40%", "65%"],
-            avoidLabelOverlap: false,
-            itemStyle: {
-              borderRadius: 0,
-              borderColor: "#fff",
-              borderWidth: 1,
-            },
-            label: {
-              show: true,
-              position: "outside",
-            },
-            labelLine: {
-              show: true,
-            },
+            name: "Budget vs spending",
+            type: "radar",
             data: [
-              { value: 1048, name: "家用电器" },
-              { value: 735, name: "实用酒水" },
-              { value: 580, name: "个护健康" },
-              { value: 484, name: "服饰箱包" },
-              { value: 300, name: "母婴产品" },
-              { value: 600, name: "其他" },
+              {
+                value: [4200, 3000, 20000, 35000, 50000],
+                name: "个人",
+              },
+              {
+                value: [5000, 14000, 28000, 26000, 42000],
+                name: "团队",
+              },
+              {
+                value: [2000, 16000, 16000, 16000, 16000],
+                name: "部门",
+              },
             ],
           },
         ],
+        // 布局调试
+        grid: {
+          left: 0,
+          top: 0,
+          right: 0,
+          bottom: 0,
+        },
+        // 提示信息
+        tooltip: {},
       });
     },
   },

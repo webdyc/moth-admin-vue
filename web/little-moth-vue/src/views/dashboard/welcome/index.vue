@@ -26,33 +26,10 @@
           <div class="account-center-tags">
             <div class="tagsTitle">标签</div>
             <div class="mt-1">
-              <el-tag
-                v-for="tag in dynamicTags"
-                :key="tag"
-                size="small"
-                closable
-                :disable-transitions="false"
-                @close="handleClose(tag)"
-              >
-                {{ tag }}
-              </el-tag>
-              <el-input
-                v-if="inputVisible"
-                ref="saveTagInput"
-                v-model="inputValue"
-                class="input-new-tag"
-                size="small"
-                @keyup.enter.native="handleInputConfirm"
-                @blur="handleInputConfirm"
-              />
-              <el-button
-                v-else
-                class="button-new-tag"
-                size="small"
-                @click="showInput"
-              >
-                + 新增
-              </el-button>
+              <CustomTags
+                :dataList="navTags"
+                @callBack="tagsChange"
+              ></CustomTags>
             </div>
           </div>
         </el-card>
@@ -75,38 +52,22 @@
 </template>
 
 <script>
+import CustomTags from "@/components/CustomTags";
 export default {
   data() {
     return {
-      filterText: "",
       activeName: "first",
-      dynamicTags: ["标签一", "标签二", "标签三"],
-      inputVisible: false,
-      inputValue: "",
+      navTags: ["标签一", "标签二", "标签三"],
     };
   },
   watch: {},
-
+  components: { CustomTags },
   methods: {
     handleClick() {},
-    handleClose(tag) {
-      this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
-    },
-
-    showInput() {
-      this.inputVisible = true;
-      this.$nextTick((_) => {
-        this.$refs.saveTagInput.$refs.input.focus();
-      });
-    },
-
-    handleInputConfirm() {
-      const inputValue = this.inputValue;
-      if (inputValue) {
-        this.dynamicTags.push(inputValue);
-      }
-      this.inputVisible = false;
-      this.inputValue = "";
+    // 自定义标签返回函数
+    tagsChange(data) {
+      console.log(data);
+      this.navTags = data;
     },
   },
 };
@@ -153,22 +114,6 @@ export default {
       }
     }
     .account-center-tags {
-      .el-tag + .el-tag {
-        margin-left: 10px;
-        margin-bottom: 8px;
-      }
-      .button-new-tag {
-        margin-left: 10px;
-        height: 32px;
-        line-height: 30px;
-        padding-top: 0;
-        padding-bottom: 0;
-      }
-      .input-new-tag {
-        width: 90px;
-        margin-left: 10px;
-        vertical-align: bottom;
-      }
     }
   }
   .tabs-center {
