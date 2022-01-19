@@ -1,6 +1,6 @@
 package com.littlemoth.system.mapper;
 
-import com.littlemoth.system.domain.TbSysOffice;
+import com.littlemoth.common.core.domain.TbSysOffice;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * 机构Mapper接口
  * 
- * @author jiyanjie
+ * @author xusan
  * @date 2022-01-12
  */
 @Repository

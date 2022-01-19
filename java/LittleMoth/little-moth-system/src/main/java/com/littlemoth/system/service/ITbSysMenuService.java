@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * 菜单Service接口
  * 
- * @author jiyanjie
+ * @author xusan
  * @date 2022-01-12
  */
 public interface ITbSysMenuService 

@@ -50,6 +50,13 @@ public class TreeSelect implements Serializable
         this.children = menu.getChildren().stream().map(TreeSelect::new).collect(Collectors.toList());
     }
 
+    public TreeSelect(TbSysOffice office) {
+        this.id = office.getId();
+        this.value = office.getId();
+        this.label = office.getName();
+        this.children = office.getChildren().stream().map(TreeSelect::new).collect(Collectors.toList());
+    }
+
     public TreeSelect(SysMenu sysMenu) {
     }
 

@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * 菜单对象 tb_sys_menu
  * 
- * @author jiyanjie
+ * @author xusan
  * @date 2022-01-12
  */
 public class TbSysMenu extends BaseEntity

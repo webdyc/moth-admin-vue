@@ -10,7 +10,7 @@ import java.util.Date;
 /**
  * 用户对象 tb_sys_user
  * 
- * @author jiyanjie
+ * @author xusan
  * @date 2022-01-12
  */
 public class TbSysUser extends BaseEntity
