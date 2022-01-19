@@ -73,8 +73,8 @@ export default {
   },
   methods: {
     // 初始化地图
-    initMap(userLocation) {
-      let { lng, lat } = userLocation;
+    initMap(location) {
+      let { lng, lat } = location ? location : this.userLocation;
       this.map = new AMap.Map("container", {
         //设置地图容器id
         viewMode: "3D", //是否为3D地图模式
@@ -87,29 +87,52 @@ export default {
       this.map.addControl(new AMap.Scale());
       // 初始化插件 - 在图面添加类别切换控件
       this.map.addControl(new AMap.MapType());
+      this.addMarker();
     },
     // 创建标注
-    addMarker(location) {
+    addMarker() {
       // 创建一个 Marker 实例：
-      var marker = new AMap.Marker({
-        position: new AMap.LngLat(location[0], location[1]), // 经纬度对象，也可以是经纬度构成的一维数组[116.39, 39.9]
-        title: "北京",
+      // let marker = new AMap.Marker({
+      //   position: new AMap.LngLat(location[0], location[1]), // 经纬度对象，也可以是经纬度构成的一维数组[116.39, 39.9]
+      //   title: "你的位置",
+      // });
+      // 创建纯文本标记
+      var text = new AMap.Text({
+        text: "我的位置",
+        anchor: "center", // 设置文本标记锚点
+        draggable: true,
+        cursor: "pointer",
+        angle: 10,
+        style: {
+          padding: "5px 10px",
+          "margin-bottom": "1rem",
+          "border-radius": ".25rem",
+          "background-color": "white",
+          width: "80px",
+          "border-width": 0,
+          "box-shadow": "0 2px 6px 0 rgba(114, 124, 245, .5)",
+          "text-align": "center",
+          "font-size": "12px",
+          color: "blue",
+        },
+        position: [this.userLocation.lng, this.userLocation.lat],
       });
       // 将创建的点标记添加到已有的地图实例：
-      this.map.add(marker);
+      this.map.add(text);
     },
     // 创建多组标注
-    async addMarkers(location) {
-      let locationList = await location.map((item) => {
+    async addMarkers(pois) {
+      let locationList = await pois.map((item) => {
         // 创建一个 Marker 实例：
-        new AMap.Marker({
-          position: new AMap.LngLat(item.lng, item.lat), // 经纬度对象，也可以是经纬度构成的一维数组[116.39, 39.9]
-          title: "北京",
+        let marker = new AMap.Marker({
+          position: new AMap.LngLat(item.location.lng, item.location.lat), // 经纬度对象，也可以是经纬度构成的一维数组[116.39, 39.9]
+          title: item.name,
         });
+        return marker;
       });
-      console.log(locationList);
       // 将创建的点标记添加到已有的地图实例：
       this.map.add(locationList);
+      this.map.setCenter([pois[0].location.lng, pois[0].location.lat]);
     },
     // 获取用户地理位置信息
     getUserLocation() {
@@ -178,12 +201,12 @@ export default {
 
       placeSearch.search(keyword, (status, result) => {
         let { pois } = result.poiList;
-        let location = pois.map((item) => item.location);
-        console.log(location);
-        _this.addMarkers(location);
+        console.log(pois);
+        _this.addMarkers(pois);
         // this.initMap();
       });
     },
+    // 行车路线
     getDriving() {
       let _this = this;
       let { lng, lat } = this.userLocation;
