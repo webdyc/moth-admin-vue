@@ -20,11 +20,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="phone"    column="phone"    />
         <result property="fax"    column="fax"    />
         <result property="email"    column="email"    />
-        <result property="useable"    column="USEABLE"    />
-        <result property="primaryPerson"    column="PRIMARY_PERSON"    />
-        <result property="deputyPerson"    column="DEPUTY_PERSON"    />
+        <result property="useable"    column="useable"    />
         <result property="creator"    column="creator"    />
-        <result property="createtime"    column="createtime"    />
+        <result property="createTime"    column="create_time"    />
         <result property="updateUser"    column="update_user"    />
         <result property="updateTime"    column="update_time"    />
         <result property="remarks"    column="remarks"    />
@@ -32,7 +30,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectTbSysOfficeVo">
-        select id, parent_id, parent_ids, name, sort, area_id, code, type, grade, address, zip_code, master, phone, fax, email, USEABLE, PRIMARY_PERSON, DEPUTY_PERSON, creator, create_time, update_user, update_time, remarks, is_del from tb_sys_office
+        select id, parent_id, parent_ids, name, sort, area_id, code, type, grade, address, zip_code, master, phone, fax, email, useable, creator, create_time, update_user, update_time, remarks, is_del from tb_sys_office
     </sql>
 
     <select id="selectTbSysOfficeList" parameterType="com.littlemoth.system.domain.TbSysOffice" resultMap="TbSysOfficeResult">
@@ -52,9 +50,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="phone != null  and phone != ''"> and phone = #{phone}</if>
             <if test="fax != null  and fax != ''"> and fax = #{fax}</if>
             <if test="email != null  and email != ''"> and email = #{email}</if>
-            <if test="useable != null  and useable != ''"> and USEABLE = #{useable}</if>
-            <if test="primaryPerson != null  and primaryPerson != ''"> and PRIMARY_PERSON = #{primaryPerson}</if>
-            <if test="deputyPerson != null  and deputyPerson != ''"> and DEPUTY_PERSON = #{deputyPerson}</if>
+            <if test="useable != null  and useable != ''"> and useable = #{useable}</if>
             <if test="creator != null "> and creator = #{creator}</if>
             <if test="createtime != null "> and createtime = #{createtime}</if>
             <if test="updateUser != null "> and update_user = #{updateUser}</if>
@@ -85,9 +81,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="phone != null">phone,</if>
             <if test="fax != null">fax,</if>
             <if test="email != null">email,</if>
-            <if test="useable != null">USEABLE,</if>
-            <if test="primaryPerson != null">PRIMARY_PERSON,</if>
-            <if test="deputyPerson != null">DEPUTY_PERSON,</if>
+            <if test="useable != null">useable,</if>
             <if test="creator != null">creator,</if>
             <if test="createtime != null">createtime,</if>
             <if test="updateUser != null">update_user,</if>
@@ -139,9 +133,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="phone != null">phone = #{phone},</if>
             <if test="fax != null">fax = #{fax},</if>
             <if test="email != null">email = #{email},</if>
-            <if test="useable != null">USEABLE = #{useable},</if>
-            <if test="primaryPerson != null">PRIMARY_PERSON = #{primaryPerson},</if>
-            <if test="deputyPerson != null">DEPUTY_PERSON = #{deputyPerson},</if>
+            <if test="useable != null">useable = #{useable},</if>
             <if test="creator != null">creator = #{creator},</if>
             <if test="createtime != null">createtime = #{createtime},</if>
             <if test="updateUser != null">update_user = #{updateUser},</if>

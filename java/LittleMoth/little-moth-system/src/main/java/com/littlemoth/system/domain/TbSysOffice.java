@@ -62,12 +62,6 @@ public class TbSysOffice extends BaseEntity
     /** 是否启用 */
     private String useable;
 
-    /** 主负责人 */
-    private String primaryPerson;
-
-    /** 副负责人 */
-    private String deputyPerson;
-
     /** 创建者 */
     private Long creator;
 
@@ -224,24 +218,7 @@ public class TbSysOffice extends BaseEntity
     {
         return useable;
     }
-    public void setPrimaryPerson(String primaryPerson) 
-    {
-        this.primaryPerson = primaryPerson;
-    }
 
-    public String getPrimaryPerson() 
-    {
-        return primaryPerson;
-    }
-    public void setDeputyPerson(String deputyPerson) 
-    {
-        this.deputyPerson = deputyPerson;
-    }
-
-    public String getDeputyPerson() 
-    {
-        return deputyPerson;
-    }
     public void setCreator(Long creator) 
     {
         this.creator = creator;
@@ -298,8 +275,6 @@ public class TbSysOffice extends BaseEntity
             .append("fax", getFax())
             .append("email", getEmail())
             .append("useable", getUseable())
-            .append("primaryPerson", getPrimaryPerson())
-            .append("deputyPerson", getDeputyPerson())
             .append("creator", getCreator())
             .append("createtime", getCreateTime())
             .append("updateUser", getUpdateUser())

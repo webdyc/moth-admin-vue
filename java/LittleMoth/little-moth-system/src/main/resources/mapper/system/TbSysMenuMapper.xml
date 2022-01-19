@@ -19,7 +19,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="href"    column="href"    />
         <result property="target"    column="target"    />
         <result property="icon"    column="icon"    />
-        <result property="isShow"    column="is_show"    />
+        <result property="hidden"    column="hidden"    />
         <result property="permis"    column="permis"    />
         <result property="creator"    column="creator"    />
         <result property="createTime"    column="create_time"    />
@@ -30,7 +30,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectTbSysMenuVo">
-        select id, name, parent_id, parent_ids, path, component, redirect, breadcrumb, keep_alive,  sort, menu_type, href, target, icon, is_show, permis, creator, create_time, update_user, update_time, remarks, is_del from tb_sys_menu
+        select id, name, parent_id, parent_ids, path, component, redirect, breadcrumb, keep_alive,  sort, menu_type, href, target, icon, hidden, permis, creator, create_time, update_user, update_time, remarks, is_del from tb_sys_menu
     </sql>
 
     <select id="selectTbSysMenuList" parameterType="com.littlemoth.common.core.domain.entity.TbSysMenu" resultMap="TbSysMenuResult">
@@ -49,7 +49,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="href != null  and href != ''"> and href = #{href}</if>
             <if test="target != null  and target != ''"> and target = #{target}</if>
             <if test="icon != null  and icon != ''"> and icon = #{icon}</if>
-            <if test="isShow != null  and isShow != ''"> and is_show = #{isShow}</if>
+            <if test="hidden != null  and hidden != ''"> and hidden = #{hidden}</if>
             <if test="permis != null  and permis != ''"> and permis = #{permis}</if>
             <if test="creator != null "> and creator = #{creator}</if>
             <if test="createTime != null "> and create_time = #{createTime}</if>
@@ -84,7 +84,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="href != null">href,</if>
             <if test="target != null">target,</if>
             <if test="icon != null">icon,</if>
-            <if test="isShow != null">is_show,</if>
+            <if test="hidden != null">hidden,</if>
             <if test="permis != null">permis,</if>
             <if test="creator != null">creator,</if>
             <if test="createTime != null">create_time,</if>
@@ -108,7 +108,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="href != null">#{href},</if>
             <if test="target != null">#{target},</if>
             <if test="icon != null">#{icon},</if>
-            <if test="isShow != null">#{isShow},</if>
+            <if test="hidden != null">#{hidden},</if>
             <if test="permis != null">#{permis},</if>
             <if test="creator != null">#{creator},</if>
             <if test="createTime != null">#{create_time},</if>
@@ -135,7 +135,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="href != null">href = #{href},</if>
             <if test="target != null">target = #{target},</if>
             <if test="icon != null">icon = #{icon},</if>
-            <if test="isShow != null">is_show = #{isShow},</if>
+            <if test="hidden != null">hidden = #{hidden},</if>
             <if test="permis != null">permis = #{permis},</if>
             <if test="creator != null">creator = #{creator},</if>
             <if test="createTime != null">create_time = #{createTime},</if>
