@@ -66,7 +66,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
     <select id="selectTbSysMenuById" parameterType="Long" resultMap="TbSysMenuResult">
         <include refid="selectTbSysMenuVo"/>
-        where id = #{id}
+        where id = #{id}  and is_del = 0
     </select>
 
     <insert id="insertTbSysMenu" parameterType="com.littlemoth.common.core.domain.entity.TbSysMenu">
@@ -153,7 +153,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </update>
 
     <delete id="deleteTbSysMenuById" parameterType="Long">
-        delete from tb_sys_menu where id = #{id}
+        UPDATE tb_sys_menu SET is_del = 1 WHERE id = #{id}
     </delete>
 
     <delete id="deleteTbSysMenuByIds" parameterType="String">

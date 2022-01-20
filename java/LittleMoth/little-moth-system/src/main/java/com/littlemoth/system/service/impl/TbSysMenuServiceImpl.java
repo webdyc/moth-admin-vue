@@ -53,6 +53,7 @@ public class TbSysMenuServiceImpl implements ITbSysMenuService {
      */
     @Override
     public List<TbSysMenu> selectTbSysMenuList(TbSysMenu tbSysMenu) {
+        tbSysMenu.setIsDel(Integer.parseInt(Constants.SUCCESS));
         return tbSysMenuMapper.selectTbSysMenuList(tbSysMenu);
     }
 
@@ -65,6 +66,7 @@ public class TbSysMenuServiceImpl implements ITbSysMenuService {
     @Override
     public List<TbSysMenu> selectTbSysMenuList(TbSysMenu menu, TbSysUser user) {
         List<TbSysMenu> menuList = null;
+        menu.setIsDel(Integer.parseInt(Constants.SUCCESS));
         // 管理员显示所有菜单信息
         if (TbSysUser.isAdmin(Long.parseLong(user.getUserType()))) {
             menuList = tbSysMenuMapper.selectTbSysMenuListByMenuType(menu);

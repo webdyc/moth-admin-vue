@@ -90,6 +90,14 @@ public class TbSysMenuController extends BaseController
     }
 
     /**
+     * 删除菜单 逻辑删除
+     */
+    @GetMapping("/delete/{id}")
+    public ResultData delete(@PathVariable Long id)
+    {
+        return ResultData.success(tbSysMenuService.deleteTbSysMenuById(id));
+    }
+    /**
      * 删除菜单
      */
     @GetMapping("/del/{ids}")
