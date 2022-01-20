@@ -3,7 +3,7 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.littlemoth.system.mapper.TbSysMenuMapper">
-    
+
     <resultMap type="com.littlemoth.common.core.domain.entity.TbSysMenu" id="TbSysMenuResult">
         <result property="id"    column="id"    />
         <result property="name"    column="name"    />
@@ -14,6 +14,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="redirect"    column="redirect"    />
         <result property="breadcrumb"    column="breadcrumb"    />
         <result property="keepAlive"    column="keep_alive"    />
+        <result property="title"    column="title"    />
         <result property="sort"    column="sort"    />
         <result property="menuType"    column="menu_type"    />
         <result property="href"    column="href"    />
@@ -30,12 +31,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectTbSysMenuVo">
-        select id, name, parent_id, parent_ids, path, component, redirect, breadcrumb, keep_alive,  sort, menu_type, href, target, icon, hidden, permis, creator, create_time, update_user, update_time, remarks, is_del from tb_sys_menu
+        select id, name, parent_id, parent_ids, path, component, redirect, breadcrumb, keep_alive, title, sort, menu_type, href, target, icon, hidden, permis, creator, create_time, update_user, update_time, remarks, is_del from tb_sys_menu
     </sql>
 
     <select id="selectTbSysMenuList" parameterType="com.littlemoth.common.core.domain.entity.TbSysMenu" resultMap="TbSysMenuResult">
         <include refid="selectTbSysMenuVo"/>
-        <where>  
+        <where>
             <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
             <if test="parentId != null  and parentId != ''"> and parent_id = #{parentId}</if>
             <if test="parentIds != null  and parentIds != ''"> and parent_ids = #{parentIds}</if>
@@ -44,6 +45,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="redirect != null  and redirect != ''"> and redirect = #{redirect}</if>
             <if test="breadcrumb != null "> and breadcrumb = #{breadcrumb}</if>
             <if test="keepAlive != null "> and keep_alive = #{keepAlive}</if>
+            <if test="title != null  and title != ''"> and title like concat('%', #{title}, '%')</if>
             <if test="sort != null "> and sort = #{sort}</if>
             <if test="menuType != null  and menuType != ''"> and menu_type = #{menuType}</if>
             <if test="href != null  and href != ''"> and href = #{href}</if>
@@ -66,7 +68,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectTbSysMenuVo"/>
         where id = #{id}
     </select>
-        
+
     <insert id="insertTbSysMenu" parameterType="com.littlemoth.common.core.domain.entity.TbSysMenu">
         insert into tb_sys_menu
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -79,6 +81,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="redirect != null">redirect,</if>
             <if test="breadcrumb != null">breadcrumb,</if>
             <if test="keepAlive != null">keep_alive,</if>
+            <if test="title != null">title,</if>
             <if test="sort != null">sort,</if>
             <if test="menuType != null">menu_type,</if>
             <if test="href != null">href,</if>
@@ -103,6 +106,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="redirect != null">#{redirect},</if>
             <if test="breadcrumb != null">#{breadcrumb},</if>
             <if test="keepAlive != null">#{keepAlive},</if>
+            <if test="title != null">#{title},</if>
             <if test="sort != null">#{sort},</if>
             <if test="menuType != null">#{menuType},</if>
             <if test="href != null">#{href},</if>
@@ -130,6 +134,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="redirect != null">redirect = #{redirect},</if>
             <if test="breadcrumb != null">breadcrumb = #{breadcrumb},</if>
             <if test="keepAlive != null">keep_alive = #{keepAlive},</if>
+            <if test="title != null">title = #{title},</if>
             <if test="sort != null">sort = #{sort},</if>
             <if test="menuType != null">menu_type = #{menuType},</if>
             <if test="href != null">href = #{href},</if>
@@ -152,7 +157,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </delete>
 
     <delete id="deleteTbSysMenuByIds" parameterType="String">
-        delete from tb_sys_menu where id in 
+        delete from tb_sys_menu where id in
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>
@@ -166,7 +171,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <select id="selectMenuTreeAll" resultMap="TbSysMenuResult">
 
-        SELECT DISTINCT m.id, m.parent_id, m.name, m.path, m.component, m.redirect, m.breadcrumb, m.keep_alive,m.target, ifnull( m.permis, '' ) AS permis,
+        SELECT DISTINCT m.id, m.parent_id, m.name, m.path, m.component, m.redirect, m.breadcrumb, m.keep_alive,m.title,m.target, ifnull( m.permis, '' ) AS permis,
             m.menu_type, m.icon, m.sort, m.create_time
         FROM tb_sys_menu m
         WHERE
@@ -180,7 +185,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="selectMenuTreeByUserId" parameterType="Long" resultMap="TbSysMenuResult">
 
         SELECT
-        m.id, m.parent_id, m.name, m.path, m.component, m.redirect, m.breadcrumb, m.keep_alive,m.target, ifnull( m.permis, '' ) AS permis,
+        m.id, m.parent_id, m.name, m.path, m.component, m.redirect, m.breadcrumb, m.keep_alive,m.title,m.target, ifnull( m.permis, '' ) AS permis,
         m.menu_type, m.icon, m.sort, m.create_time
         FROM
         (

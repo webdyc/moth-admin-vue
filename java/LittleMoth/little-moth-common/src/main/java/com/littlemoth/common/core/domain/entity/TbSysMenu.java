@@ -44,6 +44,9 @@ public class TbSysMenu extends BaseEntity
     /** 页面是否缓存 */
     private Integer keepAlive;
 
+    /** 页面标题 */
+    private String title;
+
     /** 排序 */
     private Long sort;
 
@@ -175,7 +178,16 @@ public class TbSysMenu extends BaseEntity
     {
         return keepAlive;
     }
-    public String getComponent() 
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getComponent()
     {
         return component;
     }

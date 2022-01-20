@@ -51,12 +51,21 @@ public class TbSysMenuController extends BaseController
     }
 
     /**
+     * 查询菜单列表
+     */
+    @GetMapping("/listTree")
+    public ResultData listTree(TbSysMenu tbSysMenu) {
+        List<TbSysMenu> list = tbSysMenuService.selectTbSysMenuList(tbSysMenu);
+        List<TbSysMenu> listTree = tbSysMenuService.selectTbSysMenuListTree(list);
+        return ResultData.success(listTree);
+    }
+    /**
      * 获取菜单下拉树列表
      */
     @GetMapping("/treeselect")
     public ResultData treeselect(TbSysMenu menu)
     {
-        List<TbSysMenu> menus = tbSysMenuService.selectTbSysMenuList(menu, getUserId());
+        List<TbSysMenu> menus = tbSysMenuService.selectTbSysMenuList(menu, getLoginUser().getUser());
         return ResultData.success(tbSysMenuService.buildMenuTreeSelect(menus));
     }
 

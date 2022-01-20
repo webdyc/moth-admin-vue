@@ -40,6 +40,16 @@ public class Constants
     public static final String FAIL = "1";
 
     /**
+     * 一级菜单
+     */
+    public static final String STAIR_MENU = "0";
+
+    /**
+     * 菜单类型 --菜单
+     */
+    public static final String MENU_TYPE_C = "C";
+
+    /**
      * 登录成功
      */
     public static final String LOGIN_SUCCESS = "Success";
