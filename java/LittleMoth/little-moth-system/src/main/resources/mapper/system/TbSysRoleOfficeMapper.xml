@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.littlemoth.system.mapper.TbSysRoleOfficeMapper">
+    
+    <resultMap type="com.littlemoth.system.domain.TbSysRoleOffice" id="TbSysRoleOfficeResult">
+        <result property="id"    column="id"    />
+        <result property="roleId"    column="role_id"    />
+        <result property="officeId"    column="office_id"    />
+    </resultMap>
+
+    <sql id="selectTbSysRoleOfficeVo">
+        select id, role_id, office_id from tb_sys_role_office
+    </sql>
+
+    <select id="selectTbSysRoleOfficeList" parameterType="com.littlemoth.system.domain.TbSysRoleOffice" resultMap="TbSysRoleOfficeResult">
+        <include refid="selectTbSysRoleOfficeVo"/>
+        <where>  
+            <if test="roleId != null "> and role_id = #{roleId}</if>
+            <if test="officeId != null "> and office_id = #{officeId}</if>
+        </where>
+    </select>
+    
+    <select id="selectTbSysRoleOfficeById" parameterType="Long" resultMap="TbSysRoleOfficeResult">
+        <include refid="selectTbSysRoleOfficeVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertTbSysRoleOffice" parameterType="com.littlemoth.system.domain.TbSysRoleOffice" useGeneratedKeys="true" keyProperty="id">
+        insert into tb_sys_role_office
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="roleId != null">role_id,</if>
+            <if test="officeId != null">office_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="roleId != null">#{roleId},</if>
+            <if test="officeId != null">#{officeId},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTbSysRoleOffice" parameterType="com.littlemoth.system.domain.TbSysRoleOffice">
+        update tb_sys_role_office
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="roleId != null">role_id = #{roleId},</if>
+            <if test="officeId != null">office_id = #{officeId},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTbSysRoleOfficeById" parameterType="Long">
+        delete from tb_sys_role_office where id = #{id}
+    </delete>
+
+    <delete id="deleteTbSysRoleOfficeByIds" parameterType="String">
+        delete from tb_sys_role_office where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

@@ -1,18 +1,17 @@
-package com.littlemoth.common.core.domain;
+package com.littlemoth.web.controller.req;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
+import com.littlemoth.common.core.domain.TbSysOffice;
+import com.littlemoth.common.core.domain.model.TbSysUser;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.Serializable;
 
 /**
  * 机构对象 tb_sys_office
  *
- * @author xusan
+ * @author xjl
  * @date 2022-01-12
  */
-public class TbSysOffice extends BaseEntity {
+public class TbSysOfficeReq implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
@@ -39,12 +38,6 @@ public class TbSysOffice extends BaseEntity {
      * 父名称
      */
     private String parentName;
-
-    /**
-     * 创建用户
-     */
-    private String userName;
-
 
     /**
      * 排序
@@ -131,13 +124,29 @@ public class TbSysOffice extends BaseEntity {
     private String officeCode;
 
 
-    /**
-     * 子菜单
-     */
-    private List<TbSysOffice> children = new ArrayList<TbSysOffice>();
-
-    public List<TbSysOffice> getChildren() {
-        return children;
+    public TbSysOffice reqToBean() {
+        TbSysOffice office = new TbSysOffice();
+        office.setId(id);
+        office.setParentId(parentId);
+        office.setParentIds(parentIds);
+        office.setName(name);
+        office.setParentName(parentName);
+        office.setOfficeCode(officeCode);
+        office.setSort(sort);
+        office.setAreaId(areaId);
+        office.setCode(code);
+        office.setType(type);
+        office.setGrade(grade);
+        office.setAddress(address);
+        office.setZipCode(zipCode);
+        office.setMaster(master);
+        office.setPhone(phone);
+        office.setFax(fax);
+        office.setEmail(email);
+        office.setUseable(useable);
+        office.setRemarks(remarks);
+        office.setIsDel(isDel);
+        return office;
     }
 
     public String getOfficeCode() {
@@ -148,10 +157,6 @@ public class TbSysOffice extends BaseEntity {
         this.officeCode = officeCode;
     }
 
-
-    public void setChildren(List<TbSysOffice> children) {
-        this.children = children;
-    }
 
     public void setId(Long id) {
         this.id = id;
@@ -321,42 +326,5 @@ public class TbSysOffice extends BaseEntity {
         return isDel;
     }
 
-    public String getUserName() {
-        return userName;
-    }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
-                .append("id", getId())
-                .append("parentId", getParentId())
-                .append("parentIds", getParentIds())
-                .append("name", getName())
-                .append("parentName", getParentName())
-                .append("userName", getUserName())
-                .append("officeCode", getOfficeCode())
-                .append("sort", getSort())
-                .append("areaId", getAreaId())
-                .append("code", getCode())
-                .append("type", getType())
-                .append("grade", getGrade())
-                .append("address", getAddress())
-                .append("zipCode", getZipCode())
-                .append("master", getMaster())
-                .append("phone", getPhone())
-                .append("fax", getFax())
-                .append("email", getEmail())
-                .append("useable", getUseable())
-                .append("creator", getCreator())
-                .append("createTime", getCreateTime())
-                .append("updateUser", getUpdateUser())
-                .append("updateTime", getUpdateTime())
-                .append("remarks", getRemarks())
-                .append("isDel", getIsDel())
-                .toString();
-    }
 }

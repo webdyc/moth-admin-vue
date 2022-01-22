@@ -3,7 +3,9 @@ package com.littlemoth.system.service.impl;
 import com.littlemoth.common.constant.Constants;
 import com.littlemoth.common.core.domain.TbSysOffice;
 import com.littlemoth.common.core.domain.TreeSelect;
+import com.littlemoth.common.core.domain.model.TbSysUser;
 import com.littlemoth.common.utils.DateUtils;
+import com.littlemoth.common.utils.uuid.SnowFlakeUtil;
 import com.littlemoth.system.mapper.TbSysOfficeMapper;
 import com.littlemoth.system.service.ITbSysOfficeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -43,8 +46,8 @@ public class TbSysOfficeServiceImpl implements ITbSysOfficeService {
      * @return 机构
      */
     @Override
-    public List<TbSysOffice> selectTbSysOfficeList(TbSysOffice tbSysOffice) {
-        tbSysOffice.setId(Long.parseLong(Constants.SUCCESS));
+    public List<TbSysOffice> selectTbSysOfficeList(TbSysOffice tbSysOffice, TbSysUser user) {
+        tbSysOffice.setIsDel(Integer.parseInt(Constants.SUCCESS));
         return tbSysOfficeMapper.selectTbSysOfficeList(tbSysOffice);
     }
 
@@ -95,8 +98,37 @@ public class TbSysOfficeServiceImpl implements ITbSysOfficeService {
      * @return 结果
      */
     @Override
-    public int insertTbSysOffice(TbSysOffice tbSysOffice) {
-        return tbSysOfficeMapper.insertTbSysOffice(tbSysOffice);
+    public int insertTbSysOffice(TbSysOffice tbSysOffice,TbSysUser user) {
+        int resultInt = 0;
+        String officeCode = SnowFlakeUtil.getId();
+        tbSysOffice.setOfficeCode(officeCode);
+        universalityMessage(tbSysOffice, user);
+        if(Objects.isNull(tbSysOffice.getId())){
+            tbSysOffice.setParentIds(Constants.PARENTIDS);
+            tbSysOffice.setParentId(Constants.STAIR_MENU);
+            resultInt = tbSysOfficeMapper.insertTbSysOffice(tbSysOffice);
+        }else {
+            TbSysOffice tbSysOffices = tbSysOfficeMapper
+                    .selectTbSysOfficeById(Long.parseLong(String.valueOf(tbSysOffice.getId())));
+            Long id = tbSysOffices.getId();
+            tbSysOffice.setParentIds(tbSysOffices.getParentIds()+id+",");
+            tbSysOffice.setParentId(String.valueOf(id));
+            resultInt = tbSysOfficeMapper.insertTbSysOffice(tbSysOffice);
+        }
+        return resultInt;
+    }
+
+
+    /**
+     * @Author xjl
+     * @Description 通用添加信息
+     * @Date 2022/1/22 10:58
+     */
+    private void universalityMessage(TbSysOffice tbSysOffice, TbSysUser user) {
+        tbSysOffice.setCreateTime(DateUtils.getNowDate());
+        tbSysOffice.setUpdateTime(DateUtils.getNowDate());
+        tbSysOffice.setCreator(user.getId());
+        tbSysOffice.setUpdateUser(user.getId());
     }
 
     /**
@@ -106,7 +138,7 @@ public class TbSysOfficeServiceImpl implements ITbSysOfficeService {
      * @return 结果
      */
     @Override
-    public int updateTbSysOffice(TbSysOffice tbSysOffice) {
+    public int updateTbSysOffice(TbSysOffice tbSysOffice, TbSysUser user) {
         tbSysOffice.setUpdateTime(DateUtils.getNowDate());
         return tbSysOfficeMapper.updateTbSysOffice(tbSysOffice);
     }

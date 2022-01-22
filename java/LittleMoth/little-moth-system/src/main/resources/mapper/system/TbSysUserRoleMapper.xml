@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.littlemoth.system.mapper.TbSysUserRoleMapper">
+    
+    <resultMap type="com.littlemoth.system.domain.TbSysUserRole" id="TbSysUserRoleResult">
+        <result property="id"    column="id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="roleId"    column="role_id"    />
+    </resultMap>
+
+    <sql id="selectTbSysUserRoleVo">
+        select id, user_id, role_id from tb_sys_user_role
+    </sql>
+
+    <select id="selectTbSysUserRoleList" parameterType="com.littlemoth.system.domain.TbSysUserRole" resultMap="TbSysUserRoleResult">
+        <include refid="selectTbSysUserRoleVo"/>
+        <where>  
+            <if test="userId != null "> and user_id = #{userId}</if>
+            <if test="roleId != null "> and role_id = #{roleId}</if>
+        </where>
+    </select>
+    
+    <select id="selectTbSysUserRoleById" parameterType="Long" resultMap="TbSysUserRoleResult">
+        <include refid="selectTbSysUserRoleVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertTbSysUserRole" parameterType="com.littlemoth.system.domain.TbSysUserRole" useGeneratedKeys="true" keyProperty="id">
+        insert into tb_sys_user_role
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null">user_id,</if>
+            <if test="roleId != null">role_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null">#{userId},</if>
+            <if test="roleId != null">#{roleId},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTbSysUserRole" parameterType="com.littlemoth.system.domain.TbSysUserRole">
+        update tb_sys_user_role
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="roleId != null">role_id = #{roleId},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTbSysUserRoleById" parameterType="Long">
+        delete from tb_sys_user_role where id = #{id}
+    </delete>
+
+    <delete id="deleteTbSysUserRoleByIds" parameterType="String">
+        delete from tb_sys_user_role where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

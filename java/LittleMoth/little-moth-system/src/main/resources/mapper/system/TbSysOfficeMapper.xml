@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.littlemoth.system.mapper.TbSysOfficeMapper">
-    
+
     <resultMap type="com.littlemoth.common.core.domain.TbSysOffice" id="TbSysOfficeResult">
         <result property="id"    column="id"    />
         <result property="parentId"    column="parent_id"    />
         <result property="parentIds"    column="parent_ids"    />
         <result property="name"    column="name"    />
+        <result property="parentName"    column="parent_name"    />
+        <result property="userName"    column="user_name"    />
+        <result property="officeCode"    column="office_code"    />
         <result property="sort"    column="sort"    />
         <result property="areaId"    column="area_id"    />
         <result property="code"    column="code"    />
@@ -30,16 +33,51 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectTbSysOfficeVo">
-        select id, parent_id, parent_ids, name, sort, area_id, code, type, grade, address, zip_code, master, phone, fax, email, useable,  creator, create_time, update_user, update_time, remarks, is_del from tb_sys_office
+        SELECT * FROM (
+                          SELECT
+                              a.id,
+                              a.parent_id,
+                              a.parent_ids,
+                              a.name,
+                              a.office_code,
+                              a.sort,
+                              a.area_id,
+                              a.code,
+                              a.type,
+                              a.grade,
+                              a.address,
+                              a.zip_code,
+                              a.master,
+                              a.phone,
+                              a.fax,
+                              a.email,
+                              a.useable,
+                              a.creator,
+                              a.create_time,
+                              a.update_user,
+                              a.update_time,
+                              a.remarks,
+                              a.is_del,
+                              p.name AS "parent_name",
+                              u.user_name AS "user_name"
+                          FROM tb_sys_office a
+                                   LEFT JOIN tb_sys_office p ON p.id = a.parent_id
+                                   LEFT JOIN tb_sys_user u ON u.id = a.creator
+                          ORDER BY a.sort ) AS tb_sys_office
+
+
     </sql>
 
     <select id="selectTbSysOfficeList" parameterType="com.littlemoth.common.core.domain.TbSysOffice" resultMap="TbSysOfficeResult">
         <include refid="selectTbSysOfficeVo"/>
-        <where>  
+        <where>
             <if test="parentId != null  and parentId != ''"> and parent_id = #{parentId}</if>
-            <if test="parentIds != null  and parentIds != ''"> and parent_ids = #{parentIds}</if>
+            <if test="parentIds != null  and parentIds != ''"> and parent_ids like concat('%', #{parentIds}, '%')</if>
             <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="parentName != null  and parentName != ''"> and parent_name like concat('%', #{parentName}, '%')</if>
+            <if test="userName != null  and userName != ''"> and user_name like concat('%', #{userName}, '%')</if>
             <if test="sort != null "> and sort = #{sort}</if>
+            <if test="officeCode != null  and officeCode != ''"> and office_code = #{officeCode}</if>
             <if test="areaId != null  and areaId != ''"> and area_id = #{areaId}</if>
             <if test="code != null  and code != ''"> and code = #{code}</if>
             <if test="type != null  and type != ''"> and type = #{type}</if>
@@ -57,18 +95,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="remarks != null  and remarks != ''"> and remarks = #{remarks}</if>
         </where>
     </select>
-    
+
     <select id="selectTbSysOfficeById" parameterType="Long" resultMap="TbSysOfficeResult">
         <include refid="selectTbSysOfficeVo"/>
         where id = #{id} and is_del = 0
     </select>
-        
-    <insert id="insertTbSysOffice" parameterType="com.littlemoth.common.core.domain.TbSysOffice" useGeneratedKeys="true" keyProperty="id">
+
+    <select id="selectTbSysOfficeByOfficeCode" parameterType="String" resultMap="TbSysOfficeResult">
+        <include refid="selectTbSysOfficeVo"/>
+        where office_code = #{officeCode} and is_del = 0
+    </select>
+
+    <insert id="insertTbSysOffice" parameterType="com.littlemoth.common.core.domain.TbSysOffice" useGeneratedKeys="true"  keyProperty="id"  keyColumn="id">
         insert into tb_sys_office
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="parentId != null and parentId != ''">parent_id,</if>
             <if test="parentIds != null and parentIds != ''">parent_ids,</if>
             <if test="name != null and name != ''">name,</if>
+            <if test="officeCode != null and officeCode != ''">office_code,</if>
             <if test="sort != null">sort,</if>
             <if test="areaId != null and areaId != ''">area_id,</if>
             <if test="code != null">code,</if>
@@ -87,11 +131,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateTime != null">update_time,</if>
             <if test="remarks != null">remarks,</if>
             <if test="isDel != null">is_del,</if>
-         </trim>
+        </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="parentId != null and parentId != ''">#{parentId},</if>
             <if test="parentIds != null and parentIds != ''">#{parentIds},</if>
             <if test="name != null and name != ''">#{name},</if>
+            <if test="officeCode != null and officeCode != ''">#{officeCode},</if>
             <if test="sort != null">#{sort},</if>
             <if test="areaId != null and areaId != ''">#{areaId},</if>
             <if test="code != null">#{code},</if>
@@ -110,7 +155,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateTime != null">#{updateTime},</if>
             <if test="remarks != null">#{remarks},</if>
             <if test="isDel != null">#{isDel},</if>
-         </trim>
+        </trim>
     </insert>
 
     <update id="updateTbSysOffice" parameterType="com.littlemoth.common.core.domain.TbSysOffice">
@@ -119,6 +164,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="parentId != null and parentId != ''">parent_id = #{parentId},</if>
             <if test="parentIds != null and parentIds != ''">parent_ids = #{parentIds},</if>
             <if test="name != null and name != ''">name = #{name},</if>
+            <if test="officeCode != null and officeCode != ''">office_code = #{officeCode},</if>
             <if test="sort != null">sort = #{sort},</if>
             <if test="areaId != null and areaId != ''">area_id = #{areaId},</if>
             <if test="code != null">code = #{code},</if>
@@ -138,6 +184,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="remarks != null">remarks = #{remarks},</if>
             <if test="isDel != null">is_del = #{isDel},</if>
         </trim>
+        where id = #{id}
     </update>
 
     <delete id="deleteTbSysOfficeById" parameterType="Long">
@@ -145,7 +192,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </delete>
 
     <delete id="deleteTbSysOfficeByIds" parameterType="String">
-        delete from tb_sys_office where id in 
+        delete from tb_sys_office where id in
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>

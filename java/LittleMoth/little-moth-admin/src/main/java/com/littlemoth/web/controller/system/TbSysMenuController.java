@@ -1,6 +1,5 @@
 package com.littlemoth.web.controller.system;
 
-import com.littlemoth.common.constant.UserConstants;
 import com.littlemoth.common.core.controller.BaseController;
 import com.littlemoth.common.core.domain.ResultData;
 import com.littlemoth.common.core.domain.entity.TbSysMenu;
@@ -30,10 +29,10 @@ public class TbSysMenuController extends BaseController
     @PostMapping("/add")
     public ResultData add(@RequestBody TbSysMenu tbSysMenu)
     {
-        if (UserConstants.NOT_UNIQUE.equals(tbSysMenuService.checkMenuNameUnique(tbSysMenu)))
-        {
-            return ResultData.fail("新增菜单'" + tbSysMenu.getName() + "'失败，菜单名称已存在");
-        }
+//        if (UserConstants.NOT_UNIQUE.equals(tbSysMenuService.checkMenuNameUnique(tbSysMenu)))
+//        {
+//            return ResultData.fail("新增菜单'" + tbSysMenu.getName() + "'失败，菜单名称已存在");
+//        }
 
     tbSysMenu.setCreateBy(getUsername());
     return ResultData.success(tbSysMenuService.insertTbSysMenu(tbSysMenu));

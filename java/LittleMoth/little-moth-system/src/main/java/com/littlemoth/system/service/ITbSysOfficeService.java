@@ -2,6 +2,7 @@ package com.littlemoth.system.service;
 
 import com.littlemoth.common.core.domain.TbSysOffice;
 import com.littlemoth.common.core.domain.TreeSelect;
+import com.littlemoth.common.core.domain.model.TbSysUser;
 
 import java.util.List;
 
@@ -26,7 +27,7 @@ public interface ITbSysOfficeService {
      * @param tbSysOffice 机构
      * @return 机构集合
      */
-    public List<TbSysOffice> selectTbSysOfficeList(TbSysOffice tbSysOffice);
+    public List<TbSysOffice> selectTbSysOfficeList(TbSysOffice tbSysOffice, TbSysUser user);
 
     /**
      * 构建前端所需要树结构
@@ -50,7 +51,7 @@ public interface ITbSysOfficeService {
      * @param tbSysOffice 机构
      * @return 结果
      */
-    public int insertTbSysOffice(TbSysOffice tbSysOffice);
+    public int insertTbSysOffice(TbSysOffice tbSysOffice, TbSysUser user);
 
     /**
      * 修改机构
@@ -58,7 +59,7 @@ public interface ITbSysOfficeService {
      * @param tbSysOffice 机构
      * @return 结果
      */
-    public int updateTbSysOffice(TbSysOffice tbSysOffice);
+    public int updateTbSysOffice(TbSysOffice tbSysOffice, TbSysUser user);
 
     /**
      * 批量删除机构

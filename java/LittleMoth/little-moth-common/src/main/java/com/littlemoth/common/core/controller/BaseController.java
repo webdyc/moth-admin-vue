@@ -1,26 +1,32 @@
 package com.littlemoth.common.core.controller;
 
-import java.beans.PropertyEditorSupport;
-import java.util.Date;
-import java.util.List;
-
-import com.littlemoth.common.constant.HttpStatus;
-import com.littlemoth.common.utils.DateUtils;
-import com.littlemoth.common.utils.PageUtils;
-import com.littlemoth.common.utils.SecurityUtils;
-import com.littlemoth.common.utils.StringUtils;
-import com.littlemoth.common.utils.sql.SqlUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.littlemoth.common.constant.Constants;
+import com.littlemoth.common.constant.HttpStatus;
 import com.littlemoth.common.core.domain.AjaxResult;
 import com.littlemoth.common.core.domain.model.LoginUser;
+import com.littlemoth.common.core.domain.model.TbSysUser;
 import com.littlemoth.common.core.page.PageDomain;
 import com.littlemoth.common.core.page.TableDataInfo;
 import com.littlemoth.common.core.page.TableSupport;
+import com.littlemoth.common.core.redis.RedisCache;
+import com.littlemoth.common.utils.*;
+import com.littlemoth.common.utils.sql.SqlUtil;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
+
+import javax.servlet.http.HttpServletRequest;
+import java.beans.PropertyEditorSupport;
+import java.util.Date;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * web层通用数据处理
@@ -31,6 +37,16 @@ public class BaseController
 {
     protected final Logger logger = LoggerFactory.getLogger(this.getClass());
 
+    // 令牌自定义标识
+    @Value("${token.header}")
+    private String header;
+
+    // 令牌秘钥
+    @Value("${token.secret}")
+    private String secret;
+
+    @Autowired
+    private RedisCache redisCache;
     /**
      * 将前台传递过来的日期格式的字符串，自动转化为Date类型
      */
@@ -175,5 +191,52 @@ public class BaseController
     public String getUsername()
     {
         return getLoginUser().getUsername();
+    }
+
+
+    /**
+     * 获取用户
+     */
+    public TbSysUser getUser() {
+        // 获取请求携带的令牌
+        TbSysUser tbSysUser = null;
+        String token = getToken(ServletUtils.getRequest());
+        if (StringUtils.isNotEmpty(token)) {
+            Claims claims = parseToken(token);
+            // 解析对应的权限以及用户信息
+            String uuid = (String) claims.get(Constants.LOGIN_USER_KEY);
+            getTokenKey(uuid);
+            String userKey = getTokenKey(uuid);
+            LoginUser user = redisCache.getCacheObject(userKey);
+            if (Objects.nonNull(user) && Objects.nonNull(user.getUser())) {
+                tbSysUser = user.getUser();
+            }
+        }
+        return tbSysUser;
+    }
+
+    private String getTokenKey(String uuid)
+    {
+        return Constants.LOGIN_TOKEN_KEY + uuid;
+    }
+    /**
+     * 获取请求token
+     *
+     * @param request
+     * @return token
+     */
+    private String getToken(HttpServletRequest request) {
+        String token = request.getHeader(header);
+        if (StringUtils.isNotEmpty(token) && token.startsWith(Constants.TOKEN_PREFIX)) {
+            token = token.replace(Constants.TOKEN_PREFIX, "");
+        }
+        return token;
+    }
+
+    private Claims parseToken(String token) {
+        return Jwts.parser()
+                .setSigningKey(secret)
+                .parseClaimsJws(token)
+                .getBody();
     }
 }

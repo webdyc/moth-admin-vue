@@ -5,8 +5,12 @@ import com.littlemoth.common.core.controller.BaseController;
 import com.littlemoth.common.core.domain.ResultData;
 import com.littlemoth.common.core.domain.TbSysOffice;
 import com.littlemoth.common.core.page.TableDataInfo;
+import com.littlemoth.system.domain.convert.ConvertVo;
 import com.littlemoth.system.service.ITbSysOfficeService;
+import com.littlemoth.web.controller.req.TbSysOfficeEditReq;
+import com.littlemoth.web.controller.req.TbSysOfficeReq;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,7 +22,7 @@ import java.util.List;
  * @date 2022-01-12
  */
 @RestController
-@RequestMapping("/unioncall/office")
+@RequestMapping("/office")
 public class TbSysOfficeController extends BaseController {
     @Autowired
     private ITbSysOfficeService tbSysOfficeService;
@@ -27,10 +31,10 @@ public class TbSysOfficeController extends BaseController {
      * 查询机构列表
      */
     @GetMapping("/list")
-    public TableDataInfo list(TbSysOffice tbSysOffice) {
+    public TableDataInfo list(TbSysOfficeReq office) {
         startPage();
-        List<TbSysOffice> list = tbSysOfficeService.selectTbSysOfficeList(tbSysOffice);
-        return getDataTable(list);
+        List<TbSysOffice> list = tbSysOfficeService.selectTbSysOfficeList(office.reqToBean(),getUser());
+        return getDataTable(ConvertVo.convertVoListTbSysOfficeVo(list));
     }
 
 
@@ -39,23 +43,24 @@ public class TbSysOfficeController extends BaseController {
      */
     @GetMapping(value = "/id/{id}")
     public ResultData getInfo(@PathVariable("id") Long id) {
-        return ResultData.success(tbSysOfficeService.selectTbSysOfficeById(id));
+        TbSysOffice tbSysOffice = tbSysOfficeService.selectTbSysOfficeById(id);
+        return ResultData.success(ConvertVo.convertVoTbSysOfficeVo(tbSysOffice));
     }
 
     /**
      * 新增机构
      */
-    @PostMapping
-    public ResultData add(@RequestBody TbSysOffice tbSysOffice) {
-        return ResultData.success(tbSysOfficeService.insertTbSysOffice(tbSysOffice));
+    @PostMapping(value = "/add")
+    public ResultData add(@RequestBody TbSysOfficeReq office) {
+        return ResultData.success(tbSysOfficeService.insertTbSysOffice(office.reqToBean(),getUser()));
     }
 
     /**
      * 修改机构
      */
-    @PutMapping
-    public ResultData edit(@RequestBody TbSysOffice tbSysOffice) {
-        return ResultData.success(tbSysOfficeService.updateTbSysOffice(tbSysOffice));
+    @PostMapping(value = "/edit")
+    public ResultData edit(@Validated @RequestBody TbSysOfficeEditReq office) {
+        return ResultData.success(tbSysOfficeService.updateTbSysOffice(office.reqToBean(),getUser()));
     }
 
     /**
@@ -65,6 +70,7 @@ public class TbSysOfficeController extends BaseController {
     public ResultData remove(@PathVariable Long[] ids) {
         return ResultData.success(tbSysOfficeService.deleteTbSysOfficeByIds(ids));
     }
+
     /**
      * 删除机构根据id
      */
@@ -73,13 +79,14 @@ public class TbSysOfficeController extends BaseController {
         return ResultData.success(tbSysOfficeService.deleteTbSysOfficeById(id));
     }
 
+
     /**
-     * 删除机构
+     * 获取组织下拉树列表
      */
     @GetMapping("/treeselect")
-    public ResultData remove(TbSysOffice tbSysOffice) {
+    public ResultData remove(TbSysOfficeReq office) {
 
-        List<TbSysOffice> list = tbSysOfficeService.selectTbSysOfficeList(tbSysOffice);
+        List<TbSysOffice> list = tbSysOfficeService.selectTbSysOfficeList(office.reqToBean(),getUser());
 
         return ResultData.success(tbSysOfficeService.buildSysOfficeTreeSelect(list));
     }

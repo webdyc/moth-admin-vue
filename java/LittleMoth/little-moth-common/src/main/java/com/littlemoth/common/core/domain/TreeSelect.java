@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.littlemoth.common.core.domain.entity.SysDept;
-import com.littlemoth.common.core.domain.entity.SysMenu;
 import com.littlemoth.common.core.domain.entity.TbSysMenu;
 
 /**
@@ -20,7 +19,7 @@ public class TreeSelect implements Serializable
     /** 节点ID */
     private Long id;
     /** 节点ID */
-    private Long value;
+    private String value;
 
     /** 节点名称 */
     private String label;
@@ -34,30 +33,20 @@ public class TreeSelect implements Serializable
 
     }
 
-    public TreeSelect(SysDept dept)
-    {
-        this.id = dept.getDeptId();
-        this.value = dept.getDeptId();
-        this.label = dept.getDeptName();
-        this.children = dept.getChildren().stream().map(TreeSelect::new).collect(Collectors.toList());
-    }
 
     public TreeSelect(TbSysMenu menu)
     {
         this.id = menu.getId();
-        this.value = menu.getId();
+        this.value = menu.getParentIds();
         this.label = menu.getTitle();
         this.children = menu.getChildren().stream().map(TreeSelect::new).collect(Collectors.toList());
     }
 
     public TreeSelect(TbSysOffice office) {
         this.id = office.getId();
-        this.value = office.getId();
+        this.value = office.getParentIds();
         this.label = office.getName();
         this.children = office.getChildren().stream().map(TreeSelect::new).collect(Collectors.toList());
-    }
-
-    public TreeSelect(SysMenu sysMenu) {
     }
 
     public Long getId()
@@ -70,11 +59,11 @@ public class TreeSelect implements Serializable
         this.id = id;
     }
 
-    public Long getValue() {
+    public String getValue() {
         return value;
     }
 
-    public void setValue(Long value) {
+    public void setValue(String value) {
         this.value = value;
     }
 

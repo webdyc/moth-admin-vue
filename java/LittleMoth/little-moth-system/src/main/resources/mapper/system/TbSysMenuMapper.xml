@@ -62,7 +62,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
     <select id="selectTbSysMenuListByMenuType" parameterType="com.littlemoth.common.core.domain.entity.TbSysMenu" resultMap="TbSysMenuResult">
         <include refid="selectTbSysMenuVo"/>
-        where menu_type IN ( 'M', 'C' )
+        where menu_type IN ( 'M', 'C' ) and is_del = 0
     </select>
     <select id="selectTbSysMenuById" parameterType="Long" resultMap="TbSysMenuResult">
         <include refid="selectTbSysMenuVo"/>
