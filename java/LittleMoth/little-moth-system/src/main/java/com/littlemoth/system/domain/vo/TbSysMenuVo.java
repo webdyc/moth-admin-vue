@@ -6,6 +6,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * 菜单对象 tb_sys_menu
@@ -144,10 +145,11 @@ public class TbSysMenuVo implements Serializable {
         this.parentId = parentId;
     }
 
-    public String getParentId() {
-        return parentId;
+    //兼容前端父ID
+    public Integer getParentId()
+    {
+        return Integer.parseInt(parentId);
     }
-
     public void setPath(String path) {
         this.path = path;
     }
@@ -236,8 +238,12 @@ public class TbSysMenuVo implements Serializable {
         return icon;
     }
 
-    public String getHidden() {
-        return hidden;
+    //    是否在菜单中显示0是不展示1是展示
+    public boolean getHidden() {
+        if (Objects.isNull(hidden)){
+            return false;
+        }
+        return hidden.equals("1")?true:false;
     }
 
     public void setHidden(String hidden) {

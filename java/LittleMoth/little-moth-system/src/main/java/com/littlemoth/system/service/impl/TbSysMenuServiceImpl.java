@@ -17,10 +17,7 @@ import com.littlemoth.system.service.ITbSysMenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -272,7 +269,7 @@ public class TbSysMenuServiceImpl implements ITbSysMenuService {
         List<TbRouterVo> routers = new LinkedList<TbRouterVo>();
         for (TbSysMenu menu : menus) {
             TbRouterVo router = new TbRouterVo();
-            router.setHidden(true);
+            router.setHidden(isHidden(menu));
             router.setName(getRouteName(menu));
             router.setPath(getRouterPath(menu));
             router.setComponent(getComponent(menu));
@@ -317,6 +314,13 @@ public class TbSysMenuServiceImpl implements ITbSysMenuService {
         return routers;
     }
 
+    private boolean isHidden(TbSysMenu menu) {
+        if (Objects.isNull(menu.getHidden())){
+            return false;
+        }
+        return menu.getHidden().equals("1")?true:false;
+    }
+
 
     /**
      * 获取路由名称
@@ -348,11 +352,11 @@ public class TbSysMenuServiceImpl implements ITbSysMenuService {
 //        }
         // 非外链并且是一级目录（类型为目录）
         if ("0".equals(menu.getParentId()) && UserConstants.TYPE_DIR.equals(menu.getMenuType())) {
-            routerPath = "/" + menu.getPath();
+            routerPath =  menu.getPath();
         }
         // 非外链并且是一级目录（类型为菜单）
         else if (isMenuFrame(menu)) {
-            routerPath = "/";
+            routerPath = "";
         }
         return routerPath;
     }
