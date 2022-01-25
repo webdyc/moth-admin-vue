@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * 菜单对象 tb_sys_menu
  * 
- * @author jiyanjie
+ * @author xusan
  * @date 2022-01-12
  */
 public class TbSysMenu extends BaseEntity
@@ -44,6 +44,9 @@ public class TbSysMenu extends BaseEntity
     /** 页面是否缓存 */
     private Integer keepAlive;
 
+    /** 页面标题 */
+    private String title;
+
     /** 排序 */
     private Long sort;
 
@@ -62,8 +65,8 @@ public class TbSysMenu extends BaseEntity
     /** 图标 */
     private String icon;
 
-    /** 是否在菜单中显示 */
-    private String isShow;
+    /** 是否在菜单中显示 是否在菜单中显示0是不展示1是展示',*/
+    private String hidden;
 
     /** 权限标识 */
     private String permis;
@@ -79,6 +82,14 @@ public class TbSysMenu extends BaseEntity
 
     /** 删除标记 默认0  是否删除  0否  1是  */
     private Integer isDel;
+
+    public String getHidden() {
+        return hidden;
+    }
+
+    public void setHidden(String hidden) {
+        this.hidden = hidden;
+    }
 
     /** 子菜单 */
     private List<TbSysMenu> children = new ArrayList<TbSysMenu>();
@@ -167,7 +178,16 @@ public class TbSysMenu extends BaseEntity
     {
         return keepAlive;
     }
-    public String getComponent() 
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getComponent()
     {
         return component;
     }
@@ -216,15 +236,7 @@ public class TbSysMenu extends BaseEntity
     {
         return icon;
     }
-    public void setIsShow(String isShow) 
-    {
-        this.isShow = isShow;
-    }
 
-    public String getIsShow() 
-    {
-        return isShow;
-    }
     public void setPermis(String permis) 
     {
         this.permis = permis;
@@ -297,7 +309,7 @@ public class TbSysMenu extends BaseEntity
             .append("href", getHref())
             .append("target", getTarget())
             .append("icon", getIcon())
-            .append("isShow", getIsShow())
+            .append("isShow", getHidden())
             .append("permis", getPermis())
             .append("creator", getCreator())
             .append("createtime", getCreateTime())

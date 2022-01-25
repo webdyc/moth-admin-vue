@@ -3,6 +3,7 @@ package com.littlemoth.system.service;
 import com.littlemoth.common.core.domain.TreeSelect;
 import com.littlemoth.common.core.domain.entity.TbSysMenu;
 import com.littlemoth.common.core.domain.model.LoginUser;
+import com.littlemoth.common.core.domain.model.TbSysUser;
 import com.littlemoth.system.domain.vo.TbRouterVo;
 
 import java.util.List;
@@ -10,7 +11,7 @@ import java.util.List;
 /**
  * 菜单Service接口
  * 
- * @author jiyanjie
+ * @author xusan
  * @date 2022-01-12
  */
 public interface ITbSysMenuService 
@@ -35,10 +36,10 @@ public interface ITbSysMenuService
      * 根据用户查询系统菜单列表
      *
      * @param menu 菜单信息
-     * @param userId 用户ID
+     * @param user 用户
      * @return 菜单列表
      */
-    public List<TbSysMenu> selectTbSysMenuList(TbSysMenu menu, Long userId);
+    public List<TbSysMenu> selectTbSysMenuList(TbSysMenu menu, TbSysUser user);
 
     /**
      * 新增菜单
@@ -118,5 +119,13 @@ public interface ITbSysMenuService
     public List<TbRouterVo> buildMenus(List<TbSysMenu> menus,String[] target);
 
 
+
+    /**
+     * 构建前端树所需要的菜单
+     *
+     * @param list 菜单列表
+     * @return 路由列表
+     */
+    List<TbSysMenu> selectTbSysMenuListTree(List<TbSysMenu> list);
 
 }

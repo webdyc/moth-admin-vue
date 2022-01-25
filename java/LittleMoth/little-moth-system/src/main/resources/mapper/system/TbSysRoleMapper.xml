@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.littlemoth.system.mapper.TbSysRoleMapper">
+    
+    <resultMap type="com.littlemoth.system.domain.TbSysRole" id="TbSysRoleResult">
+        <result property="id"    column="id"    />
+        <result property="officeId"    column="office_id"    />
+        <result property="name"    column="name"    />
+        <result property="enname"    column="enname"    />
+        <result property="roleType"    column="role_type"    />
+        <result property="dataScope"    column="data_scope"    />
+        <result property="isSys"    column="is_sys"    />
+        <result property="useable"    column="useable"    />
+        <result property="creator"    column="creator"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateUser"    column="update_user"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remarks"    column="remarks"    />
+        <result property="isDel"    column="is_del"    />
+    </resultMap>
+
+    <sql id="selectTbSysRoleVo">
+        select id, office_id, name, enname, role_type, data_scope, is_sys, useable, creator, create_time, update_user, update_time, remarks, is_del from tb_sys_role
+    </sql>
+
+    <select id="selectTbSysRoleList" parameterType="com.littlemoth.system.domain.TbSysRole" resultMap="TbSysRoleResult">
+        <include refid="selectTbSysRoleVo"/>
+        <where>  
+            <if test="officeId != null  and officeId != ''"> and office_id = #{officeId}</if>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="enname != null  and enname != ''"> and enname like concat('%', #{enname}, '%')</if>
+            <if test="roleType != null  and roleType != ''"> and role_type = #{roleType}</if>
+            <if test="dataScope != null  and dataScope != ''"> and data_scope = #{dataScope}</if>
+            <if test="isSys != null  and isSys != ''"> and is_sys = #{isSys}</if>
+            <if test="useable != null  and useable != ''"> and useable = #{useable}</if>
+            <if test="creator != null "> and creator = #{creator}</if>
+            <if test="updateUser != null "> and update_user = #{updateUser}</if>
+            <if test="remarks != null  and remarks != ''"> and remarks = #{remarks}</if>
+            <if test="isDel != null "> and is_del = #{isDel}</if>
+        </where>
+    </select>
+    
+    <select id="selectTbSysRoleById" parameterType="Long" resultMap="TbSysRoleResult">
+        <include refid="selectTbSysRoleVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertTbSysRole" parameterType="com.littlemoth.system.domain.TbSysRole" useGeneratedKeys="true" keyProperty="id">
+        insert into tb_sys_role
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="officeId != null">office_id,</if>
+            <if test="name != null and name != ''">name,</if>
+            <if test="enname != null">enname,</if>
+            <if test="roleType != null">role_type,</if>
+            <if test="dataScope != null">data_scope,</if>
+            <if test="isSys != null">is_sys,</if>
+            <if test="useable != null">useable,</if>
+            <if test="creator != null">creator,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateUser != null">update_user,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remarks != null">remarks,</if>
+            <if test="isDel != null">is_del,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="officeId != null">#{officeId},</if>
+            <if test="name != null and name != ''">#{name},</if>
+            <if test="enname != null">#{enname},</if>
+            <if test="roleType != null">#{roleType},</if>
+            <if test="dataScope != null">#{dataScope},</if>
+            <if test="isSys != null">#{isSys},</if>
+            <if test="useable != null">#{useable},</if>
+            <if test="creator != null">#{creator},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateUser != null">#{updateUser},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remarks != null">#{remarks},</if>
+            <if test="isDel != null">#{isDel},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTbSysRole" parameterType="com.littlemoth.system.domain.TbSysRole">
+        update tb_sys_role
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="officeId != null">office_id = #{officeId},</if>
+            <if test="name != null and name != ''">name = #{name},</if>
+            <if test="enname != null">enname = #{enname},</if>
+            <if test="roleType != null">role_type = #{roleType},</if>
+            <if test="dataScope != null">data_scope = #{dataScope},</if>
+            <if test="isSys != null">is_sys = #{isSys},</if>
+            <if test="useable != null">useable = #{useable},</if>
+            <if test="creator != null">creator = #{creator},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateUser != null">update_user = #{updateUser},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remarks != null">remarks = #{remarks},</if>
+            <if test="isDel != null">is_del = #{isDel},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTbSysRoleById" parameterType="Long">
+        delete from tb_sys_role where id = #{id}
+    </delete>
+
+    <delete id="deleteTbSysRoleByIds" parameterType="String">
+        delete from tb_sys_role where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

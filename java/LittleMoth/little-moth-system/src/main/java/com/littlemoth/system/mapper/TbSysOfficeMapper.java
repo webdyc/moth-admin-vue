@@ -1,6 +1,6 @@
 package com.littlemoth.system.mapper;
 
-import com.littlemoth.system.domain.TbSysOffice;
+import com.littlemoth.common.core.domain.TbSysOffice;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -9,23 +9,31 @@ import java.util.List;
 /**
  * 机构Mapper接口
  * 
- * @author jiyanjie
+ * @author xusan
  * @date 2022-01-12
  */
 @Repository
-public interface TbSysOfficeMapper 
+public interface TbSysOfficeMapper
 {
     /**
      * 查询机构
-     * 
+     *
      * @param id 机构主键
      * @return 机构
      */
     public TbSysOffice selectTbSysOfficeById(Long id);
 
     /**
+     * 查询机构
+     *
+     * @param officeCode 机构主键
+     * @return 机构
+     */
+    public TbSysOffice selectTbSysOfficeByOfficeCode(String officeCode);
+
+    /**
      * 查询机构列表
-     * 
+     *
      * @param tbSysOffice 机构
      * @return 机构集合
      */
@@ -33,7 +41,7 @@ public interface TbSysOfficeMapper
 
     /**
      * 新增机构
-     * 
+     *
      * @param tbSysOffice 机构
      * @return 结果
      */
@@ -41,7 +49,7 @@ public interface TbSysOfficeMapper
 
     /**
      * 修改机构
-     * 
+     *
      * @param tbSysOffice 机构
      * @return 结果
      */
@@ -49,7 +57,7 @@ public interface TbSysOfficeMapper
 
     /**
      * 删除机构
-     * 
+     *
      * @param id 机构主键
      * @return 结果
      */
@@ -57,7 +65,7 @@ public interface TbSysOfficeMapper
 
     /**
      * 批量删除机构
-     * 
+     *
      * @param ids 需要删除的数据主键集合
      * @return 结果
      */
@@ -71,3 +79,4 @@ public interface TbSysOfficeMapper
     List<TbSysOffice> getOfficeList(@Param("lastTime") String lastTime);
 
 }
+

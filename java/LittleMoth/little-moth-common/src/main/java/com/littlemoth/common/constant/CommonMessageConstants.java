@@ -2,7 +2,7 @@ package com.littlemoth.common.constant;
 
 /**
  * 公共消息
- * @auther: jiyanjie
+ * @auther: xusan
  * @time: 2022/1/10 14:10
  */
 public class CommonMessageConstants {

@@ -7,8 +7,7 @@ import io.jsonwebtoken.Claims;
  * 
  * @author xiusan
  */
-public class Constants
-{
+public class Constants {
     /**
      * UTF-8 字符集
      */
@@ -38,6 +37,22 @@ public class Constants
      * 通用失败标识
      */
     public static final String FAIL = "1";
+
+
+    /**
+     * 一级菜单
+     */
+    public static final String STAIR_MENU = "0";
+
+    /**
+     * 一级菜单通配
+     */
+    public static final String PARENTIDS = "0,";
+
+    /**
+     * 菜单类型 --菜单
+     */
+    public static final String MENU_TYPE_C = "C";
 
     /**
      * 登录成功
@@ -82,7 +97,7 @@ public class Constants
     /**
      * 验证码有效期（分钟）
      */
-    public static final Integer CAPTCHA_EXPIRATION = 2;
+    public static final Integer CAPTCHA_EXPIRATION = 200000;
 
     /**
      * 令牌
@@ -152,6 +167,6 @@ public class Constants
     /**
      * 定时任务违规的字符
      */
-    public static final String[] JOB_ERROR_STR = { "java.net.URL", "javax.naming.InitialContext", "org.yaml.snakeyaml",
-            "org.springframework.jndi" };
+    public static final String[] JOB_ERROR_STR = {"java.net.URL", "javax.naming.InitialContext", "org.yaml.snakeyaml",
+            "org.springframework.jndi"};
 }

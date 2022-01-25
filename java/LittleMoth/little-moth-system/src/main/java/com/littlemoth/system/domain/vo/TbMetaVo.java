@@ -1,13 +1,17 @@
 package com.littlemoth.system.domain.vo;
 
 
+import java.io.Serializable;
+
 /**
  * 路由显示信息
- * 
+ *
  * @author xiusan
  */
-public class TbMetaVo
-{
+public class TbMetaVo implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
     /**
      * 路由权限
      */
@@ -24,17 +28,18 @@ public class TbMetaVo
     private String icon;
 
 
-    /** 面包屑 */
+    /**
+     * 面包屑
+     */
     private boolean breadcrumb;
 
-    /** 页面是否缓存 */
+    /**
+     * 页面是否缓存
+     */
     private boolean keepAlive;
 
 
-
-
-    public TbMetaVo(String title, String icon,Boolean breadcrumb,Boolean keepAlive,  String[] role)
-    {
+    public TbMetaVo(String title, String icon, Boolean breadcrumb, Boolean keepAlive, String[] role) {
         this.title = title;
         this.icon = icon;
         this.role = role;
@@ -52,23 +57,19 @@ public class TbMetaVo
     }
 
 
-    public String getTitle()
-    {
+    public String getTitle() {
         return title;
     }
 
-    public void setTitle(String title)
-    {
+    public void setTitle(String title) {
         this.title = title;
     }
 
-    public String getIcon()
-    {
+    public String getIcon() {
         return icon;
     }
 
-    public void setIcon(String icon)
-    {
+    public void setIcon(String icon) {
         this.icon = icon;
     }
 
