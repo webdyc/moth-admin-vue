@@ -1,3 +1,4 @@
+=
 <template>
   <div class="app-content">
     <aside>
@@ -12,7 +13,7 @@
     </aside>
     <div class="flex justify-between">
       <div class="flex-1 mr-5">
-        <tinymce v-model="content" :height="500" />
+        <tinymce :value="content" :height="500" @callBack="callBack" />
       </div>
       <!-- 手机模态框 -->
       <PhoneDome :content="content" />
@@ -32,6 +33,11 @@ export default {
     return {
       content: `<h1 style="text-align: center;">Welcome to the TinyMCE demo!</h1><p style="text-align: center; font-size: 15px;">`,
     };
+  },
+  methods: {
+    callBack(data) {
+      this.content = data;
+    },
   },
 };
 </script>

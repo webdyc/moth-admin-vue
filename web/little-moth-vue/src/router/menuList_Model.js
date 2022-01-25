@@ -16,14 +16,14 @@ export default [
   {
     path: "/",
     component: "Layout",
-    redirect: "workplace",
+    redirect: "/workplace",
     meta: {
       title: "工作台",
       icon: "table",
     },
     children: [
       {
-        path: "workplace",
+        path: "/workplace",
         name: "workplace",
         component: "/workplace/index",
         meta: {
@@ -35,7 +35,7 @@ export default [
   {
     path: "/dashboard",
     component: "Layout",
-    redirect: "dashboard/welcome",
+    redirect: "/dashboard/welcome",
     meta: {
       title: "仪表盘",
       icon: "table",
@@ -62,22 +62,22 @@ export default [
   {
     path: "/tabel",
     component: "Layout",
-    redirect: "/tabel/index",
+    redirect: "/tabel/tabelList",
     meta: {
       title: "案例模板",
       icon: "table",
     },
     children: [
       {
-        path: "/tabel/index",
-        name: "tabel",
-        component: "/tabel/index",
+        path: "tabelList",
+        name: "tabelList",
+        component: "/tabel/tabelList",
         meta: {
           title: "表格模板",
         },
       },
       {
-        path: "/structureTabel/index",
+        path: "structureTabel",
         name: "structureTabel",
         component: "/tabel/structureTabel",
         meta: {
@@ -85,7 +85,7 @@ export default [
         },
       },
       {
-        path: "/tabelInfo/index",
+        path: "tabelInfo",
         name: "tabelInfo",
         component: "/tabel/tabelInfo",
         meta: {
@@ -97,14 +97,14 @@ export default [
   {
     path: "/components",
     component: "Layout",
-    redirect: "/tinymce/index",
+    redirect: "/components/recorder",
     meta: {
       title: "组件",
       icon: "table",
     },
     children: [
       {
-        path: "/recorder/index",
+        path: "recorder",
         name: "recorder",
         component: "/components/recorder/index",
         meta: {
@@ -112,7 +112,7 @@ export default [
         },
       },
       {
-        path: "/tinymce/index",
+        path: "tinymce",
         name: "tinymce",
         component: "/components/tinymce/index",
         meta: {
@@ -120,7 +120,7 @@ export default [
         },
       },
       {
-        path: "/componentsDemo/index",
+        path: "componentsDemo",
         name: "componentsDemo",
         component: "/components/componentsDemo/index",
         meta: {
@@ -128,7 +128,7 @@ export default [
         },
       },
       {
-        path: "/dragDalog/index",
+        path: "dragDalog",
         name: "dragDalog",
         component: "/components/dragDalog/index",
         meta: {
@@ -136,7 +136,7 @@ export default [
         },
       },
       {
-        path: "/dragKanban/index",
+        path: "dragKanban",
         name: "dragKanban",
         component: "/components/dragKanban/index",
         meta: {
@@ -167,8 +167,8 @@ export default [
     redirect: "mapManage/aMap",
     children: [
       {
-        path: "mapManage/aMap",
-        name: "mapManage/aMap",
+        path: "aMap",
+        name: "aMap",
         component: "/mapManage/aMap/index",
         meta: {
           title: "地图管理",
@@ -180,9 +180,10 @@ export default [
   {
     path: "/questionnaire",
     component: "Layout",
+    redirect: "/questionnaire",
     children: [
       {
-        path: "questionnaire",
+        path: "/questionnaire",
         name: "questionnaire",
         component: "/questionnaire/index",
         meta: {
@@ -202,14 +203,15 @@ export default [
     },
     children: [
       {
-        path: "/flowDiagram/x6Flow",
+        path: "x6Flow",
+        name: "x6Flow",
         component: "/flowDiagram/x6Flow/index",
         meta: {
           title: "x6流程图",
         },
       },
       {
-        path: "/flowDiagram/logicFlow",
+        path: "logicFlow",
         component: "/flowDiagram/logicFlow/index",
         meta: {
           title: "logicFlow流程图",
@@ -220,7 +222,7 @@ export default [
   {
     path: "/personalManage",
     component: "Layout",
-    redirect: "personal",
+    redirect: "/personalManage/personal",
     meta: {
       title: "个人信息",
       icon: "example",
@@ -238,41 +240,16 @@ export default [
         path: "personalSetting",
         name: "personalSetting",
         component: "/personalManage/personalSetting/index",
-        redirect: "personalSetting/base",
         meta: {
           title: "个人设置",
-        },
-        children: [
-          {
-            hidden: true,
-            path: "base",
-            name: "personalSettingBase",
-            component: "/personalManage/personalSetting/base/index",
-            meta: {
-              title: "基础设置",
-              breadcrumb: false,
-              keepAlive: true,
-            },
-          },
-          {
-            hidden: true,
-            path: "security",
-            name: "personalSettingSecurity",
-            component: "/personalManage/personalSetting/security/index",
-            meta: {
-              title: "安全设置",
-              breadcrumb: false,
-              keepAlive: true,
-            },
-          },
-        ],
+        }
       },
     ],
   },
   {
     path: "/systemManage",
     component: "Layout",
-    redirect: "role",
+    redirect: "/systemManage/role",
     meta: {
       title: "系统管理",
       icon: "table",

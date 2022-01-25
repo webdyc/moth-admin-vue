@@ -62,7 +62,7 @@ service.interceptors.response.use(
       });
 
       // 50008: Illegal token; 50012: Other clients logged in; 50014: Token expired;
-      if (res.code === 50008 || res.code === 50012 || res.code === 50014) {
+      if (res.code === 50008 || res.code === 50012 || res.code === 50014 || res.code === 401) {
         // to re-login
         MessageBox.confirm(
           "登录状态已过期，您可以继续留在该页面，或者重新登录",
@@ -72,10 +72,11 @@ service.interceptors.response.use(
             cancelButtonText: "取消",
             type: "warning",
           }
-        ).then(() => {
-          store.dispatch("user/resetToken").then(() => {
+        ).then(async () => {
+          let result = await store.dispatch("user/FedLogOut")
+          if (result) {
             location.reload();
-          });
+          }
         });
       }
       return Promise.reject(new Error(res.msg || "Error"));

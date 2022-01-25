@@ -73,7 +73,7 @@
               height="100px"
               image="https://wpimg.wallstcn.com/577965b9-bb9e-4e02-9f0c-095b41417191"
             >
-              vue-element-admin
+              little-moth
             </pan-thumb>
           </div>
         </el-card>
@@ -94,7 +94,7 @@
             <span>hover text</span>
           </div>
           <div class="component-item">
-            <mallki class-name="mallki-text" text="vue-element-admin" />
+            <mallki class-name="mallki-text" text="little-moth" />
           </div>
         </el-card>
       </el-col>
@@ -152,8 +152,7 @@ export default {
       }
     };
     return {
-      activeName: "directly",
-      inputData: "https://github.com/webdyc/vue-admin-template",
+      inputData: "https://github.com/webdyc/little-moth",
       demo: {
         title: "",
       },
@@ -163,9 +162,10 @@ export default {
     };
   },
   methods: {
+    // 一键复制
     clipboardSuccess() {
       this.$message({
-        message: "Copy successfully",
+        message: "复制成功",
         type: "success",
         duration: 1500,
       });

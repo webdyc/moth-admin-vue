@@ -47,6 +47,7 @@
       <el-button type="danger" :size="styleSize" @click="handleDelete()">
         批量删除
       </el-button>
+      <FileExcel ref="fileExcel" @import="importFile" />
     </div>
     <!-- 表格内容 -->
     <el-table
@@ -168,6 +169,7 @@
 import defaultSettings from "@/settings";
 import elDragDialog from "@/directive/el-drag-dialog";
 import { exportDownload } from "@/utils/export";
+import FileExcel from "@/components/upload/file";
 // PersonForm的类
 class PersonForm {
   // 值
@@ -197,6 +199,9 @@ class PersonForm {
 }
 export default {
   directives: { elDragDialog },
+  components: {
+    FileExcel,
+  },
   data() {
     return {
       styleSize: defaultSettings.styleSize,
@@ -321,6 +326,15 @@ export default {
       };
       exportDownload(params, "/manrobot/commission/estimate/export", "文件名");
     },
+    /** 导入 */
+    importFile(data) {
+      console.log(data);
+      if (data.length) {
+        this.$refs.fileExcel.closeUploadModel();
+      } else {
+        console.log("文件不能为空");
+      }
+    },
     /** 多选 */
     handleSelectionChange(val) {
       this.multipleSelection = val.map((item) => item.id);
@@ -345,12 +359,17 @@ export default {
           this.$message.info("已取消删除");
         });
     },
-    /** 分页 */
+    // 分页
     handleSizeChange(val) {
       console.log(`每页 ${val} 条`);
+      this.searchForm.pageNum = 1;
+      this.searchForm.pageSize = val;
+      this.handleSearch();
     },
     handleCurrentChange(val) {
       console.log(`当前页: ${val}`);
+      this.searchForm.pageNum = val;
+      this.handleSearch();
     },
   },
 };

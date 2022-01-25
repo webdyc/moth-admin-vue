@@ -34,10 +34,7 @@
           <router-link to="/">
             <el-dropdown-item>回到主页</el-dropdown-item>
           </router-link>
-          <a
-            target="_blank"
-            href="https://github.com/webdyc/vue-admin-template"
-          >
+          <a target="_blank" href="https://github.com/webdyc/little-moth">
             <el-dropdown-item>Github</el-dropdown-item>
           </a>
           <a target="_blank" href="https://webdyc.com/">
@@ -87,6 +84,7 @@ export default {
     handleCommand(command) {
       this.$message("click on item " + command);
     },
+    // 登出
     async logout() {
       let result = await this.$store.dispatch("user/FedLogOut");
       if (result) {

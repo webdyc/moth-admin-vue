@@ -44,7 +44,8 @@ const actions = {
   async Login ({ commit }, userInfo) {
     let result = await login(userInfo)
     if (result.code === 200) {
-      const { token } = result;
+      const { token } = result.data;
+      console.log(token);
       // 储存token
       commit("SET_TOKEN", token);
       setToken(token);
@@ -73,7 +74,6 @@ const actions = {
     if (result.code === 200) {
       removeToken() // 必须先删除token
       commit('RESET_STATE', '')
-      console.log(1312312312);
       return true
     } else {
       return Promise.reject(new Error(result.msg))
@@ -89,7 +89,6 @@ const actions = {
     // });
     removeToken() // 必须先删除token
     commit('RESET_STATE', '')
-    console.log(1312312312);
     return true
   },
 

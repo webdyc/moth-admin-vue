@@ -1,4 +1,4 @@
-# vue-admin-template
+# little-moth-template
 
 > 这是一个极简的 vue admin 管理后台。它只包含了 Element UI & axios & iconfont & permission control & lint，这些搭建后台必要的东西。
 
@@ -14,13 +14,13 @@
 
 ## 相关项目
 
-- [vue-element-admin](https://github.com/PanJiaChen/vue-element-admin)
+- [little-moth](https://github.com/PanJiaChen/little-moth)
 
 - [electron-vue-admin](https://github.com/PanJiaChen/electron-vue-admin)
 
 - [vue-typescript-admin-template](https://github.com/Armour/vue-typescript-admin-template)
 
-- [awesome-project](https://github.com/PanJiaChen/vue-element-admin/issues/2312)
+- [awesome-project](https://github.com/PanJiaChen/little-moth/issues/2312)
 
 写了一个系列的教程配套文章，如何从零构建后一个完整的后台项目:
 
@@ -77,11 +77,11 @@ npm run lint
 npm run lint -- --fix
 ```
 
-更多信息请参考 [使用文档](https://panjiachen.github.io/vue-element-admin-site/zh/)
+更多信息请参考 [使用文档](https://panjiachen.github.io/little-moth-site/zh/)
 
 ## 购买贴纸
 
-你也可以通过 购买[官方授权的贴纸](https://smallsticker.com/product/vue-element-admin) 的方式来支持 vue-element-admin - 每售出一张贴纸，我们将获得 2 元的捐赠。
+你也可以通过 购买[官方授权的贴纸](https://smallsticker.com/product/little-moth) 的方式来支持 little-moth - 每售出一张贴纸，我们将获得 2 元的捐赠。
 
 ## Demo
 

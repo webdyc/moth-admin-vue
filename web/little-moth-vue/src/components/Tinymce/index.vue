@@ -1,37 +1,23 @@
 <template>
-  <div
-    :class="{ fullscreen: fullscreen }"
-    class="tinymce-container"
-    :style="{ width: containerWidth }"
-  >
-    <textarea :id="tinymceId" class="tinymce-textarea" />
-    <div class="editor-custom-btn-container">
-      <editorImage
-        color="#1890ff"
-        class="editor-upload-btn"
-        @successCBK="imageSuccessCBK"
-      />
-    </div>
+  <div class="editor">
+    <Editor
+      api-key="no-api-key"
+      :init="tinymceInit"
+      v-model="myValue"
+      :disabled="readonly"
+      :output-format="outputFormat"
+    />
   </div>
 </template>
-
 <script>
-/**
- * docs:
- * https://panjiachen.github.io/vue-element-admin-site/feature/component/rich-editor.html#tinymce
- */
-import editorImage from "./components/EditorImage";
+import Editor from "@tinymce/tinymce-vue";
 import plugins from "./plugins";
 import toolbar from "./toolbar";
-import load from "./dynamicLoadScript";
-
-// why use this cdn, detail see https://github.com/PanJiaChen/tinymce-all-in-one
-const tinymceCDN =
-  "https://cdn.jsdelivr.net/npm/tinymce-all-in-one@4.9.3/tinymce.min.js";
-
 export default {
+  components: {
+    Editor,
+  },
   name: "Tinymce",
-  components: { editorImage },
   props: {
     id: {
       type: String,
@@ -68,9 +54,26 @@ export default {
       required: false,
       default: "auto",
     },
+    /**
+     * 只读模式
+     * html ,text
+     **/
+    readonly: {
+      type: Boolean,
+      default: false,
+    },
+    /**
+     * 输出格式
+     * html ,text
+     **/
+    outputFormat: {
+      type: String,
+      default: "html",
+    },
   },
   data() {
     return {
+      myValue: this.value,
       hasChange: false,
       hasInit: false,
       tinymceId: this.id,
@@ -81,186 +84,98 @@ export default {
         es: "es_MX",
         ja: "ja",
       },
+      // 初始化设置
+      tinymceInit: {
+        // 辑器替换的 id
+        selector: `#${this.tinymceId}`,
+        //编辑器高度
+        height: this.height,
+        language: "zh_CN",
+        // 工具栏配置
+        toolbar: this.toolbar.length > 0 ? this.toolbar : toolbar,
+        // 菜单和菜单栏配置示例
+        menubar: this.menubar,
+        // 插件
+        plugins: plugins,
+        /*content_css: [ //可设置编辑区内容展示的css，谨慎使用
+        '/static/reset.css',
+        '/static/ax.css',
+        '/static/css.css',
+        ],*/
+        fontsize_formats: "12px 14px 16px 18px 24px 36px 48px 56px 72px",
+        font_formats:
+          "微软雅黑=Microsoft YaHei,Helvetica Neue,PingFang SC,sans-serif;苹果苹方=PingFang SC,Microsoft YaHei,sans-serif;宋体=simsun,serif;仿宋体=FangSong,serif;黑体=SimHei,sans-serif;Arial=arial,helvetica,sans-serif;Arial Black=arial black,avant garde;Book Antiqua=book antiqua,palatino;",
+        link_list: [
+          { title: "预置链接1", value: "http://www.tinymce.com" },
+          { title: "预置链接2", value: "http://tinymce.ax-z.cn" },
+        ],
+        image_list: [
+          {
+            title: "预置图片1",
+            value: "https://www.tiny.cloud/images/glyph-tinymce@2x.png",
+          },
+          {
+            title: "预置图片2",
+            value: "https://www.baidu.com/img/bd_logo1.png",
+          },
+        ],
+        image_class_list: [
+          { title: "None", value: "" },
+          { title: "Some class", value: "class-name" },
+        ],
+        importcss_append: true,
+        //自定义文件选择器的回调内容
+        file_picker_callback: function (callback, value, meta) {
+          if (meta.filetype === "file") {
+            callback("https://www.baidu.com/img/bd_logo1.png", {
+              text: "My text",
+            });
+          }
+          if (meta.filetype === "image") {
+            callback("https://www.baidu.com/img/bd_logo1.png", {
+              alt: "My alt text",
+            });
+          }
+          if (meta.filetype === "media") {
+            callback("movie.mp4", {
+              source2: "alt.ogg",
+              poster: "https://www.baidu.com/img/bd_logo1.png",
+            });
+          }
+        },
+        // 置顶工具栏
+        toolbar_sticky: true,
+        // 自动保存
+        autosave_ask_before_unload: false,
+      },
     };
   },
   computed: {
     containerWidth() {
-      const width = this.width;
+      constwidth = this.width;
       if (/^[\d]+(\.[\d]+)?$/.test(width)) {
         // matches `100`, `'100'`
         return `${width}px`;
       }
-      return width;
+      returnwidth;
     },
   },
   watch: {
-    value(val) {
-      if (!this.hasChange && this.hasInit) {
-        this.$nextTick(() =>
-          window.tinymce.get(this.tinymceId).setContent(val || "")
-        );
-      }
+    //监听内容变化
+    value(newValue) {
+      this.myValue = newValue;
+    },
+    myValue(newValue) {
+      this.$emit("callBack", newValue);
     },
   },
-  mounted() {
-    this.init();
-  },
-  activated() {
-    if (window.tinymce) {
-      this.initTinymce();
-    }
-  },
-  deactivated() {
-    this.destroyTinymce();
-  },
-  destroyed() {
-    this.destroyTinymce();
-  },
-  methods: {
-    init() {
-      // 引用tinymceCDN,并调用初始化Tinymce方法
-      load(tinymceCDN, (err) => {
-        if (err) {
-          this.$message.error(err.message);
-          return;
-        }
-        this.initTinymce();
-      });
-    },
-    initTinymce() {
-      const _this = this;
-      window.tinymce.init({
-        selector: `#${this.tinymceId}`,
-        language: this.languageTypeList["zh"], // 中英文切换
-        height: this.height,
-        body_class: "panel-body ",
-        object_resizing: false,
-        toolbar: this.toolbar.length > 0 ? this.toolbar : toolbar,
-        menubar: this.menubar,
-        plugins: plugins,
-        end_container_on_empty_block: true,
-        powerpaste_word_import: "clean",
-        code_dialog_height: 450,
-        code_dialog_width: 1000,
-        advlist_bullet_styles: "square",
-        advlist_number_styles: "default",
-        imagetools_cors_hosts: ["www.tinymce.com", "codepen.io"],
-        default_link_target: "_blank",
-        link_title: false,
-        nonbreaking_force_tab: true, // inserting nonbreaking space &nbsp; need Nonbreaking Space Plugin
-        init_instance_callback: (editor) => {
-          if (_this.value) {
-            editor.setContent(_this.value);
-          }
-          _this.hasInit = true;
-          editor.on("NodeChange Change KeyUp SetContent", () => {
-            this.hasChange = true;
-            this.$emit("input", editor.getContent());
-          });
-        },
-        setup(editor) {
-          editor.on("FullscreenStateChanged", (e) => {
-            _this.fullscreen = e.state;
-          });
-        },
-        // it will try to keep these URLs intact
-        // https://www.tiny.cloud/docs-3x/reference/configuration/Configuration3x@convert_urls/
-        // https://stackoverflow.com/questions/5196205/disable-tinymce-absolute-to-relative-url-conversions
-        convert_urls: false,
-        // 整合七牛上传
-        // images_dataimg_filter(img) {
-        //   setTimeout(() => {
-        //     const $image = $(img);
-        //     $image.removeAttr('width');
-        //     $image.removeAttr('height');
-        //     if ($image[0].height && $image[0].width) {
-        //       $image.attr('data-wscntype', 'image');
-        //       $image.attr('data-wscnh', $image[0].height);
-        //       $image.attr('data-wscnw', $image[0].width);
-        //       $image.addClass('wscnph');
-        //     }
-        //   }, 0);
-        //   return img
-        // },
-        // images_upload_handler(blobInfo, success, failure, progress) {
-        //   progress(0);
-        //   const token = _this.$store.getters.token;
-        //   getToken(token).then(response => {
-        //     const url = response.data.qiniu_url;
-        //     const formData = new FormData();
-        //     formData.append('token', response.data.qiniu_token);
-        //     formData.append('key', response.data.qiniu_key);
-        //     formData.append('file', blobInfo.blob(), url);
-        //     upload(formData).then(() => {
-        //       success(url);
-        //       progress(100);
-        //     })
-        //   }).catch(err => {
-        //     failure('出现未知问题，刷新页面，或者联系程序员')
-        //     console.log(err);
-        //   });
-        // },
-      });
-    },
-    destroyTinymce() {
-      const tinymce = window.tinymce.get(this.tinymceId);
-      if (this.fullscreen) {
-        tinymce.execCommand("mceFullScreen");
-      }
-
-      if (tinymce) {
-        tinymce.destroy();
-      }
-    },
-    setContent(value) {
-      window.tinymce.get(this.tinymceId).setContent(value);
-    },
-    getContent() {
-      window.tinymce.get(this.tinymceId).getContent();
-    },
-    imageSuccessCBK(arr) {
-      arr.forEach((v) =>
-        window.tinymce
-          .get(this.tinymceId)
-          .insertContent(`<img class="wscnph" src="${v.url}" >`)
-      );
-    },
-  },
+  mounted() {},
+  methods: {},
 };
 </script>
-
-<style lang="scss" scoped>
-.tinymce-container {
-  position: relative;
-  line-height: normal;
-}
-
-.tinymce-container {
-  ::v-deep {
-    .mce-fullscreen {
-      z-index: 10000;
-    }
-  }
-}
-
-.tinymce-textarea {
-  visibility: hidden;
-  z-index: -1;
-}
-
-.editor-custom-btn-container {
-  position: absolute;
-  right: 4px;
-  top: 4px;
-  /*z-index: 2005;*/
-}
-
-.fullscreen .editor-custom-btn-container {
-  z-index: 10000;
-  position: fixed;
-}
-
-.editor-upload-btn {
-  display: inline-block;
+<style lang="scss">
+//没有申请key的话会出现一个弹窗要去申请key,在这里把那个弹窗隐藏，当然也可以自己申请key再使用
+.tox-notifications-container {
+  display: none !important;
 }
 </style>

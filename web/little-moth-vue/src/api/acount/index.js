@@ -8,7 +8,7 @@ import CryptoJS from "crypto-js";
  * @author webdyc
  */
 
-export function login(options = {}) {
+export function login (options = {}) {
   // const nameArray = CryptoJS.enc.Utf8.parse(options.username);
   // options.username = CryptoJS.enc.Base64.stringify(nameArray);
   // const wordArray = CryptoJS.enc.Utf8.parse(options.password);
@@ -38,7 +38,7 @@ export function login(options = {}) {
  * @returns {*}
  * @author webdyc
  */
-export function sendCode() {
+export function sendCode () {
   return request({
     url: process.env.VUE_APP_BASE_API + "/captchaImage",
     method: "get",
@@ -53,12 +53,10 @@ export function sendCode() {
  * @returns {*}
  * @author webdyc
  */
-export function getRole(options = {}) {
+export function getRole () {
   return request({
-    headerType: 1,
-    url: process.env.VUE_APP_BASE_API + "/auth/permission",
-    method: "post",
-    data: options,
+    url: process.env.VUE_APP_BASE_API + "/getRouters",
+    method: "get",
   });
 }
 
@@ -69,7 +67,7 @@ export function getRole(options = {}) {
  * @author webdyc
  */
 
-export function logout() {
+export function logout () {
   return request({
     url: "/logout",
     method: "post",

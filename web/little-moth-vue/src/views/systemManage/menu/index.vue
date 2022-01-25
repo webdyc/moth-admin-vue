@@ -1,50 +1,9 @@
 <template>
   <div class="app-content">
-    <!-- 搜索项 -->
-    <el-form :inline="true" :model="searchForm" class="demo-form-inline">
-      <el-form-item label="客户姓名">
-        <el-input v-model="searchForm.name" :size="styleSize" />
-      </el-form-item>
-      <el-form-item label="客户号码">
-        <el-input v-model="searchForm.phone" :size="styleSize" />
-      </el-form-item>
-      <el-form-item label="客户来源">
-        <el-select v-model="searchForm.source" :size="styleSize">
-          <el-option
-            v-for="item in sourceArr"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          />
-        </el-select>
-      </el-form-item>
-      <el-form-item label="日期">
-        <el-date-picker
-          v-model="timeValue"
-          type="daterange"
-          range-separator="至"
-          start-placeholder="开始日期"
-          end-placeholder="结束日期"
-          value-format="yyyy-MM-DD"
-          :size="styleSize"
-        />
-      </el-form-item>
-
-      <el-form-item>
-        <el-button type="primary" :size="styleSize" @click="handleSearch">
-          查询
-        </el-button>
-        <el-button :size="styleSize" @click="handleReset">重置</el-button>
-        <el-button type="success" :size="styleSize">导出</el-button>
-      </el-form-item>
-    </el-form>
     <!-- 表格配置 -->
     <div class="table-config">
-      <el-button type="primary" :size="styleSize" @click="handleEdit()">
+      <el-button type="primary" :size="styleSize" @click="handleAdd()">
         新增一级菜单
-      </el-button>
-      <el-button type="danger" :size="styleSize" @click="handleDelete()">
-        批量删除
       </el-button>
     </div>
     <!-- 表格 -->
@@ -58,25 +17,22 @@
     >
       <el-table-column prop="path" label="路由地址" width="180" />
       <el-table-column label="标题">
-        <template v-if="scope.row.meta" slot-scope="scope">
-          {{ scope.row.meta.title }}
+        <template slot-scope="scope">
+          {{ scope.row.title }}
         </template>
       </el-table-column>
 
-      <el-table-column prop="路由名称" label="name" />
+      <el-table-column prop="name" label="路由名称" />
       <el-table-column prop="component" label="文件路径" />
       <el-table-column prop="redirect" label="路由重定向" />
       <el-table-column label="图标" width="80" align="center">
-        <template
-          v-if="scope.row.meta && scope.row.meta.icon"
-          slot-scope="scope"
-        >
-          <svg-icon :icon-class="scope.row.meta.icon" />
+        <template v-if="scope.row.icon" slot-scope="scope">
+          <svg-icon :icon-class="scope.row.icon" />
         </template>
       </el-table-column>
       <el-table-column label="是否缓存" align="center" width="100">
-        <template v-if="scope.row.meta" slot-scope="scope">
-          {{ scope.row.meta.keepAlive ? "是" : "否" }}
+        <template slot-scope="scope">
+          {{ scope.row.keepAlive ? "是" : "否" }}
         </template>
       </el-table-column>
       <el-table-column label="隐藏路由" align="center">
@@ -84,9 +40,11 @@
           {{ scope.row.hidden ? "是" : "否" }}
         </template>
       </el-table-column>
-      <el-table-column label="页面权限" align="center">
-        <template v-if="scope.row.meta" slot-scope="scope">
-          {{ scope.row.meta.role }}
+      <el-table-column label="菜单类型" align="center">
+        <template slot-scope="scope">
+          <span v-if="scope.row.menuType === 'M'">目录</span>
+          <span v-else-if="scope.row.menuType === 'C'">菜单</span>
+          <span v-else-if="scope.row.menuType === 'F'">按钮</span>
         </template>
       </el-table-column>
       <el-table-column fixed="right" label="操作" align="center">
@@ -95,7 +53,7 @@
             class="mr-1"
             type="info"
             :underline="false"
-            @click="handleEdit(scope.row)"
+            @click="handleAdd(scope.row)"
           >
             新增
           </el-link>
@@ -117,17 +75,6 @@
         </template>
       </el-table-column>
     </el-table>
-    <!-- 分页 -->
-    <el-pagination
-      class="table-pagination"
-      :current-page="searchForm.page"
-      :page-sizes="[10, 20, 30, 40]"
-      :page-size="searchForm.pageSize"
-      layout="total, sizes, prev, pager, next, jumper"
-      :total="total"
-      @size-change="handleSizeChange"
-      @current-change="handleCurrentChange"
-    />
     <!-- 新增/编辑弹出框 -->
     <el-dialog
       v-el-drag-dialog
@@ -138,18 +85,14 @@
       <el-form :model="updateForm" :label-width="formLabelWidth" :inline="true">
         <el-row>
           <el-form-item label="上级菜单：">
-            <el-select
-              v-model="updateForm.parentId"
+            <el-cascader
+              v-model="menuTreeselectId"
               :size="styleSize"
-              style="width: 500px"
-            >
-              <el-option
-                v-for="item in sourceArr"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              />
-            </el-select>
+              :options="menuTreeselectArr"
+              :props="defaultProps"
+              clearable
+              filterable
+            ></el-cascader>
           </el-form-item>
         </el-row>
         <el-row>
@@ -196,7 +139,7 @@
               :size="styleSize"
             />
           </el-form-item>
-          <el-form-item label="路由重定向：">
+          <el-form-item label="路由重定向：" v-if="updateForm.menuType === 'M'">
             <el-input
               v-model="updateForm.redirect"
               placeholder="redirect"
@@ -204,7 +147,7 @@
               :size="styleSize"
             />
           </el-form-item>
-          <el-form-item label="图标：">
+          <el-form-item label="图标：" v-if="updateForm.menuType === 'M'">
             <el-input
               v-model="updateForm.icon"
               placeholder="icon"
@@ -265,7 +208,15 @@
 <script>
 import defaultSettings from "@/settings";
 import elDragDialog from "@/directive/el-drag-dialog";
-import { menu_treeselect } from "@/api/systemManage/menu";
+import { deepClone, findPatentValue } from "@/utils";
+import {
+  menu_treeselect,
+  menu_list,
+  menu_create,
+  menu_info,
+  menu_remove,
+  menu_update,
+} from "@/api/systemManage/menu";
 // 路由表
 const menuListM = [
   {
@@ -493,26 +444,14 @@ export default {
       styleSize: defaultSettings.styleSize,
       // 搜索项
       searchForm: {
-        // 客户姓名
-        name: "",
-        // 客户号码
-        phone: "",
-        // 备用号码
-        secondPhone: "",
-        // 客户来源
-        source: "",
-        // 导入开始时间
-        createTimeBegin: "",
-        createTimeEnd: "",
         // 每页条数
-        pageSize: 1,
+        pageSize: 10,
         // 当前页码
-        pageNumber: 10,
+        pageNum: 1,
       },
-      //   时间段日期
-      timeValue: [],
-      // 客户来源数组
-      sourceArr: [
+      // 菜单下拉树数组
+      menuTreeselectId: [],
+      menuTreeselectArr: [
         {
           value: "1",
           label: "全部",
@@ -526,54 +465,74 @@ export default {
           label: "自动导入",
         },
       ],
+      defaultProps: {
+        value: "id",
+        checkStrictly: true,
+      },
       // 表格数据
       formLabelWidth: "140px",
       tableLoading: false,
       tableData: menuListM,
-      // 多选数组
-      multipleSelection: [],
       // 总条数
       total: 0,
       // 表单弹出框
       isUpdate: false,
       updateFormVisible: false,
       updateFormLoading: false,
-      // 是否显示新增标签输入框
-      inputVisible: false,
-      inputValue: "",
       updateForm: new PersonForm(),
       updateFormRules: PersonForm.getRule(),
     };
   },
   created() {},
   mounted() {
-    let a = menu_treeselect().then((res) => res);
-    console.log(a);
+    this.handleSearch();
   },
   methods: {
-    // 筛选项提交
-    handleSearch() {
-      const params = {
-        starTime: this.timeValue[0],
-        endTime: this.timeValue[1],
-      };
-      Object.assign(this.searchForm, params);
-      this.tableLoading = true;
-
-      // clientManage_list(this.searchForm).then((res) => {
-      //   this.tableData = res.data.list;
-      //   this.total = res.data.total;
-      //   this.tableLoading = false;
-      // });
+    aaa() {
+      console.log(this.menuTreeselectId);
     },
-    // 筛选项重置
-    handleReset() {},
-    // 打开弹框
-    handleEdit(row) {
+    // 获取菜单下拉树列表
+    async getMenuTreeselect() {
+      this.menuTreeselectArr = await menu_treeselect().then((res) => res.data);
+    },
+    // 筛选项提交
+    async handleSearch() {
+      this.tableLoading = true;
+      let { code, data, total } = await menu_list(this.searchForm);
+      if (code === 200) {
+        this.tableData = data;
+        this.total = total;
+        this.tableLoading = false;
+      }
+    },
+    // 打开新增弹框
+    async handleAdd(row) {
+      // 获取菜单下拉树列表
+      await this.getMenuTreeselect();
       if (row) {
+        this.menuTreeselectId = findPatentValue(
+          this.menuTreeselectArr,
+          row.id,
+          "id"
+        );
+      }
+      this.updateFormVisible = true;
+    },
+    // 打开编辑弹框
+    async handleEdit(row) {
+      // 获取菜单下拉树列表
+      await this.getMenuTreeselect();
+      let { code, data } = await menu_info(row.id);
+      if (code === 200) {
+        this.updateForm = data;
         // 编辑
         this.isUpdate = true;
-        this.updateForm = JSON.parse(JSON.stringify(row));
+        // 处理下拉框树结构
+        this.menuTreeselectId = findPatentValue(
+          this.menuTreeselectArr,
+          this.updateForm.parentId,
+          "id"
+        );
       }
       this.updateFormVisible = true;
     },
@@ -584,62 +543,43 @@ export default {
       this.updateFormLoading = false;
       this.updateFormVisible = false;
       this.isUpdate = false;
+      this.menuTreeselectId = [];
+      this.handleSearch();
     },
     // 弹窗表单提交
-    handleSubmit() {
-      console.log(this.updateForm);
-      // this.updateFormVisibleClose()
-    },
-    // 多选
-    handleSelectionChange(val) {
-      this.multipleSelection = val.map((item) => item.id);
+    async handleSubmit() {
+      let params = deepClone(this.updateForm);
+      params.parentId = this.menuTreeselectId[this.menuTreeselectId.length - 1];
+      if (this.isUpdate) {
+        //编辑
+        let result = await menu_update(params);
+        if (result.code === 200) {
+          this.updateFormVisibleClose();
+        } else {
+          // this.$message.error(result.data);
+        }
+      } else {
+        let result = await menu_create(params);
+        if (result.code === 200) {
+          this.updateFormVisibleClose();
+        } else {
+          // this.$message.error(result.data);
+        }
+      }
     },
     // 删除
     handleDelete(id) {
-      const ids = id || this.multipleSelection.join(",");
-      if (!ids) {
-        this.$message.warning("删除信息不能为空！");
-        return;
-      }
-      this.$confirm("此操作将永久删除该文件, 是否继续?", "提示", {
+      this.$confirm("此操作将永久删除该菜单, 是否继续?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning",
-      })
-        .then(() => {
-          console.log(ids);
+      }).then(async () => {
+        let { code } = await menu_remove(id);
+        if (code === 200) {
+          this.handleSearch();
           this.$message.success("删除成功");
-        })
-        .catch(() => {
-          this.$message.info("已取消删除");
-        });
-    },
-    // 分页
-    handleSizeChange(val) {
-      console.log(`每页 ${val} 条`);
-    },
-    handleCurrentChange(val) {
-      console.log(`当前页: ${val}`);
-    },
-    handleClose(tag) {
-      this.updateForm.meta.role.splice(
-        this.updateForm.meta.role.indexOf(tag),
-        1
-      );
-    },
-    showInput() {
-      this.inputVisible = true;
-      this.$nextTick((_) => {
-        this.$refs.saveTagInput.$refs.input.focus();
+        }
       });
-    },
-    handleInputConfirm() {
-      const inputValue = this.inputValue;
-      if (inputValue) {
-        this.updateForm.meta.role.push(inputValue);
-      }
-      this.inputVisible = false;
-      this.inputValue = "";
     },
   },
 };
