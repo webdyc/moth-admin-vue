@@ -15,7 +15,7 @@ export default {
     },
     text: {
       type: String,
-      default: "little-moth",
+      default: "moth-admin-vue",
     },
   },
 };

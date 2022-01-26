@@ -15,7 +15,7 @@ module.exports = {
    * @type {String}
    * @description 系统变量名称
    */
-  systemTitle: "little-moth-vue",
+  systemTitle: "moth-admin-vue",
 
   /**
    * @type {String}

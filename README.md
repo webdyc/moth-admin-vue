@@ -14,10 +14,10 @@ http://v2admin.webdyc.com/
 
 ```bash
 # clone the project
-git clone https://github.com/webdyc/little-moth.git
+git clone https://github.com/webdyc/moth-admin-vue
 
 # enter the project directory
-cd little-moth-vue
+cd moth-admin-vue
 
 # install dependency
 npm install

@@ -73,7 +73,7 @@
               height="100px"
               image="https://wpimg.wallstcn.com/577965b9-bb9e-4e02-9f0c-095b41417191"
             >
-              little-moth
+              moth-admin-vue
             </pan-thumb>
           </div>
         </el-card>
@@ -94,7 +94,7 @@
             <span>hover text</span>
           </div>
           <div class="component-item">
-            <mallki class-name="mallki-text" text="little-moth" />
+            <mallki class-name="mallki-text" text="moth-admin-vue" />
           </div>
         </el-card>
       </el-col>
@@ -152,7 +152,7 @@ export default {
       }
     };
     return {
-      inputData: "https://github.com/webdyc/little-moth",
+      inputData: "https://github.com/webdyc/moth-admin-vue",
       demo: {
         title: "",
       },

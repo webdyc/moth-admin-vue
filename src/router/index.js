@@ -18,7 +18,7 @@ export const constantRoutes = [
     component: Layout,
     children: [
       {
-        path: "https://github.com/webdyc/little-moth",
+        path: "https://github.com/webdyc/moth-admin-vue",
         meta: { title: "外链地址", icon: "link" },
       },
     ],

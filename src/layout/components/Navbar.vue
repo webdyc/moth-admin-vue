@@ -34,7 +34,7 @@
           <router-link to="/">
             <el-dropdown-item>回到主页</el-dropdown-item>
           </router-link>
-          <a target="_blank" href="https://github.com/webdyc/little-moth">
+          <a target="_blank" href="https://github.com/webdyc/moth-admin-vue">
             <el-dropdown-item>Github</el-dropdown-item>
           </a>
           <a target="_blank" href="https://webdyc.com/">
