@@ -1,42 +1,75 @@
 =
 <template>
   <div class="app-content">
-    <aside>
-      富文本是管理后端的核心功能，但同时它也是一个有很多凹坑的地方。在选择富文本的过程中，我也走了很多弯路。市场上常见的富文本已经基本被使用，我最终选择了Tinymce。请参阅更详细的富文本比较和介绍。
-      <a
-        target="_blank"
-        class="link-type"
-        href="https://panjiachen.github.io/vue-element-admin-site/feature/component/rich-editor.html"
-      >
-        文档
-      </a>
-    </aside>
     <div class="flex justify-between">
       <div class="flex-1 mr-5">
-        <tinymce :value="content" :height="500" @callBack="callBack" />
+        <el-form :model="dataFrom">
+          <el-form-item>
+            <md-input
+              v-model="dataFrom.title"
+              icon="el-icon-search"
+              name="title"
+              placeholder="输入标题"
+            >
+              标题
+            </md-input>
+          </el-form-item>
+        </el-form>
+        <tinymce :value="dataFrom.content" :height="500" @callBack="callBack" />
+        <div class="mt-1 text-right">
+          <el-button
+            v-waves
+            v-clipboard:copy="dataFrom.content"
+            v-clipboard:success="clipboardSuccess"
+            type="primary"
+            icon="el-icon-document"
+            size="small"
+          >
+            一键复制
+          </el-button>
+        </div>
       </div>
       <!-- 手机模态框 -->
-      <PhoneDome :content="content" />
+      <PhoneDome :content="dataFrom.content" />
       <!-- <div class="editor-content" v-html="content" /> -->
     </div>
   </div>
 </template>
 
 <script>
+import MdInput from "@/components/MDinput";
 import Tinymce from "@/components/Tinymce";
+import clipboard from "@/directive/clipboard/index.js"; // use clipboard by v-directive
+import waves from "@/directive/waves/index.js";
 import PhoneDome from "./phone";
 
 export default {
   name: "TinymceDemo",
-  components: { Tinymce, PhoneDome },
+  directives: {
+    clipboard,
+    waves,
+  },
+  components: { MdInput, Tinymce, PhoneDome },
   data() {
     return {
-      content: `<h1 style="text-align: center;">Welcome to the TinyMCE demo!</h1><p style="text-align: center; font-size: 15px;">`,
+      dataFrom: {
+        title: "",
+        content: `<h1 style="text-align: center;">Welcome to the TinyMCE demo!</h1><p style="text-align: center; font-size: 15px;">`,
+      },
     };
   },
   methods: {
+    // 富文本返回函数
     callBack(data) {
       this.content = data;
+    },
+    // 一键复制
+    clipboardSuccess() {
+      this.$message({
+        message: "复制成功",
+        type: "success",
+        duration: 1500,
+      });
     },
   },
 };

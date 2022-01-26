@@ -120,14 +120,6 @@ export default [
         },
       },
       {
-        path: "componentsDemo",
-        name: "componentsDemo",
-        component: "/components/componentsDemo/index",
-        meta: {
-          title: "小组件",
-        },
-      },
-      {
         path: "dragDalog",
         name: "dragDalog",
         component: "/components/dragDalog/index",

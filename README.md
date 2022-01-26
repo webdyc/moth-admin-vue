@@ -8,7 +8,7 @@ Bug 一词在英文中本来是虫子，臭虫之意，为什么现在我们会�
 
 ## 线上地址
 
-http://v2admin.webdyc.com/
+http://moth-admin-vue.webdyc.com/
 
 ## Build Setup
 

@@ -35,12 +35,11 @@ router.beforeEach(async (to, from, next) => {
         try {
           // 通过用户角色，获取到角色路由表
           const { code, data } = await getRole();
-          console.log(data);
           const dataList = data;
           // 本地数据
           // const dataList = menuListM
           //   格式化路由结构
-          const accessRoutes = getAsyncRoutes(await dataList);
+          const accessRoutes = await getAsyncRoutes(dataList);
           //   存到vuex中，菜单栏需要
           store.dispatch("permission/generateRoutes", accessRoutes);
           //   动态添加格式化过的路由

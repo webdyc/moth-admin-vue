@@ -148,20 +148,20 @@ export default {
       }
     },
     // 登录
-    handleLogin() {
-      this.$refs.dataFrom.validate((valid) => {
+    async handleLogin() {
+      this.$refs.dataFrom.validate(async (valid) => {
         if (valid) {
           this.loading = true;
-          this.$store
-            .dispatch("user/Login", this.dataFrom)
-            .then(() => {
-              this.$router.push({ path: this.redirect || "/" });
-              this.loading = false;
-            })
-            .catch(() => {
-              this.getCode();
-              this.loading = false;
-            });
+          let token = await this.$store.dispatch("user/Login", this.dataFrom);
+          let myMessage = await this.$store.dispatch("user/GetInfo", token);
+
+          if (token && myMessage) {
+            this.$router.push({ path: this.redirect || "/" });
+            this.loading = false;
+          } else {
+            this.getCode();
+            this.loading = false;
+          }
         } else {
           console.log("error submit!!");
           return false;

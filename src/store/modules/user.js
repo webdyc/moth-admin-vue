@@ -1,4 +1,4 @@
-import { login, logout } from "@/api/acount";
+import { login, logout, userMessage } from "@/api/acount";
 import {
   getToken,
   setToken,
@@ -13,12 +13,7 @@ import defaultSettings from "@/settings";
 const getDefaultState = () => {
   return {
     token: getToken(),
-    info: {
-      username: getLocalStorage("userInfo")
-        ? getLocalStorage("userInfo").username
-        : defaultSettings.userName,
-      avatar: defaultSettings.avatar,
-    },
+    info: getLocalStorage("userInfo")
   };
 };
 
@@ -45,35 +40,36 @@ const actions = {
     let result = await login(userInfo)
     if (result.code === 200) {
       const { token } = result.data;
-      console.log(token);
       // 储存token
       commit("SET_TOKEN", token);
       setToken(token);
-      return true
+      return token
     } else {
       return Promise.reject(new Error(result.msg))
     }
   },
 
   // 获取用户信息
-  async getUserInfo ({ commit, state }) {
-    let result = await login(userInfo)
+  async GetInfo ({ commit }, state) {
+    let result = await userMessage()
     if (result.code === 200) {
-      const { token } = res;
-      // 储存token
-      commit("SET_USERINFO", token);
-      return true
+      // 储存用户信息
+      commit("SET_USERINFO", result.data);
+      setLocalStorage("userInfo", result.data)
+      return result.data
     } else {
       return Promise.reject(new Error(result.msg))
     }
   },
 
   // 退出系统
-  async LogOut ({ commit, state }) {
+  async LogOut ({ commit, state, dispatch }) {
     let result = await logout(state.token)
     if (result.code === 200) {
       removeToken() // 必须先删除token
+      removeLocalStorage("userInfo")
       commit('RESET_STATE', '')
+      dispatch('tagsView/delAllViews', null, { root: true })
       return true
     } else {
       return Promise.reject(new Error(result.msg))
@@ -81,14 +77,16 @@ const actions = {
   },
 
   // 前端 登出
-  async FedLogOut ({ commit }) {
+  async FedLogOut ({ commit, dispatch }) {
     // return new Promise((resolve) => {
     //   removeToken(); // 必须先删除token
     //   commit("RESET_STATE");
     //   resolve();
     // });
     removeToken() // 必须先删除token
+    removeLocalStorage("userInfo")
     commit('RESET_STATE', '')
+    dispatch('tagsView/delAllViews', null, { root: true })
     return true
   },
 

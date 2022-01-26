@@ -22,8 +22,8 @@
         @visible-change="handleUserInfo"
       >
         <div class="avatar-wrapper">
-          <img :src="user_info.avatar" class="user-avatar" />
-          <span class="user-name">{{ user_info.username }}</span>
+          <el-image :src="user_info.photo" fit="fill" class="user-avatar" />
+          <span class="user-name">{{ user_info.userName }}</span>
           <i
             :class="
               isUserInfoShow ? 'el-icon-caret-top' : 'el-icon-caret-bottom'
@@ -50,6 +50,7 @@
 </template>
 
 <script>
+import defaultSettings from "@/settings";
 import { mapGetters } from "vuex";
 import Breadcrumb from "@/components/Breadcrumb";
 import Hamburger from "@/components/Hamburger";
@@ -65,12 +66,14 @@ export default {
   },
   data() {
     return {
+      defaultSettings,
       isUserInfoShow: false,
     };
   },
   computed: {
-    ...mapGetters(["sidebar", "user_info", "token"]),
+    ...mapGetters(["sidebar", "user_info"]),
   },
+  mounted() {},
   methods: {
     // 菜单栏展开收起状态
     toggleSideBar() {
@@ -86,7 +89,7 @@ export default {
     },
     // 登出
     async logout() {
-      let result = await this.$store.dispatch("user/FedLogOut");
+      let result = await this.$store.dispatch("user/LogOut");
       if (result) {
         this.$router.push(`/login?redirect=${this.$route.fullPath}`);
         // 这个系统再切换用户时，路由不会动态更新。所以需要在登出函数中加上location.reload();刷新浏览器。

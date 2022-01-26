@@ -61,15 +61,28 @@ export function getRole () {
 }
 
 /**
- * @description de
+ * @description 获取用户信息
+ * @param dataForm
+ * @returns {*}
+ * @author webdyc
+ */
+export function userMessage () {
+  return request({
+    url: process.env.VUE_APP_BASE_API + "/auth/user/myMessage",
+    method: "get",
+  });
+}
+
+/**
+ * @description 登出
  * @param dataForm
  * @returns {*}
  * @author webdyc
  */
 
-export function logout () {
+export function logout (tokenId) {
   return request({
-    url: "/logout",
-    method: "post",
+    url: process.env.VUE_APP_BASE_API + "/monitor/online/" + tokenId,
+    method: "get",
   });
 }
