@@ -5,9 +5,7 @@
         <el-card class="account-center">
           <!-- 用户信息 - 头部 -->
           <div class="account-center-avatarHolder">
-            <div class="avatar">
-              <el-image :src="user_info.photo" fit="fill" />
-            </div>
+            <el-image :src="user_info.photo" fit="fill" class="avatar" />
             <div class="username">{{ user_info.userName }}</div>
             <div class="bio">求知若愚，求贤若饥</div>
           </div>
@@ -50,6 +48,7 @@
 
 <script>
 import CustomTags from "@/components/CustomTags";
+import { mapGetters } from "vuex";
 export default {
   data() {
     return {

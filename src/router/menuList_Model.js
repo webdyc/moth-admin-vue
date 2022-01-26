@@ -38,7 +38,7 @@ export default [
     redirect: "/dashboard/welcome",
     meta: {
       title: "仪表盘",
-      icon: "table",
+      icon: "dashboard",
     },
     children: [
       {
