@@ -19,7 +19,7 @@ export default [
     redirect: "/workplace",
     meta: {
       title: "工作台",
-      icon: "table",
+      icon: "workplace",
     },
     children: [
       {
@@ -65,7 +65,7 @@ export default [
     redirect: "/tabel/tabelList",
     meta: {
       title: "案例模板",
-      icon: "table",
+      icon: "anli",
     },
     children: [
       {
@@ -100,7 +100,7 @@ export default [
     redirect: "/components/recorder",
     meta: {
       title: "组件",
-      icon: "table",
+      icon: "components",
     },
     children: [
       {
@@ -164,7 +164,7 @@ export default [
         component: "/mapManage/aMap/index",
         meta: {
           title: "地图管理",
-          icon: "example",
+          icon: "map",
         },
       },
     ],
@@ -180,7 +180,7 @@ export default [
         component: "/questionnaire/index",
         meta: {
           title: "问卷管理",
-          icon: "example",
+          icon: "questionnaire",
         },
       },
     ],
@@ -191,7 +191,7 @@ export default [
     redirect: "/flowDiagram/x6Flow",
     meta: {
       title: "流程图",
-      icon: "table",
+      icon: "flow",
     },
     children: [
       {
@@ -217,7 +217,7 @@ export default [
     redirect: "/personalManage/personal",
     meta: {
       title: "个人信息",
-      icon: "example",
+      icon: "user",
     },
     children: [
       {
@@ -244,7 +244,7 @@ export default [
     redirect: "/systemManage/role",
     meta: {
       title: "系统管理",
-      icon: "table",
+      icon: "system",
     },
     children: [
       {

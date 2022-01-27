@@ -8,10 +8,13 @@
         :model="updateForm"
         label-width="80px"
       >
+        <el-form-item label="用户名">
+          <el-input v-model="updateForm.email" :size="styleSize"></el-input>
+        </el-form-item>
         <el-form-item label="email">
           <el-input v-model="updateForm.email" :size="styleSize"></el-input>
         </el-form-item>
-        <el-form-item label="用户名">
+        <el-form-item label="手机号">
           <el-input v-model="updateForm.name" :size="styleSize"></el-input>
         </el-form-item>
         <el-form-item label="性别">
@@ -55,11 +58,17 @@
           >
         </el-form-item>
       </el-form>
+
+      <!-- 用户头像 -->
+      <div>
+        <uploadImg></uploadImg>
+      </div>
     </div>
   </div>
 </template>
 <script>
 import defaultSettings from "@/settings";
+import uploadImg from "@/components/upload/images";
 // PersonForm的类
 class PersonForm {
   // 值
@@ -88,6 +97,7 @@ class PersonForm {
   }
 }
 export default {
+  components: { uploadImg },
   data() {
     return {
       styleSize: defaultSettings.styleSize,
