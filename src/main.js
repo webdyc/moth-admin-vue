@@ -13,9 +13,6 @@ import router from "./router";
 
 import "@/icons"; // icon
 import "@/permission"; // permission control
-import '@@/utils/directive'
-import {loadExtension} from '@@/extension/extension-loader'
-loadExtension()
 
 /**
  * 如果环境为development开启moke production

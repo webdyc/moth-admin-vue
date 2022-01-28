@@ -140,9 +140,7 @@ module.exports = {
     loaderOptions: {
       scss: {
         /* 自动引入全局scss文件 */
-        prependData: `
-          @import "./src/views/questionnaire/VForm/styles/global.scss";
-        `
+
       }
     }
   },

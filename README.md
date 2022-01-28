@@ -2,7 +2,7 @@
   <img width="80" src="https://webdyc.oss-cn-beijing.aliyuncs.com/moth-admin/logo.png">
 </p>
 <p align="center">
- mothTeam
+ 飞蛾团队
 </p>
 
 <p align="center">
@@ -13,74 +13,72 @@
   <img src="https://img.shields.io/badge/$-donate-dc3545.svg" alt="vue">
 </p>
 
-English | [简体中文](./README-zh.md)
+## 简介
 
-## Introduction
+moth-admin-vue 是基于 Vue + Element UI 的前后端分离权限解决方案，系统完全基于实际业务场景开发，只需要修改极少的代码既可实现后台管理系统的搭建。
 
-moth-admin-vue is base on Vue + Element UI Front and back end separation permission solution，The system is completely based on the actual business scene development, only need to modify a little code can realize the background management system.
+[线上地址](<(http://moth-admin-vue.webdyc.com/)>)
 
-[Preview](http://moth-admin-vue.webdyc.com/)
-
-## Build Setup
+## 开发
 
 ```bash
-# clone the project
+# 克隆项目
 git clone https://github.com/webdyc/moth-admin-vue
 
-# enter the project directory
+# 进入项目目录
 cd moth-admin-vue
 
-# install dependency
+# 安装依赖
 npm install
 
-# develop
+# 启动服务
 npm run dev
 ```
 
-This will automatically open http://localhost:9528
+浏览器访问 [http://localhost:9528](http://localhost:9528)
 
-## Build
+## 发布
 
 ```bash
-# build for test environment
+# 构建测试环境
 npm run build:stage
 
-# build for production environment
+# 构建生产环境
 npm run build:prod
 ```
 
-## Advanced
+## 其它
 
 ```bash
-# preview the release environment effect
+# 预览发布环境效果
 npm run preview
 
-# preview the release environment effect + static resource analysis
+# 预览发布环境效果 + 静态资源分析
 npm run preview -- --report
 
-# code format check
+# 代码格式检查
 npm run lint
 
-# code format check and auto fix
+# 代码格式检查并自动修复
 npm run lint -- --fix
 ```
 
-## The origin of moths
+## 飞蛾的由来
 
-The word Bug in English originally means bug, bedbug, why do we now use it to refer to the defects in the program? Here is the origin of it.
-In fact, as early as 1878, the great inventor Edison used the word bug to refer to a malfunction in an electronic circuit (the cause of the malfunction) in a letter to a friend, but it will not be recorded in the history of the computer industry until 1947. September 9th.
-At this time, the first programmers to write programs were developing the markII computer at Harvard University. When Grace Murray Hopper was looking for a problem, he found a moth next to the repeater contact, killed it with a logbook, and killed it. Marked it as "the first real case of finding a bug". Hence the term bug was used to refer to a defect or malfunction in a computer. Correspondingly, debug is used to refer to the debug behavior that removes the fault.
+Bug 一词在英文中本来是虫子，臭虫之意，为什么现在我们会用它来指程序中存在的缺陷呢？这里就来说说它的由来。
+其实早在 1878 年，大发明家爱迪生就在给朋友的信中用 bug 一词代指过电子电路中的故障（可能导致故障的原因），但是真正在计算机行业载入史册还要到 1947 年 9 月 9 日。
+这时第一批写程序的程序员们正在哈佛大学研发 markII 计算机，其中 Grace Murray Hopper 在查找一个问题时，在中继器触点旁发现了一个飞蛾，用日志本拍死了它，并标记了它是“第一个找到 bug 真实案例”。由此 bug 一词便被用来代指计算机中的缺陷或故障了。相应地 debug 则被用来指代去除故障的调测行为。
 
-## member
+## 成员
 
 <p >
    <img width="40" src="https://webdyc.oss-cn-beijing.aliyuncs.com/moth-admin/dyc.jpg">  
    <img width="40" src="https://webdyc.oss-cn-beijing.aliyuncs.com/moth-admin/xjl.jpg">  
    <img width="40" src="https://webdyc.oss-cn-beijing.aliyuncs.com/moth-admin/xlk.jpg">  
-   <img width="40" src="https://webdyc.oss-cn-beijing.aliyuncs.com/moth-admin/hr.jpg">  
+   <img width="40" src="https://webdyc.oss-cn-beijing.aliyuncs.com/moth-admin/hr.jpg">   
 </p>
 
-## contact us
+## 联系我们
 
 <table>
   <tr>

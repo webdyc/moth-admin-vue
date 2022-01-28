@@ -1,5 +1,4 @@
 import request from "@/api/request";
-import CryptoJS from "crypto-js";
 
 /**
  * @description 账户登录
@@ -9,10 +8,6 @@ import CryptoJS from "crypto-js";
  */
 
 export function login (options = {}) {
-  // const nameArray = CryptoJS.enc.Utf8.parse(options.username);
-  // options.username = CryptoJS.enc.Base64.stringify(nameArray);
-  // const wordArray = CryptoJS.enc.Utf8.parse(options.password);
-  // options.password = CryptoJS.enc.Base64.stringify(wordArray);
   options = Object.assign(
     {
       // 用户名

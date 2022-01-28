@@ -13,8 +13,6 @@
       <div class="right-menu-operation">
         <!-- 全屏 -->
         <screenfull id="screenfull" class="hover-effect mr-2" />
-        <!-- 消息提示 -->
-        <newsTips class="mr-2" />
       </div>
       <el-dropdown
         class="avatar-container"
@@ -55,14 +53,12 @@ import { mapGetters } from "vuex";
 import Breadcrumb from "@/components/Breadcrumb";
 import Hamburger from "@/components/Hamburger";
 import Screenfull from "@/components/Screenfull";
-import newsTips from "@/components/newsTips";
 
 export default {
   components: {
     Breadcrumb,
     Hamburger,
     Screenfull,
-    newsTips,
   },
   data() {
     return {
