@@ -49,6 +49,7 @@ npm run build:prod
 ```
 
 ## contact us
+
 <table>
   <tr>
     <td><img src="https://webdyc.oss-cn-beijing.aliyuncs.com/moth-admin/wx.png" width="140px"></td>
@@ -56,19 +57,18 @@ npm run build:prod
   </tr>
   <tr>
     <td>微信</td>
-    <td><a target="_blank" href="https://shang.qq.com/wpa/qunwpa?idkey=0f2bf59f5f2edec6a4550c364242c0641f870aa328e468c4ee4b7dbfb392627b"><img border="0" src="https://pub.idqqimg.com/wpa/images/group.png" alt="go-admin技术交流乙号" title="go-admin技术交流乙号"></a></td>
+    <td><a target="_blank" href="https://jq.qq.com/?_wv=1027&k=j4F83vD5"><img border="0" src="https://pub.idqqimg.com/wpa/images/group.png" alt="小飞蛾前端技术交流群" title="小飞蛾前端技术交流群"></a></td>
   </tr>
 </table>
 
 ## member
+
 <p >
    <img width="40" height="40" src="https://webdyc.oss-cn-beijing.aliyuncs.com/moth-admin/dyc.jpeg">  
    <img width="40" height="40" src="https://webdyc.oss-cn-beijing.aliyuncs.com/moth-admin/xjl.jpg">  
    <img width="40" height="40" src="https://webdyc.oss-cn-beijing.aliyuncs.com/moth-admin/xlk.jpg">  
    <img width="40" height="40" src="https://webdyc.oss-cn-beijing.aliyuncs.com/moth-admin/hr.jpg">  
 </p>
-
-
 
 ```bash
 # preview the release environment effect
@@ -85,8 +85,6 @@ npm run lint -- --fix
 ```
 
 ## 成员
-
-
 
 ## The origin of moths
 
