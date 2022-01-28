@@ -64,6 +64,21 @@ npm run lint
 npm run lint -- --fix
 ```
 
+## The origin of moths
+
+The word Bug in English originally means bug, bedbug, why do we now use it to refer to the defects in the program? Here is the origin of it.
+In fact, as early as 1878, the great inventor Edison used the word bug to refer to a malfunction in an electronic circuit (the cause of the malfunction) in a letter to a friend, but it will not be recorded in the history of the computer industry until 1947. September 9th.
+At this time, the first programmers to write programs were developing the markII computer at Harvard University. When Grace Murray Hopper was looking for a problem, he found a moth next to the repeater contact, killed it with a logbook, and killed it. Marked it as "the first real case of finding a bug". Hence the term bug was used to refer to a defect or malfunction in a computer. Correspondingly, debug is used to refer to the debug behavior that removes the fault.
+
+## member
+
+<p >
+   <img width="40" src="https://webdyc.oss-cn-beijing.aliyuncs.com/moth-admin/dyc.jpg">  
+   <img width="40" src="https://webdyc.oss-cn-beijing.aliyuncs.com/moth-admin/xjl.jpg">  
+   <img width="40" src="https://webdyc.oss-cn-beijing.aliyuncs.com/moth-admin/xlk.jpg">  
+   <img width="40" src="https://webdyc.oss-cn-beijing.aliyuncs.com/moth-admin/hr.jpg">  
+</p>
+
 ## contact us
 
 <table>
@@ -76,18 +91,3 @@ npm run lint -- --fix
     <td><a target="_blank" href="https://jq.qq.com/?_wv=1027&k=j4F83vD5"><img border="0" src="https://pub.idqqimg.com/wpa/images/group.png" alt="小飞蛾前端技术交流群" title="小飞蛾前端技术交流群"></a></td>
   </tr>
 </table>
-
-## member
-
-<p >
-   <img width="40" src="https://webdyc.oss-cn-beijing.aliyuncs.com/moth-admin/dyc.jpg">  
-   <img width="40" src="https://webdyc.oss-cn-beijing.aliyuncs.com/moth-admin/xjl.jpg">  
-   <img width="40" src="https://webdyc.oss-cn-beijing.aliyuncs.com/moth-admin/xlk.jpg">  
-   <img width="40" src="https://webdyc.oss-cn-beijing.aliyuncs.com/moth-admin/hr.jpg">  
-</p>
-
-## The origin of moths
-
-The word Bug in English originally means bug, bedbug, why do we now use it to refer to the defects in the program? Here is the origin of it.
-In fact, as early as 1878, the great inventor Edison used the word bug to refer to a malfunction in an electronic circuit (the cause of the malfunction) in a letter to a friend, but it will not be recorded in the history of the computer industry until 1947. September 9th.
-At this time, the first programmers to write programs were developing the markII computer at Harvard University. When Grace Murray Hopper was looking for a problem, he found a moth next to the repeater contact, killed it with a logbook, and killed it. Marked it as "the first real case of finding a bug". Hence the term bug was used to refer to a defect or malfunction in a computer. Correspondingly, debug is used to refer to the debug behavior that removes the fault.

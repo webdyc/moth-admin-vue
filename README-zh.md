@@ -64,6 +64,21 @@ npm run lint
 npm run lint -- --fix
 ```
 
+## 飞蛾的由来
+
+Bug 一词在英文中本来是虫子，臭虫之意，为什么现在我们会用它来指程序中存在的缺陷呢？这里就来说说它的由来。
+其实早在 1878 年，大发明家爱迪生就在给朋友的信中用 bug 一词代指过电子电路中的故障（可能导致故障的原因），但是真正在计算机行业载入史册还要到 1947 年 9 月 9 日。
+这时第一批写程序的程序员们正在哈佛大学研发 markII 计算机，其中 Grace Murray Hopper 在查找一个问题时，在中继器触点旁发现了一个飞蛾，用日志本拍死了它，并标记了它是“第一个找到 bug 真实案例”。由此 bug 一词便被用来代指计算机中的缺陷或故障了。相应地 debug 则被用来指代去除故障的调测行为。
+
+## 成员
+
+<p >
+   <img width="40" src="https://webdyc.oss-cn-beijing.aliyuncs.com/moth-admin/dyc.jpg">  
+   <img width="40" src="https://webdyc.oss-cn-beijing.aliyuncs.com/moth-admin/xjl.jpg">  
+   <img width="40" src="https://webdyc.oss-cn-beijing.aliyuncs.com/moth-admin/xlk.jpg">  
+   <img width="40" src="https://webdyc.oss-cn-beijing.aliyuncs.com/moth-admin/hr.jpg">   
+</p>
+
 ## 联系我们
 
 <table>
@@ -76,18 +91,3 @@ npm run lint -- --fix
     <td><a target="_blank" href="https://jq.qq.com/?_wv=1027&k=j4F83vD5"><img border="0" src="https://pub.idqqimg.com/wpa/images/group.png" alt="小飞蛾前端技术交流群" title="小飞蛾前端技术交流群"></a></td>
   </tr>
 </table>
-
-## 成员
-
-<p >
-   <img width="40" src="https://webdyc.oss-cn-beijing.aliyuncs.com/moth-admin/dyc.jpg">  
-   <img width="40" src="https://webdyc.oss-cn-beijing.aliyuncs.com/moth-admin/xjl.jpg">  
-   <img width="40" src="https://webdyc.oss-cn-beijing.aliyuncs.com/moth-admin/xlk.jpg">  
-   <img width="40" src="https://webdyc.oss-cn-beijing.aliyuncs.com/moth-admin/hr.jpg">   
-</p>
-
-## 飞蛾的由来
-
-Bug 一词在英文中本来是虫子，臭虫之意，为什么现在我们会用它来指程序中存在的缺陷呢？这里就来说说它的由来。
-其实早在 1878 年，大发明家爱迪生就在给朋友的信中用 bug 一词代指过电子电路中的故障（可能导致故障的原因），但是真正在计算机行业载入史册还要到 1947 年 9 月 9 日。
-这时第一批写程序的程序员们正在哈佛大学研发 markII 计算机，其中 Grace Murray Hopper 在查找一个问题时，在中继器触点旁发现了一个飞蛾，用日志本拍死了它，并标记了它是“第一个找到 bug 真实案例”。由此 bug 一词便被用来代指计算机中的缺陷或故障了。相应地 debug 则被用来指代去除故障的调测行为。
