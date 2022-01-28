@@ -5,7 +5,7 @@
  mothTeam
 </p>
 
-<p>
+<p align="center">
   <img src="https://img.shields.io/badge/build-passing-28a745.svg" alt="vue">
   <img src="https://img.shields.io/badge/vue-2.6.10-27a6fe.svg" alt="vue">
   <img src="https://img.shields.io/badge/element-2.15.7-27a6fe.svg" alt="vue">
@@ -65,6 +65,7 @@ npm run lint -- --fix
 ```
 
 ## The origin of moths
+
 The word Bug in English originally means bug, bedbug, why do we now use it to refer to the defects in the program? Here is the origin of it.
 In fact, as early as 1878, the great inventor Edison used the word bug to refer to a malfunction in an electronic circuit (the cause of the malfunction) in a letter to a friend, but it will not be recorded in the history of the computer industry until 1947. September 9th.
 At this time, the first programmers to write programs were developing the markII computer at Harvard University. When Grace Murray Hopper was looking for a problem, he found a moth next to the repeater contact, killed it with a logbook, and killed it. Marked it as "the first real case of finding a bug". Hence the term bug was used to refer to a defect or malfunction in a computer. Correspondingly, debug is used to refer to the debug behavior that removes the fault.
