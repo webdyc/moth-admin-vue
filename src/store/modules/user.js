@@ -45,7 +45,7 @@ const actions = {
       setToken(token);
       return token
     } else {
-      return Promise.reject(new Error(result.msg))
+      return false
     }
   },
 

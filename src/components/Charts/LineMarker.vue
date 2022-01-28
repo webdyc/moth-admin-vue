@@ -14,7 +14,7 @@ export default {
     },
     color: {
       type: String,
-      default: "yellowgreen",
+      default: "#27A6FE",
     },
     className: {
       type: String,

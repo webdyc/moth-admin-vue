@@ -14,7 +14,7 @@
     <span
       v-for="item in dateArry"
       :key="item.dateKey"
-      :class="[dateKey === item.dateKey ? 'active' : '', 'cursor-pointer']"
+      :class="[dateKey === item.dateKey ? 'text-active' : '', 'cursor-pointer']"
       @click="handleShortcut(item.dateKey)"
       >{{ item.label }}</span
     >
@@ -130,12 +130,8 @@ export default {
 <style scoped lang="scss">
 .date-box {
   span {
-    color: rgba(0, 0, 0, 0.85);
     font-size: 14px;
     margin: 0 10px;
-  }
-  .active {
-    color: #1890ff;
   }
 }
 </style>

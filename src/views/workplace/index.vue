@@ -9,22 +9,24 @@
             fit="fill"
           />
           <div class="content">
-            <div class="title">早安，webdyc，工作顺利</div>
-            <div class="sub-title">小飞蛾 - 后台管理系统 - 前端组 - webdyc</div>
+            <div class="title text-dark">早安，webdyc，工作顺利</div>
+            <div class="sub-title text-secondary">
+              小飞蛾 - 后台管理系统 - 前端组 - webdyc
+            </div>
           </div>
         </div>
         <ul class="workplace-header-content-right">
           <li class="content">
-            <div class="title">项目数</div>
-            <div class="sub-title">1</div>
+            <div class="title text-secondary">项目数</div>
+            <div class="sub-title text-dark">1</div>
           </li>
           <li class="content">
-            <div class="title">团队内排名</div>
-            <div class="sub-title">999+</div>
+            <div class="title text-secondary">团队内排名</div>
+            <div class="sub-title text-dark">999+</div>
           </li>
           <li class="content">
-            <div class="title">项目访问</div>
-            <div class="sub-title">7500</div>
+            <div class="title text-secondary">项目访问</div>
+            <div class="sub-title text-dark">7500</div>
           </li>
         </ul>
       </div>
@@ -50,12 +52,12 @@
                 >
                   <div class="header">
                     <el-image :src="item.img" fit="fill" />
-                    <div class="title">{{ item.title }}</div>
+                    <div class="title text-dark">{{ item.title }}</div>
                   </div>
-                  <div class="content">{{ item.content }}</div>
+                  <div class="content text-info">{{ item.content }}</div>
                   <div class="footer">
-                    <span class="owner">{{ item.owner }}</span>
-                    <span class="time">{{ item.time }}</span>
+                    <span class="owner text-secondary">{{ item.owner }}</span>
+                    <span class="text-dark text-muted">{{ item.time }}</span>
                   </div>
                 </el-card>
               </div>
@@ -71,9 +73,10 @@
                 >
                   <img :src="item.img" alt="" />
                   <div>
-                    <span class="active">{{ item.name }}</span> 在
-                    <span class="active">{{ item.department }}</span> 项目中解锁
-                    <span class="active">{{ item.project }}</span> 成就
+                    <span class="text-active">{{ item.name }}</span> 在
+                    <span class="text-active">{{ item.department }}</span>
+                    项目中解锁
+                    <span class="text-active">{{ item.project }}</span> 成就
                   </div>
                 </li>
               </ul>
@@ -104,7 +107,7 @@
               <div slot="header">小飞蛾团队</div>
               <ul class="team-list">
                 <li
-                  class="team-list-item"
+                  class="team-list-item text-hover-primary"
                   v-for="item in teamList"
                   :key="item.id"
                 >
@@ -245,6 +248,11 @@ export default {
           img: "https://avatars.githubusercontent.com/u/95596212?v=4",
           name: "xiliankum",
         },
+        {
+          id: 4,
+          img: "https://avatars.githubusercontent.com/u/45193977?s=64&v=4",
+          name: "haorong1993",
+        },
       ],
     };
   },
@@ -288,12 +296,10 @@ export default {
       }
       .content {
         margin-left: 24px;
-        color: rgba(0, 0, 0, 0.45);
         line-height: 22px;
 
         .title {
           margin-bottom: 12px;
-          color: rgba(0, 0, 0, 0.85);
           font-weight: 500;
           font-size: 20px;
           line-height: 28px;
@@ -307,11 +313,9 @@ export default {
         text-align: center;
         .title {
           margin-bottom: 4px;
-          color: rgba(0, 0, 0, 0.45);
           font-size: 14px;
         }
         .sub-title {
-          color: rgba(0, 0, 0, 0.85);
           font-size: 24px;
         }
       }
@@ -346,7 +350,6 @@ export default {
               display: inline-block;
               height: 24px;
               margin-left: 12px;
-              color: rgba(0, 0, 0, 0.85);
               font-size: 14px;
               line-height: 24px;
               vertical-align: top;
@@ -356,7 +359,6 @@ export default {
           .content {
             height: 44px;
             overflow: hidden;
-            color: rgba(0, 0, 0, 0.45);
             line-height: 22px;
           }
           .footer {
@@ -369,11 +371,9 @@ export default {
             line-height: 20px;
             .owner {
               flex: 1 1 0;
-              color: rgba(0, 0, 0, 0.45);
             }
             .time {
               flex: 0 0 auto;
-              color: rgba(0, 0, 0, 0.25);
             }
           }
         }
@@ -395,10 +395,6 @@ export default {
             height: 32px;
             margin-right: 16px;
             border-radius: 50%;
-          }
-          .active {
-            color: rgb(64, 158, 255);
-            cursor: pointer;
           }
         }
         .dynamic-list:last-child {
@@ -426,21 +422,16 @@ export default {
         .team-list-item {
           height: 24px;
           margin: 12px 0;
-          color: rgba(0, 0, 0, 0.85);
           line-height: 24px;
           display: flex;
           align-items: center;
           flex: 0 0 50%;
-          cursor: pointer;
           img {
             width: 32px;
             height: 32px;
             border-radius: 50%;
             margin-right: 15px;
           }
-        }
-        .team-list-item:hover {
-          color: #409eff;
         }
       }
     }

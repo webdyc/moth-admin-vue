@@ -9,7 +9,7 @@ module.exports = {
    * @type {String}
    * @description 系统名称
    */
-  title: "小飞蛾后台管理系统",
+  title: "飞蛾后台管理系统",
 
   /**
    * @type {String}
@@ -21,7 +21,7 @@ module.exports = {
    * @type {String}
    * @description 系统logo
    */
-  logo: "https://wpimg.wallstcn.com/69a1c46c-eb1c-4b46-8bd4-e9e686ef5251.png",
+  logo: "https://webdyc.oss-cn-beijing.aliyuncs.com/moth-admin/logo.png",
 
   /**
    * @type {String}

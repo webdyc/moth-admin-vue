@@ -1,14 +1,14 @@
 <template>
   <div class="card-box">
     <div class="card-header">
-      <span>{{ title }}</span>
-      <i class="el-icon-warning-outline cursor-pointer"></i>
+      <span class="text-secondary">{{ title }}</span>
+      <i class="el-icon-warning-outline cursor-pointer text-secondary"></i>
     </div>
-    <div class="card-content">{{ count }}</div>
+    <div class="card-content text-dark">{{ count }}</div>
     <div class="card-charts">
       <slot name="charts"></slot>
     </div>
-    <div class="card-footer">
+    <div class="card-footer text-dark">
       <slot name="footer"></slot>
     </div>
   </div>
@@ -41,13 +41,11 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    color: rgba(0, 0, 0, 0.45);
     font-size: 14px;
     line-height: 22px;
   }
   .card-content {
     margin-top: 4px;
-    color: rgba(0, 0, 0, 0.85);
     font-size: 30px;
     line-height: 38px;
   }
@@ -62,7 +60,6 @@ export default {
     border-top: 1px solid #f0f0f0;
     margin-top: 20px;
     padding-top: 9px;
-    color: rgba(0, 0, 0, 0.85);
     font-size: 14px;
     span {
       margin-right: 15px;

@@ -28,7 +28,7 @@ export default {
     },
     color: {
       type: String,
-      default: "#1890ff",
+      default: "#27A6FE",
     },
     className: {
       type: String,

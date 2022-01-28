@@ -1,7 +1,7 @@
 <template>
   <div class="app-box">
-    <div class="header">
-      <h1>早安，webdyc，祝你开心每一天</h1>
+    <div class="header bg-primary">
+      <h1 class="text-white">早安，webdyc，祝你开心每一天</h1>
       <p></p>
     </div>
     <div class="content">
@@ -9,23 +9,23 @@
         <el-col :span="17">
           <ul class="plan">
             <li>
-              <span>我的待办</span>
-              <p>3个任务</p>
+              <span class="text-secondary">我的待办</span>
+              <p class="text-dark">3个任务</p>
               <em></em>
             </li>
             <li>
-              <span>本周任务数</span>
-              <p>37个任务</p>
+              <span class="text-secondary">本周任务数</span>
+              <p class="text-dark">37个任务</p>
               <em></em>
             </li>
             <li>
-              <span>本周完成任务数</span>
-              <p>30个任务</p>
+              <span class="text-secondary">本周完成任务数</span>
+              <p class="text-dark">30个任务</p>
               <em></em>
             </li>
             <li>
-              <span>异常（个）</span>
-              <p>7</p>
+              <span class="text-secondary">异常（个）</span>
+              <p class="text-dark">7</p>
             </li>
           </ul>
           <el-card class="dynamic" shadow="never">
@@ -38,9 +38,10 @@
               >
                 <img :src="item.img" alt="" />
                 <div>
-                  <span class="active">{{ item.name }}</span> 在
-                  <span class="active">{{ item.department }}</span> 项目中解锁
-                  <span class="active">{{ item.project }}</span> 成就
+                  <span class="text-active">{{ item.name }}</span> 在
+                  <span class="text-active">{{ item.department }}</span>
+                  项目中解锁
+                  <span class="text-active">{{ item.project }}</span> 成就
                 </div>
               </li>
             </ul>
@@ -49,7 +50,7 @@
         <el-col :span="7">
           <div class="cover-tips">
             <img
-              src="https://gw.alipayobjects.com/zos/rmsportal/gLaIAoVWTtLbBWZNYEMg.png"
+              src="https://webdyc.oss-cn-beijing.aliyuncs.com/moth-admin/wallhaven-72rxqo.jpeg"
               alt=""
             />
           </div>
@@ -176,9 +177,6 @@ export default {
 <style lang="scss" scoped>
 .header {
   padding: 24px;
-  color: #fff;
-  font-weight: 500;
-  background: rgb(39 166 254);
   h1 {
     margin: 0;
     font-size: 24px;
@@ -195,18 +193,15 @@ export default {
       text-align: center;
       flex: 0 0 25%;
       max-width: 25%;
-      color: rgba(0, 0, 0, 0.85);
       font-size: 14px;
       span {
         display: inline-block;
         margin-bottom: 4px;
-        color: rgba(0, 0, 0, 0.45);
         font-size: 14px;
         line-height: 22px;
       }
       p {
         margin: 0;
-        color: rgba(0, 0, 0, 0.85);
         font-size: 24px;
         line-height: 32px;
       }
@@ -236,10 +231,6 @@ export default {
           height: 32px;
           margin-right: 16px;
           border-radius: 50%;
-        }
-        .active {
-          color: rgb(64, 158, 255);
-          cursor: pointer;
         }
       }
       .dynamic-list:last-child {
@@ -273,7 +264,6 @@ export default {
       span {
         margin-top: 8px;
         display: block;
-        color: rgba(0, 0, 0, 0.85);
         font-size: 14px;
         line-height: 24px;
         vertical-align: top;

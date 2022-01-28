@@ -14,7 +14,7 @@ const port = process.env.port || process.env.npm_config_port || 9528; // 端口�
 //官方vue.config.js 参考文档 https://cli.vuejs.org/zh/config/#css-loaderoptions
 module.exports = {
   // 基本路径
-  publicPath: process.env.NODE_ENV === "production" ? "/" : "/",
+  publicPath: process.env.NODE_ENV === "production" ? "./" : "/",
   // 输出文件目录
   outputDir: "dist",
   // 用于放置生成的静态资源 (js、css、img、fonts) 的；（项目打包之后，静态资源会放在这个文件夹下）
@@ -146,5 +146,5 @@ module.exports = {
       }
     }
   },
- 
+
 };

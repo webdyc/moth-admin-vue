@@ -78,7 +78,7 @@ class PersonForm {
   // 值
   constructor() {
     // 客户姓名
-    this.username = "webdyc";
+    this.username = "admin";
     // 客户号码
     this.password = "admin123";
     // 备用号码

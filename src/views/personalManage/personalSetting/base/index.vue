@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="title">基础设置</div>
+    <div class="title text-secondary">基础设置</div>
     <div class="content">
       <el-form
         class="content-form"
@@ -8,6 +8,9 @@
         :model="updateForm"
         label-width="80px"
       >
+        <el-form-item label="头像">
+          <el-input v-model="updateForm.email" :size="styleSize"></el-input>
+        </el-form-item>
         <el-form-item label="用户名">
           <el-input v-model="updateForm.email" :size="styleSize"></el-input>
         </el-form-item>
@@ -60,7 +63,7 @@
       </el-form>
 
       <!-- 用户头像 -->
-      <div>
+      <div class="ml-5">
         <uploadImg></uploadImg>
       </div>
     </div>

@@ -163,31 +163,32 @@
 .font-weight-bolder{font-weight: bold;}
 .font-italic{font-style: italic;}
 /* 文字颜色 */
-.text-white{color: ffffff;}
-.text-primary{color: #007bff;}
-.text-hover-primary{color: #0056b3;}
-.text-secondary{color: #6C757D;}
-.text-hover-secondary{color: #494f54;}
-.text-success{color: #28a745;}
-.text-hover-success{color: #19692c;}
-.text-info{color: #17a2b8;}
-.text-hover-info{color: #0f6674;}
-.text-warning{color: #ffc107;}
-.text-hover-warning{color: #ba8b00;}
-.text-danger{color: #dc3545;}
-.text-hover-danger{color: #a71d2a;}
-.text-lighr{color: #f8f9fa;}
-.text-hover-lighr{color: #cbd3da;}
-.text-dark{color: #343a40;}
-.text-hover-dark{color: #121416;}
-.text-body{color: #212529;}
-.text-muted{color: #6C757D;}
-.text-light-muted{color: #a9a5a0;}
-.text-light-black{color: rgba(0,0,0,0.5);}
-.text-light-white{color: rgba(255,255,255,0.5);}
+.text-white{color: #ffffff !important; }
+.text-dark{color: rgba(0, 0, 0, 0.85) !important;}
+.text-active{ color: rgb(39, 166, 254) !important; cursor: pointer; }
+.text-active:hover{ color: rgb(39,166,254, .8) !important; cursor: pointer; }
+.text-primary{color: #27a6fe;}
+.text-hover-primary:hover{color: rgb(39,166,254, .8) !important;cursor: pointer;}
+.text-secondary{color: rgba(0, 0, 0, 0.45) !important; }
+.text-hover-secondary{color: rgba(0, 0, 0, 0.45) !important;}
+.text-success{color: #28a745 !important;}
+.text-hover-success{color: #19692c !important;}
+.text-info{color: #6C757D !important;}
+.text-hover-info{color: #494f54 !important;}
+.text-warning{color: #ffc107 !important;}
+.text-hover-warning{color: #ba8b00 !important;}
+.text-danger{color: #dc3545 !important;}
+.text-hover-danger{color: #a71d2a !important;}
+.text-lighr{color: #f8f9fa !important;}
+.text-hover-lighr{color: #cbd3da !important;}
+.text-body{color: rgba(0, 0, 0, 0.85) !important;}
+.text-muted{color: rgba(0, 0, 0, 0.25) !important;}
+.text-light-muted{color: #a9a5a0 !important;}
+.text-light-black{color: rgba(0,0,0,0.5) !important;}
+.text-light-white{color: rgba(255,255,255,0.5) !important;}
 /* 背景颜色 */
-.bg-primary{background-color: #007bff;}
-.bg-hover-primary{background-color: #0062cc;}
+.bg-primary{background-color: rgb(39, 166, 254);}
+.bg-hover-primary{background-color: rgb(39,166,254, .8);}
 .bg-secondary{background-color: #6c757d;}
 .bg-hover-secondary{background-color: #545b62;}
 .bg-success{background-color: #28a745;}
