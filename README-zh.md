@@ -20,6 +20,7 @@
 moth-admin-vue 是基于 Vue + Element UI 的前后端分离权限解决方案，系统完全基于实际业务场景开发，只需要修改极少的代码既可实现后台管理系统的搭建。
 
 [线上地址](<(http://moth-admin-vue.webdyc.com/)>)
+[基础版本](<(https://github.com/webdyc/moth-admin-vue/tree/template)>)
 
 ## 开发
 
