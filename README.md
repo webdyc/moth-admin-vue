@@ -1,4 +1,4 @@
-English | [简体中文](./README.ja.md)
+English | [简体中文](./README.zh.md)
 
 ## 小飞蛾的由来
 
