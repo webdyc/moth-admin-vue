@@ -64,10 +64,10 @@ npm run build:prod
 ## member
 
 <p >
-   <img width="40" height="40" src="https://webdyc.oss-cn-beijing.aliyuncs.com/moth-admin/dyc.jpeg">  
-   <img width="40" height="40" src="https://webdyc.oss-cn-beijing.aliyuncs.com/moth-admin/xjl.jpg">  
-   <img width="40" height="40" src="https://webdyc.oss-cn-beijing.aliyuncs.com/moth-admin/xlk.jpg">  
-   <img width="40" height="40" src="https://webdyc.oss-cn-beijing.aliyuncs.com/moth-admin/hr.jpg">  
+   <img width="40" src="https://webdyc.oss-cn-beijing.aliyuncs.com/moth-admin/dyc.jpg">  
+   <img width="40" src="https://webdyc.oss-cn-beijing.aliyuncs.com/moth-admin/xjl.jpg">  
+   <img width="40" src="https://webdyc.oss-cn-beijing.aliyuncs.com/moth-admin/xlk.jpg">  
+   <img width="40" src="https://webdyc.oss-cn-beijing.aliyuncs.com/moth-admin/hr.jpg">  
 </p>
 
 ```bash
