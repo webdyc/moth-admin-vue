@@ -19,7 +19,7 @@ English | [简体中文](./README-zh.md)
 
 moth-admin-vue is base on Vue + Element UI Front and back end separation permission solution，The system is completely based on the actual business scene development, only need to modify a little code can realize the background management system.
 
-[Preview](http://moth-admin-vue.webdyc.com/)
+[Preview](http://moth-admin-vue.webdyc.com/)  
 [BasicVersion](<(https://github.com/webdyc/moth-admin-vue/tree/template)>)
 
 ## Build Setup
