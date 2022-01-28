@@ -1,22 +1,26 @@
+<p align="center">
+  <img width="80" src="https://webdyc.oss-cn-beijing.aliyuncs.com/moth-admin/logo.png">
+</p>
+<p align="center">
+ 飞蛾团队
+</p>
+
+<p>
+  <img src="https://img.shields.io/badge/build-passing-28a745.svg" alt="vue">
+  <img src="https://img.shields.io/badge/vue-2.6.10-27a6fe.svg" alt="vue">
+  <img src="https://img.shields.io/badge/element-2.15.7-27a6fe.svg" alt="vue">
+  <img src="https://img.shields.io/badge/release-1.0.0-27a6fe.svg" alt="vue">
+  <img src="https://img.shields.io/badge/$-donate-dc3545.svg" alt="vue">
+</p>
+
 [English](./README.md) | 简体中文
 
-# moth-admin-vue
+## 简介
 
-> 这是一个极简的 vue admin 管理后台。它只包含了 Element UI & axios & iconfont & permission control & lint，这些搭建后台必要的东西。
+moth-admin-vue 是基于 Vue + Element UI 的前后端分离权限解决方案，系统完全基于实际业务场景开发，只需要修改极少的代码既可实现后台管理系统的搭建。  
+[线上地址](http://moth-admin-vue.webdyc.com/)
 
-[线上地址](http://v2admin.webdyc.com/)
-
-[国内访问](http://v2admin.webdyc.com/)
-
-目前版本为 `v4.0+` 基于 `vue-cli` 进行构建。
-
-## 相关项目
-
-- [moth-admin-vue](https://github.com/webdyc/moth-admin-vue)
-
-- [moth-admin-vue3](https://github.com/webdyc/moth-admin-vue3)
-
-## Build Setup
+## 开发
 
 ```bash
 # 克隆项目
@@ -27,9 +31,6 @@ cd moth-admin-vue
 
 # 安装依赖
 npm install
-
-# 建议不要直接使用 cnpm 安装以来，会有各种诡异的 bug。可以通过如下操作解决 npm 下载速度慢的问题
-npm install --registry=https://registry.npm.taobao.org
 
 # 启动服务
 npm run dev
@@ -63,6 +64,9 @@ npm run lint
 npm run lint -- --fix
 ```
 
-## 购买贴纸
+## 飞蛾的由来
 
-## Demo
+Bug 一词在英文中本来是虫子，臭虫之意，为什么现在我们会用它来指程序中存在的缺陷呢？这里就来说说它的由来。
+其实早在 1878 年，大发明家爱迪生就在给朋友的信中用 bug 一词代指过电子电路中的故障（可能导致故障的原因），但是真正在计算机行业载入史册还要到 1947 年 9 月 9 日。
+这时第一批写程序的程序员们正在哈佛大学研发 markII 计算机，其中 Grace Murray Hopper 在查找一个问题时，在中继器触点旁发现了一个飞蛾，用日志本拍死了它，并标记了它是“第一个找到 bug 真实案例”。由此 bug 一词便被用来代指计算机中的缺陷或故障了。相应地 debug 则被用来指代去除故障的调测行为。
+

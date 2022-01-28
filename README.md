@@ -1,13 +1,24 @@
 <p align="center">
-  <img width="320" src="https://webdyc.oss-cn-beijing.aliyuncs.com/moth-admin/logo.png">
+  <img width="80" src="https://webdyc.oss-cn-beijing.aliyuncs.com/moth-admin/logo.png">
+</p>
+<p align="center">
+ mothTeam
+</p>
+
+<p>
+  <img src="https://img.shields.io/badge/build-passing-28a745.svg" alt="vue">
+  <img src="https://img.shields.io/badge/vue-2.6.10-27a6fe.svg" alt="vue">
+  <img src="https://img.shields.io/badge/element-2.15.7-27a6fe.svg" alt="vue">
+  <img src="https://img.shields.io/badge/release-1.0.0-27a6fe.svg" alt="vue">
+  <img src="https://img.shields.io/badge/$-donate-dc3545.svg" alt="vue">
 </p>
 
 English | [简体中文](./README-zh.md)
 
-## 简介
+## Introduction
 
-基于 Vue + Element UI 的前后端分离权限解决方案，系统完全基于实际业务场景开发，只需要修改极少的代码既可实现后台管理系统的搭建。  
-[线上地址](http://moth-admin-vue.webdyc.com/)
+moth-admin-vue is base on Vue + Element UI Front and back end separation permission solution，The system is completely based on the actual business scene development, only need to modify a little code can realize the background management system.  
+[Preview](http://moth-admin-vue.webdyc.com/)
 
 ## Build Setup
 
@@ -53,8 +64,7 @@ npm run lint
 npm run lint -- --fix
 ```
 
-## 飞蛾的由来
-
-Bug 一词在英文中本来是虫子，臭虫之意，为什么现在我们会用它来指程序中存在的缺陷呢？这里就来说说它的由来。
-其实早在 1878 年，大发明家爱迪生就在给朋友的信中用 bug 一词代指过电子电路中的故障（可能导致故障的原因），但是真正在计算机行业载入史册还要到 1947 年 9 月 9 日。
-这时第一批写程序的程序员们正在哈佛大学研发 markII 计算机，其中 Grace Murray Hopper 在查找一个问题时，在中继器触点旁发现了一个飞蛾，用日志本拍死了它，并标记了它是“第一个找到 bug 真实案例”。由此 bug 一词便被用来代指计算机中的缺陷或故障了。相应地 debug 则被用来指代去除故障的调测行为。
+## The origin of moths
+The word Bug in English originally means bug, bedbug, why do we now use it to refer to the defects in the program? Here is the origin of it.
+In fact, as early as 1878, the great inventor Edison used the word bug to refer to a malfunction in an electronic circuit (the cause of the malfunction) in a letter to a friend, but it will not be recorded in the history of the computer industry until 1947. September 9th.
+At this time, the first programmers to write programs were developing the markII computer at Harvard University. When Grace Murray Hopper was looking for a problem, he found a moth next to the repeater contact, killed it with a logbook, and killed it. Marked it as "the first real case of finding a bug". Hence the term bug was used to refer to a defect or malfunction in a computer. Correspondingly, debug is used to refer to the debug behavior that removes the fault.
