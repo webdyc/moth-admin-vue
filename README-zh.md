@@ -1,4 +1,4 @@
-[English](https://github.com/webdyc/moth-admin-vue/README.md) | 简体中文
+[English](https://github.com/webdyc/moth-admin-vue/blob/master/README.md) | 简体中文
 
 # moth-admin-vue
 
