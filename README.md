@@ -1,4 +1,4 @@
-English | [简体中文](../README-zh.md)
+English | [简体中文](https://github.com/webdyc/moth-admin-vue/README-zh.md)
 
 ## 小飞蛾的由来
 
