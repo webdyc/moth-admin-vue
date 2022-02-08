@@ -150,9 +150,9 @@ export default {
         align-items: center;
         .user-avatar {
           cursor: pointer;
-          width: 40px;
-          height: 40px;
-          border-radius: 50px;
+          width: 32px;
+          height: 32px;
+          border-radius: 50%;
         }
         .user-name {
           display: inline-block;
