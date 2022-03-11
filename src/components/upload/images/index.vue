@@ -8,15 +8,15 @@
     >
       <i class="el-icon-plus"></i>
     </el-upload>
-    <!-- <el-dialog :visible.sync="dialogVisible">
+    <el-dialog :visible.sync="dialogVisible">
       <img width="100%" :src="dialogImageUrl" alt="" />
-    </el-dialog> -->
+    </el-dialog>
   </div>
 </template>
 
 <script>
 export default {
-  name: "vueName",
+  name: "uploadImages",
   data() {
     return {
       dialogImageUrl: "",

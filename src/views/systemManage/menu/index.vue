@@ -488,9 +488,6 @@ export default {
     this.handleSearch();
   },
   methods: {
-    aaa() {
-      console.log(this.menuTreeselectId);
-    },
     // 获取菜单下拉树列表
     async getMenuTreeselect() {
       this.menuTreeselectArr = await menu_treeselect().then((res) => res.data);

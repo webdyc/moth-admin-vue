@@ -1,12 +1,6 @@
 module.exports = {
   /**
    * @type {String}
-   * @description 接口代理
-   */
-  proxyPath: "/unioncast",
-
-  /**
-   * @type {String}
    * @description 系统名称
    */
   title: "飞蛾后台管理系统",
