@@ -248,6 +248,22 @@ export default [
     },
     children: [
       {
+        path: "organization",
+        name: "organization",
+        component: "/systemManage/organization/index",
+        meta: {
+          title: "组织管理",
+        },
+      },
+      {
+        path: "user",
+        name: "user",
+        component: "/systemManage/user/index",
+        meta: {
+          title: "用户管理",
+        },
+      },
+      {
         path: "role",
         name: "role",
         component: "/systemManage/role/index",
@@ -255,6 +271,7 @@ export default [
           title: "角色管理",
         },
       },
+
       {
         path: "menu",
         name: "menu",

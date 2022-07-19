@@ -3,7 +3,7 @@ import { constantRoutes } from '@/router'
  * 根据路由列表返回role
  * @param routes 路由列表
  */
-export function filterAsyncRoles(routes, roles) {
+export function filterAsyncRoles (routes, roles) {
   const res = roles || []
   routes.forEach(route => {
     const tmp = { ...route }
@@ -42,7 +42,7 @@ const mutations = {
 
 const actions = {
   // 异步处理动态路由及按钮权限
-  generateRoutes({ commit }, asyncRoutes) {
+  generateRoutes ({ commit }, asyncRoutes) {
     return new Promise(resolve => {
       // 遍历路由中的role权限
       const roles = filterAsyncRoles(asyncRoutes)

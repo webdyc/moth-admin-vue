@@ -68,7 +68,7 @@ export function getRole () {
  */
 export function userMessage () {
   return request({
-    url: process.env.VUE_APP_BASE_API + "/auth/user/myMessage",
+    url: process.env.VUE_APP_BASE_API + "/getInfo",
     method: "get",
   });
 }

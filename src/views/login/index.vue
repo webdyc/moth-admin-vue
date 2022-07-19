@@ -156,13 +156,19 @@ export default {
       this.$refs.dataFrom.validate(async (valid) => {
         if (valid) {
           this.loading = true;
-          let token = await this.$store.dispatch("user/Login", this.dataFrom);
-          let myMessage = await this.$store.dispatch("user/GetInfo", token);
-
-          if (token && myMessage) {
-            this.$router.push({ path: this.redirect || "/" });
-            this.loading = false;
-          } else {
+          console.log(2);
+          try {
+            let token = await this.$store.dispatch("user/Login", this.dataFrom);
+            let myMessage = await this.$store.dispatch("user/GetInfo", token);
+            console.log(1123213213);
+            if (token && myMessage) {
+              this.$router.push({ path: this.redirect || "/" });
+              this.loading = false;
+            } else {
+              this.getCode();
+              this.loading = false;
+            }
+          } catch (error) {
             this.getCode();
             this.loading = false;
           }
