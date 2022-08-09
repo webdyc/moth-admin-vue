@@ -5,6 +5,7 @@
       <el-page-header content="详情页面" @back="goBack" />
     </div>
     <!-- 详情内容区 -->
+
     <div class="app-info-content">
       <div class="app-info-content-item">
         <div class="app-info-content-item-title title-line">基础用法</div>
@@ -62,4 +63,8 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.h {
+  color: $--color-primary;
+}
+</style>

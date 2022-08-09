@@ -13,7 +13,7 @@ import defaultSettings from "@/settings";
 const getDefaultState = () => {
   return {
     token: getToken(),
-    info: getLocalStorage("userInfo")
+    info: getLocalStorage("userInfo"),
   };
 };
 
@@ -36,60 +36,60 @@ const mutations = {
 
 const actions = {
   // 登录
-  async Login ({ commit }, userInfo) {
-    let result = await login(userInfo)
+  async Login({ commit }, userInfo) {
+    let result = await login(userInfo);
     if (result.code === 200) {
       const { token } = result.data;
       // 储存token
       commit("SET_TOKEN", token);
       setToken(token);
-      return token
+      return token;
     } else {
-      return false
+      return false;
     }
   },
 
   // 获取用户信息
-  async GetInfo ({ commit }, state) {
-    let result = await userMessage()
+  async GetInfo({ commit }, state) {
+    let result = await userMessage();
+    console.log(result, "res");
     if (result.code === 200) {
       // 储存用户信息
-      commit("SET_USERINFO", result.data);
-      setLocalStorage("userInfo", result.data)
-      return result.data
+      commit("SET_USERINFO", result.user);
+      setLocalStorage("userInfo", result.user);
+      return result.user;
     } else {
-      return Promise.reject(new Error(result.msg))
+      return Promise.reject(new Error(result.msg));
     }
   },
 
   // 退出系统
-  async LogOut ({ commit, state, dispatch }) {
-    let result = await logout(state.token)
+  async LogOut({ commit, state, dispatch }) {
+    let result = await logout(state.token);
     if (result.code === 200) {
-      removeToken() // 必须先删除token
-      removeLocalStorage("userInfo")
-      commit('RESET_STATE', '')
-      dispatch('tagsView/delAllViews', null, { root: true })
-      return true
+      removeToken(); // 必须先删除token
+      removeLocalStorage("userInfo");
+      commit("RESET_STATE", "");
+      dispatch("tagsView/delAllViews", null, { root: true });
+      return true;
     } else {
-      return Promise.reject(new Error(result.msg))
+      return Promise.reject(new Error(result.msg));
     }
   },
 
   // 前端 登出
-  async FedLogOut ({ commit, dispatch }) {
+  async FedLogOut({ commit, dispatch }) {
     // return new Promise((resolve) => {
     //   removeToken(); // 必须先删除token
     //   commit("RESET_STATE");
     //   resolve();
     // });
-    removeToken() // 必须先删除token
-    removeLocalStorage("userInfo")
-    commit('RESET_STATE', '')
-    dispatch('tagsView/delAllViews', null, { root: true })
-    return true
+    removeToken(); // 必须先删除token
+    removeLocalStorage("userInfo");
+    commit("RESET_STATE", "");
+    dispatch("tagsView/delAllViews", null, { root: true });
+    return true;
   },
-
 };
 
 export default {

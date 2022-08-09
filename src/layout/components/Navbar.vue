@@ -16,6 +16,7 @@
         <!-- 消息提示 -->
         <newsTips class="mr-2" />
       </div>
+
       <el-dropdown
         class="avatar-container"
         trigger="click"
@@ -125,6 +126,7 @@ export default {
 
   .breadcrumb-container {
     float: left;
+
   }
 
   .right-menu {

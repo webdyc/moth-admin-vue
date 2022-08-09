@@ -160,7 +160,7 @@ export default {
           try {
             let token = await this.$store.dispatch("user/Login", this.dataFrom);
             let myMessage = await this.$store.dispatch("user/GetInfo", token);
-            console.log(1123213213);
+            console.log(token, myMessage);
             if (token && myMessage) {
               this.$router.push({ path: this.redirect || "/" });
               this.loading = false;
