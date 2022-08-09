@@ -1,35 +1,48 @@
-import request from "@/api/request";
-import { Message } from "element-ui";
-/**
- * 导出功能
- * @options 筛选项
- * @Interface  接口url
- * @fileName 导出文件名
- */
+// import { download } from "@/api/maillistMange";
+import Axios from "axios";
+import { getToken } from "@/utils/auth";
 
-export async function exportDownload (options, Interface, fileName) {
-  if (!options || !Interface || !fileName) {
-    Message.error("参数不合法");
-    return;
-  }
-  const res = await request({
+export function exportDownload(
+  Interface,
+  data,
+  requestType,
+  ct = "application/x-www-form-urlencoded"
+) {
+  let options = "";
+  let optionName = requestType == "post" ? "data" : "params";
+  let contentType = ct;
+  Axios({
+    method: requestType,
     url: process.env.VUE_APP_BASE_API + Interface,
-    method: "post",
+    headers: {
+      Authorization: getToken(),
+      "Content-Type": contentType,
+    },
+    [optionName]: { ...data },
     responseType: "blob",
-    data: options,
+  }).then((res) => {
+    const blob = new Blob([res.data], {
+      type: "application/octet-stream;charset=UTF-8",
+    });
+
+    if (res.headers["content-disposition"]) {
+      let filename = decodeURI(
+        res.headers["content-disposition"].split("=")[1]
+      ); //utf-8转码
+
+      if ("download" in document.createElement("a")) {
+        //	非ie下载
+        const elink = document.createElement("a");
+        elink.download = filename;
+        elink.style.display = "none";
+        elink.href = URL.createObjectURL(blob);
+        document.body.appendChild(elink);
+        elink.click();
+        URL.revokeObjectURL(elink.href); //释放url 对象
+        document.body.removeChild(elink);
+      } else {
+        navigator.msSaveBlob(blob, filename);
+      }
+    }
   });
-  if (res) {
-    const blob = new Blob([res.data], { type: "application/x-excel" });
-    const a = document.createElement("a");
-    document.body.appendChild(a);
-    a.style.display = "none";
-    const url = window.URL.createObjectURL(blob);
-    a.href = url;
-    a.download = fileName + ".xls" || "导出文件.xls";
-    a.click();
-    document.body.removeChild(a);
-    window.URL.revokeObjectURL(url);
-  } else {
-    Message.error(res.msg);
-  }
 }

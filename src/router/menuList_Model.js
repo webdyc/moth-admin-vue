@@ -29,7 +29,7 @@ export default [
         meta: {
           title: "工作台",
         },
-      }
+      },
     ],
   },
   {
@@ -103,6 +103,14 @@ export default [
       icon: "components",
     },
     children: [
+      {
+        path: "watermark",
+        name: "watermark",
+        component: "/components/waterMark/index",
+        meta: {
+          title: "水印",
+        },
+      },
       {
         path: "recorder",
         name: "recorder",
@@ -234,7 +242,7 @@ export default [
         component: "/personalManage/personalSetting/index",
         meta: {
           title: "个人设置",
-        }
+        },
       },
     ],
   },

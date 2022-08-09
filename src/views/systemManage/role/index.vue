@@ -1,71 +1,148 @@
 <template>
-  <div class="app-content">
-    <!-- 搜索项 -->
-    <el-form :inline="true" :model="searchForm" class="demo-form-inline">
-      <el-form-item label="角色名：">
-        <el-input v-model="searchForm.name" :size="styleSize" />
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" :size="styleSize" @click="handleSearch(true)">
-          查询
-        </el-button>
-        <el-button :size="styleSize" @click="handleReset"> 重置 </el-button>
-      </el-form-item>
-    </el-form>
-    <!-- 表格配置 -->
-    <el-table
-      v-loading="tableLoading"
-      :data="tableData"
-      border
-      style="width: 100%"
-    >
-      <el-table-column prop="name" label="角色名" align="center" />
-      <el-table-column prop="officeName" label="所属组织" align="center" />
-      <el-table-column prop="userName" label="创建人" align="center" />
-      <el-table-column prop="createTime" label="创建日期" align="center" />
+  <div class="app-box">
+    <div class="app-box-table">
+      <!-- 左侧选择框 -->
 
-      <el-table-column prop="status" label="状态" align="center" width="120">
-        <template slot-scope="scope">
-          <el-switch
-            :value="scope.row.useable == '0' ? true : false"
-            active-color="#13ce66"
-            inactive-color="#ff4949"
-            @change="handelSwitchChange(scope.row)"
-          />
-        </template>
-      </el-table-column>
-      <el-table-column fixed="right" label="操作" align="center" width="300">
-        <template slot-scope="scope"
-          ><el-link
-            class="mr-2"
-            type="primary"
-            :underline="false"
-            @click="handleEdit(true, scope.row)"
+      <el-card class="box-card" shadow="never">
+        <div slot="header" class="clearfix">
+          <span>组织结构</span>
+          <!-- <span style="float: right; padding: 3px 0">新增角色</span> -->
+        </div>
+        <div>
+          <el-tree
+            class="content_tree"
+            :data="treeList"
+            node-key="id"
+            default-expand-all
+            @node-click="handleNodeClick"
           >
-            编辑
-          </el-link>
-          <el-link
-            class="mr-2"
-            type="danger"
-            :underline="false"
-            @click="handleRemove(scope.row)"
+            <span
+              slot-scope="{ node, data }"
+              class="custom-tree-node el-tree-node__label auto"
+            >
+              <span class="tree-label" :title="node.label">{{
+                node.label
+              }}</span>
+              <!-- <span class="rigth mr-1">
+                <i
+                  class="el-icon-circle-plus-outline icon"
+                  style="color: #409eff"
+                  @click.stop="handleEdit(false, data)"
+                />
+              </span> -->
+            </span>
+          </el-tree>
+        </div>
+      </el-card>
+      <div class="app-box-table-box">
+        <!-- 搜索项 -->
+        <el-form :inline="true" :model="searchForm" class="demo-form-inline">
+          <el-form-item label="组织名称：">
+            <el-input v-model.trim="searchForm.officeName" :size="styleSize" />
+          </el-form-item>
+          <el-form-item label="角色名：">
+            <el-input v-model.trim="searchForm.name" :size="styleSize" />
+          </el-form-item>
+          <el-form-item>
+            <el-button
+              type="primary"
+              :size="styleSize"
+              @click="handleSearch(true)"
+            >
+              查询
+            </el-button>
+            <el-button :size="styleSize" @click="handleReset"> 重置 </el-button>
+          </el-form-item>
+        </el-form>
+        <!-- 表格配置 -->
+        <div class="table-config">
+          <el-button
+            type="success"
+            :size="styleSize"
+            @click="handleEdit(false)"
           >
-            删除
-          </el-link>
-        </template>
-      </el-table-column>
-    </el-table>
-    <!-- 分页 -->
-    <el-pagination
-      class="table-pagination"
-      :current-page="searchForm.pageNum"
-      :page-sizes="[10, 20, 30, 40]"
-      :page-size="searchForm.pageSize"
-      layout="total, sizes, prev, pager, next, jumper"
-      :total="total"
-      @size-change="handleSizeChange"
-      @current-change="handleCurrentChange"
-    />
+            新增角色
+          </el-button>
+        </div>
+        <!-- 表格内容 -->
+        <el-table
+          v-loading="tableLoading"
+          :data="tableData"
+          border
+          style="width: 100%"
+        >
+          <el-table-column prop="name" label="角色名" align="center" />
+          <el-table-column prop="officeName" label="所属组织" align="center" />
+          <el-table-column prop="userName" label="创建人" align="center" />
+          <el-table-column prop="createTime" label="创建日期" align="center" />
+          <el-table-column prop="remarks" label="角色描述" align="center" />
+          <el-table-column
+            prop="status"
+            label="状态"
+            align="center"
+            width="120"
+          >
+            <template slot-scope="scope">
+              <!-- v-model="scope.row.useable" -->
+              <el-switch
+                :value="scope.row.useable == '0' ? true : false"
+                active-color="#13ce66"
+                inactive-color="#ff4949"
+                @change="handelSwitchChange(scope.row)"
+              />
+            </template>
+          </el-table-column>
+          <el-table-column label="操作" align="center" width="300">
+            <template slot-scope="scope"
+              ><el-link
+                class="mr-2"
+                type="primary"
+                :underline="false"
+                @click="handleEdit(true, scope.row)"
+              >
+                编辑
+              </el-link>
+              <!-- <el-link
+                class="mr-1"
+                type="success"
+                :underline="false"
+                @click="handleTransferOpen(false, scope.row)"
+              >
+                转移
+              </el-link> -->
+
+              <el-link
+                class="mr-2"
+                type="info"
+                :underline="false"
+                @click="handleDetail(scope.row)"
+              >
+                查看
+              </el-link>
+              <el-link
+                class="mr-2"
+                type="danger"
+                :underline="false"
+                @click="handleRemove(scope.row)"
+              >
+                删除
+              </el-link>
+            </template>
+          </el-table-column>
+        </el-table>
+        <!-- 分页 -->
+        <el-pagination
+          class="table-pagination"
+          :current-page="searchForm.pageNum"
+          :page-sizes="[10, 20, 30, 40]"
+          :page-size="searchForm.pageSize"
+          layout="total, sizes, prev, pager, next, jumper"
+          :total="total"
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+        />
+      </div>
+    </div>
 
     <!-- 新增/编辑弹出框 -->
 
@@ -77,6 +154,15 @@
       @close="updateFormVisibleClose"
     >
       <div class="threeBar">
+        <!-- <div class="left">
+          <h3>组织结构</h3>
+          <el-tree
+            class="content_tree"
+            :data="treeList"
+            node-key="id"
+            default-expand-all
+          />
+        </div> -->
         <div class="center">
           <h3>{{ isUpdate ? "编辑角色" : "新增角色" }}</h3>
           <el-form
@@ -108,12 +194,14 @@
           <el-tree
             ref="myTree"
             :data="data"
+            :check-strictly="false"
             show-checkbox
             node-key="id"
             :props="defaultPropsL"
             :default-checked-keys="updateForm.menuIdList"
             @check-change="handleTreeChange"
-          />
+          >
+          </el-tree>
         </div>
       </div>
 
@@ -125,9 +213,45 @@
           type="primary"
           :size="styleSize"
           @click="handleSubmit('centerFormRlue')"
+          :loading="updateFormLoading"
         >
           确 定
         </el-button>
+      </div>
+    </el-dialog>
+    <!-- 点击查看弹出 -->
+    <el-dialog
+      v-el-drag-dialog
+      title="角色详情"
+      :visible.sync="XQdialogFormVisible"
+      :size="styleSize"
+    >
+      <el-form :model="detailForm">
+        <el-form-item label="角色名称：" :label-width="formLabelWidth">
+          <el-link :underline="false">{{ detailForm.name }}</el-link>
+        </el-form-item>
+        <el-form-item label="所属组织：" :label-width="formLabelWidth">
+          <el-link :underline="false">{{ detailForm.officeName }}</el-link>
+        </el-form-item>
+        <el-form-item label="角色权限：" :label-width="formLabelWidth">
+          <el-link
+            v-for="item in detailForm.menuIdListName"
+            :key="item"
+            :underline="false"
+            >{{ item + "," }}</el-link
+          >
+        </el-form-item>
+        <el-form-item label="角色说明：" :label-width="formLabelWidth">
+          <el-link :underline="false">
+            {{ detailForm.remarks }}
+          </el-link>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="XQdialogFormVisible = false">取 消</el-button>
+        <el-button type="primary" @click="XQdialogFormVisible = false"
+          >确 定</el-button
+        >
       </div>
     </el-dialog>
   </div>
@@ -145,8 +269,9 @@ import {
   role_detail,
   role_add,
   role_edit,
+  treeselectrole,
 } from "@/api/systemManage/role.js";
-import { menu_treeselect } from "@/api/systemManage/menu";
+// import { menu_treeselect } from "@/api/systemManage/menu";
 import { deepClone } from "@/utils";
 import debounce from "lodash.debounce";
 
@@ -197,8 +322,12 @@ export default {
   data() {
     return {
       styleSize: defaultSettings.styleSize,
+      // 左侧树数据
+      treeList: [],
       // 搜索项
       searchForm: new SearchForm(),
+      // 上级菜单
+      options: [],
       // 表格数据
       formLabelWidth: "140px",
       // 表哥loading
@@ -210,7 +339,7 @@ export default {
       // 表单弹出框
       isUpdate: false,
       updateFormVisible: false,
-      updateFormLoading: true,
+      updateFormLoading: false,
 
       detailForm: {},
       // 详情弹层
@@ -232,6 +361,7 @@ export default {
         value: "id",
         checkStrictly: true,
       },
+      isDisabled: false,
       data: [
         {
           id: 1,
@@ -286,6 +416,7 @@ export default {
         children: "children",
         label: "label",
       },
+      addRow: {},
       // 弹窗默认选中的节点
     };
   },
@@ -299,6 +430,7 @@ export default {
       // console.log(data);
       this.searchForm.officeValue = data.value;
       this.searchForm.id = data.id;
+      this.addRow = data;
       this.handleSearch();
     },
 
@@ -313,6 +445,21 @@ export default {
           this.tableData = res.rows;
           this.total = res.total;
           this.tableLoading = false;
+        }
+      });
+      organization_treeselect().then((result) => {
+        if (result.code === 200) {
+          this.treeList = result.data;
+          this.options = result.data;
+        }
+      });
+    },
+    // 点击查看
+    handleDetail({ id }) {
+      this.XQdialogFormVisible = true;
+      role_detail({ id: id }).then((res) => {
+        if (res.code === 200) {
+          this.detailForm = res.data;
         }
       });
     },
@@ -330,10 +477,18 @@ export default {
         console.log(row);
         this.updateForm = deepClone(row);
       } else {
-        // 根据组织id请求角色列表
-        this.updateForm = new DiagioForm();
-        console.log(row.id);
-        this.updateForm.officeId = row.id;
+        if (this.addRow.id) {
+          // 根据组织id请求角色列表
+          this.updateForm = new DiagioForm();
+          // this.handleIdGetList(false, row.id);
+          // this.updateOrganizationName = row.label;
+          // this.updateForm.officeId = row.id;
+
+          this.updateForm.officeId = this.addRow.id;
+        } else {
+          this.$message.warning("请先选择左侧组织");
+          return false;
+        }
       }
 
       this.updateFormVisible = true;
@@ -344,31 +499,34 @@ export default {
       this.updateFormLoading = false;
       this.updateFormVisible = false;
       this.isUpdate = false;
+      this.isDisabled = false;
     },
     // 弹窗表单提交
     handleSubmit: debounce(function (formName) {
-      this.$refs[formName].validate((valid) => {
+      this.updateFormLoading = true;
+      this.$refs[formName].validate(async (valid) => {
         if (valid) {
           if (!this.isUpdate) {
             role_add(this.updateForm).then((res) => {
               if (res.code === 200) {
+                this.updateFormVisibleClose();
                 this.$message.success("添加成功");
                 this.handleSearch();
               } else {
+                this.updateFormVisibleClose();
                 this.$message.success("添加失败");
               }
-              this.updateFormVisibleClose();
             });
           } else {
-            role_edit(this.updateForm).then((res) => {
-              if (res.code === 200) {
-                this.$message.success("编辑成功");
-                this.handleSearch();
-              } else {
-                this.$message.success("编辑失败");
-              }
-              this.updateFormVisibleClose();
-            });
+            let res = await role_edit(this.updateForm);
+
+            if (res.code === 200) {
+              this.$message.success("编辑成功");
+              this.handleSearch();
+            } else {
+              this.$message.success("编辑失败");
+            }
+            this.updateFormVisibleClose();
           }
         } else {
           this.$message.error("请完善信息");
@@ -403,7 +561,7 @@ export default {
         });
       });
     },
-    // 删除用户
+    // 删除组织
     handleRemove(row) {
       this.$confirm("是否删除此用户？", "提示", {
         confirmButtonText: "确定",
@@ -429,8 +587,21 @@ export default {
       this.searchForm.pageNum = val;
       this.handleSearch();
     },
+    // 根据id请求角色列表
+    // 第一个参数决定是转移还是添加|编辑
+    handleIdGetList(isSown, id) {
+      user_roleMap({ id: id }).then((res) => {
+        if (res.code === 200) {
+          if (isSown === "transfer") {
+            this.transferRole = res.data;
+          } else {
+            this.officeIds = res.data;
+          }
+        }
+      });
+    },
     handleTreeList() {
-      menu_treeselect().then((res) => {
+      treeselectrole().then((res) => {
         if (res.code === 200) {
           // res.data.filter((item) => {
           //   if(item.)
@@ -440,7 +611,10 @@ export default {
         }
       });
     },
-    handleTreeChange() {
+    // menuIdList: [19]
+    handleTreeChange(data) {
+      // console.log(data.id);
+
       this.updateForm.menuIdList = this.$refs.myTree.getCheckedKeys();
     },
   },
