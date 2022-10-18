@@ -2,7 +2,6 @@
   <div class="app-box">
     <div class="app-box-table">
       <!-- 左侧选择框 -->
-
       <el-card class="box-card" shadow="never">
         <div slot="header" class="clearfix">
           <span>组织结构</span>

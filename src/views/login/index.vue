@@ -67,7 +67,7 @@
         </el-button>
         <div class="tips">
           <span class="mr-2">用户名: admin</span>
-          <span> 密码: admin123</span>
+          <span> 密码: 123456</span>
         </div>
       </el-form>
     </div>
@@ -84,9 +84,9 @@ class PersonForm {
     // 客户姓名
     this.username = "admin";
     // 客户号码
-    this.password = "admin123";
-    // 备用号码
-    this.code = "";
+    this.password = "123456";
+    // 验证码
+    this.code = "gstd";
     // 客户来源
     this.uuid = "";
   }

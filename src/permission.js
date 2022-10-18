@@ -36,6 +36,7 @@ router.beforeEach(async (to, from, next) => {
           // 通过用户角色，获取到角色路由表
           const { code, data } = await getRole();
           // const dataList = data;
+          console.log('路由表', menuListM)
           // 本地数据
           const dataList = menuListM
           //   格式化路由结构

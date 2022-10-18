@@ -61,7 +61,7 @@ export default {
   methods: {
     // 富文本返回函数
     callBack(data) {
-      this.content = data;
+      this.dataFrom.content = data;
     },
     // 一键复制
     clipboardSuccess() {

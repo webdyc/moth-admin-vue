@@ -1,8 +1,8 @@
-// import { download } from "@/api/maillistMange";
+// 导出功能js
 import Axios from "axios";
 import { getToken } from "@/utils/auth";
 
-export function exportDownload(
+export function exportDownload (
   Interface,
   data,
   requestType,
