@@ -1,8 +1,9 @@
 <template>
   <div class="login-container">
-    <div class="top"></div>
-    <div class="bottom"></div>
     <div class="center">
+      <div class="title-container">
+        <h3 class="title">{{ title }}</h3>
+      </div>
       <el-form
         ref="dataFrom"
         :model="dataFrom"
@@ -10,9 +11,6 @@
         class="login-form"
         label-position="left"
       >
-        <div class="title-container">
-          <h3 class="title">{{ title }}</h3>
-        </div>
         <!-- 用户名 -->
         <el-form-item prop="username">
           <span class="svg-container">
@@ -159,9 +157,7 @@ export default {
           console.log(2);
           try {
             let token = await this.$store.dispatch("user/Login", this.dataFrom);
-            let myMessage = await this.$store.dispatch("user/GetInfo", token);
-            console.log(token, myMessage);
-            if (token && myMessage) {
+            if (token) {
               this.$router.push({ path: this.redirect || "/" });
               this.loading = false;
             } else {
@@ -189,74 +185,26 @@ $excursion_top: 50%;
 $excursion_left: 50%;
 /* 背景样式 */
 .login-container {
+  background-image: linear-gradient(
+    to right,
+    rgb(160, 172, 188),
+    rgb(117, 151, 209)
+  );
   position: absolute;
   width: 100%;
   height: 100%;
   overflow: hidden;
-  &:hover,
-  &:active {
-    .top,
-    .bottom {
-      &:before,
-      &:after {
-        margin-left: 200px;
-        transform-origin: -200px 50%;
-        transition-delay: 0s;
-      }
-    }
 
-    .center {
-      opacity: 1;
-      transition-delay: 0.2s;
-    }
-  }
-}
+  .center {
+    transition-delay: 0s;
 
-.top,
-.bottom {
-  &:before,
-  &:after {
-    content: "";
-    display: block;
-    position: absolute;
-    width: $width;
-    height: $height;
-    top: $excursion_top;
-    left: $excursion_left;
-    margin-top: -100vmax;
-    transform-origin: 0 50%;
-    transition: all 0.5s cubic-bezier(0.445, 0.05, 0, 1);
-    z-index: 10;
-    opacity: 0.65;
-    transition-delay: 0.2s;
-  }
-}
-
-.top {
-  &:before {
-    transform: rotate(45deg);
-    background: #e46569;
-  }
-  &:after {
-    transform: rotate(135deg);
-    background: #ecaf81;
-  }
-}
-
-.bottom {
-  &:before {
-    transform: rotate(-45deg);
-    background: #60b8d4;
-  }
-  &:after {
-    transform: rotate(-135deg);
-    background: #3745b5;
+    // transition-delay: 0.2s;
   }
 }
 </style>
 
 <style lang="scss">
-/* 修复input 背景不协调 和光标变色 */
+// /* 修复input 背景不协调 和光标变色 */
 $light_gray: rgba(0, 0, 0.85);
 $cursor: rgba(0, 0, 0.85);
 @supports (-webkit-mask: none) and (not (cater-color: $cursor)) {
@@ -264,11 +212,10 @@ $cursor: rgba(0, 0, 0.85);
     color: $cursor;
   }
 }
-/* reset element-ui css */
+// /* reset element-ui css */
 .login-container {
   .el-input {
     display: inline-block;
-
     width: 85%;
     input {
       background: transparent;
@@ -300,24 +247,20 @@ $dark_gray: rgba(0, 0, 0, 0.85);
 $excursion_top: 50%;
 $excursion_left: 50%;
 .center {
-  width: 400px;
+  width: 500px;
   height: 400px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  // justify-content: center;
   align-items: center;
-  opacity: 0;
-  transition: all 0.5s cubic-bezier(0.445, 0.05, 0, 1);
-  transition-delay: 0s;
-  background-color: rgba(255, 255, 255, 0.13);
+  background: rgb(250, 246, 246);
   position: absolute;
   transform: translate(-50%, -50%);
   top: $excursion_top;
   left: $excursion_left;
   border-radius: 10px;
   backdrop-filter: blur(10px);
-  border: 2px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 0 40px rgba(104, 100, 131, 0.6);
+  border: 1px solid #ccc;
   padding: 0 35px;
   z-index: 10;
   .login-form {
@@ -341,7 +284,7 @@ $excursion_left: 50%;
     .title {
       font-size: 20px;
       color: $dark_gray;
-      margin: 0px auto 20px auto;
+      margin: 20px auto 10px auto;
       text-align: center;
       font-weight: bold;
     }
@@ -367,6 +310,41 @@ $excursion_left: 50%;
   .login-btn {
     width: 100%;
     margin-bottom: 15px;
+  }
+}
+::v-deep .el-tabs__content {
+  min-height: 195px;
+}
+.lrMainWrap {
+  width: 100%;
+}
+.getCode {
+  // background: #ccc;
+  // padding-bottom: 0;
+  // margin-bottom: 0;
+  // height: 40px;
+  // text-align: center;
+  // cursor: pointer;
+  ::v-deep el-button {
+    width: 100%;
+    padding: 0;
+    margin: 0;
+  }
+}
+.h20 {
+  height: 20px;
+}
+.pointOut {
+  font-size: 14px;
+  line-height: 26px;
+}
+.warning {
+  color: red;
+  font-size: 14px;
+  padding-top: 20px;
+  i {
+    margin-right: 6px;
+    font-size: 16px;
   }
 }
 </style>

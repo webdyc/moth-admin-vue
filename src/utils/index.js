@@ -1,4 +1,5 @@
 import CryptoJS from "crypto-js";
+import { loginKey } from "@/api/acount"
 /**
  * 检测是否为纯粹的对象
  * @param {*} value 手机号
@@ -507,13 +508,11 @@ export function steamroller (arr) {
   return newArr;
 }
 
-/**
- * 加密密码
- * @param {*} word 需要加密的值
- * @param {*} keyStr 加密规则
- */
-export function encrypt (word, keyStr) {
-  keyStr = keyStr ? keyStr : "gsTd20221S**=YJU"; //判断是否存在ksy，不存在就用定义好的key
+//加密密码
+
+export async function encrypt (word) {
+  const res = await loginKey()
+  let keyStr = res.data;
   var key = CryptoJS.enc.Utf8.parse(keyStr);
   var srcs = CryptoJS.enc.Utf8.parse(word);
   var encrypted = CryptoJS.AES.encrypt(srcs, key, {
@@ -521,4 +520,15 @@ export function encrypt (word, keyStr) {
     padding: CryptoJS.pad.Pkcs7,
   });
   return encrypted.toString();
+}
+
+// aes解密
+export function decrypt (word) {
+  let keyStr = 'gsTd20221S**=YJU';
+  var key = CryptoJS.enc.Utf8.parse(keyStr);
+  let encryptedHexStr = CryptoJS.enc.Hex.parse(word);
+  let srcs = CryptoJS.enc.Base64.stringify(encryptedHexStr);
+  let decrypt = CryptoJS.AES.decrypt(srcs, key, { mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 });
+  let decryptedStr = decrypt.toString(CryptoJS.enc.Utf8);
+  return decryptedStr.toString();
 }
